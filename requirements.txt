@@ -1,0 +1,29 @@
+# Çekirdek
+onnxruntime>=1.18
+numpy>=1.26
+tokenizers>=0.19
+opencv-python>=4.9
+PySide6>=6.7
+python-dotenv>=1.0
+transformers>=4.40
+sentence-transformers>=2.6
+chromadb>=0.5
+requests>=2.32
+beautifulsoup4>=4.12
+python-docx
+PyMuPDF
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic
+ddgs
+
+# --- Aşağıdakiler ileride eklenecek özellikler içindir; şimdilik gerekmez ---
+# RAG (FAISS Windows'ta bazen sorun çıkarır, hazır olunca açın)
+# faiss-cpu>=1.7.4
+
+# STT/TTS (opsiyonel; ileride ekleyeceğiz)
+# faster-whisper==1.0.0
+# sounddevice
+# pyaudio               # (Windows'ta ek kurulum isteyebilir)
+# TTS==0.15.0           # (Coqui TTS, opsiyonel)
