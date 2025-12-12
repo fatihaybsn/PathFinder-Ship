@@ -8,11 +8,14 @@ Ayrıca, bu projede eğitilen Passenger-Bot (Flan-T5 Large 783M Parametre) model
 
 Sistemde “hazır cevap” mantığı yoktur; üretilen tüm yanıtlar, modelin talimat (instruction) takip kabiliyeti ile çalışma anında oluşturulur.
 
----
+## Demo
+
+> 🔗 **Demo video** 
+🎥 [Watch on YouTube](https://youtu.be/mqfz_hPWoi0)
+
 
 ## İçindekiler
 
-- [Demo](#demo)
 - [Öne Çıkan Özellikler](#öne-çıkan-özellikler)
 - [Mimari Genel Bakış](#mimari-genel-bakış)
 - [Proje Yapısı](#proje-yapısı)
@@ -38,14 +41,6 @@ Sistemde “hazır cevap” mantığı yoktur; üretilen tüm yanıtlar, modelin
 - [Katkı ve Kaynaklar](#katkı-ve-kaynaklar)
 - [Ekstra Bilgiler](#ekstra-bilgiler)
 
----
-
-## Demo
-
-> 🔗 **Demo video** 
-> `https://youtu.be/mqfz_hPWoi0`
-
----
 
 ## Öne Çıkan Özellikler
 
@@ -92,7 +87,6 @@ Sistemde “hazır cevap” mantığı yoktur; üretilen tüm yanıtlar, modelin
 
 Tüm çekirdek modeller ONNX INT8 formatında ve **CPU üzerinde**, ONNX Runtime ile lokal olarak çalışır.
 
----
 
 ## Mimari Genel Bakış
 
@@ -129,7 +123,10 @@ Tek bir FastAPI backend; şu servisleri orkestre eder:
 - `YOLOService` (YOLO-NAS),
 - storage / mail / prompt yardımcı katmanları.
 
----
+![1758439761461](https://github.com/user-attachments/assets/d561f507-6d75-48ca-9a1f-c3032491ae3d)
+
+![1758439761198](https://github.com/user-attachments/assets/1eb601bb-4e4a-443d-9668-44425c7f8aa2)
+
 
 ## Proje Yapısı
 
@@ -176,8 +173,6 @@ PathFinder-Ship/
 │  └─ app.js                  # chat/intent/camera/upload/voice mantığı
 └─ requirements.txt
 ```
-
----
 
 ## Kurulum
 
@@ -315,7 +310,6 @@ http://localhost:5173
 
 adresini aç.
 
----
 
 ## Kullanım
 
@@ -377,6 +371,9 @@ Tipik flow’lar:
      - background task ile mail gönderimi tetikler (`EMAIL_TO_PHONE`).
    - Yanıt: kaydedilen yol ve statik URL döner.
 
+![detect_10](https://github.com/user-attachments/assets/56f46598-fc34-4b9d-a6d7-ec025bb7fdb8)
+
+
 3. **Nesne tespiti**
 
    İki yöntem:
@@ -413,7 +410,6 @@ Tipik flow’lar:
 > Not: Sesli mod şu an sadece Q&A (RAG + web) odaklıdır.  
 > Voice input, henüz intent routing üzerinden kamera komutlarını tetiklemiyor.
 
----
 
 ## İç Yapı
 
@@ -457,6 +453,9 @@ Tipik flow’lar:
   - local vs web vs hybrid vs model-only kararını verir,
   - tokenizer-bilinçli context kesimiyle T5’e hazır hale getirir.
 
+<img width="1919" height="1079" alt="Ekran görüntüsü 2025-10-01 201021" src="https://github.com/user-attachments/assets/3598dfdb-fe97-416f-adb6-fbe6d9dd30ff" />
+
+
 ### Web Arama Entegrasyonu
 
 - DuckDuckGo üzerinden (`ddgs`) sonuç çeker.
@@ -494,7 +493,6 @@ Tipik flow’lar:
   - `send_image_via_email` tek görseli SMTP ile yollar,
   - config eksikse sessizce atlar (sistemi bozmaz).
 
----
 
 ## Kullanım Senaryoları
 
@@ -532,7 +530,6 @@ Tipik flow’lar:
   - threshold’ları ayarlamak,
   - yeni tool’lar (ör. ASR, OCR) eklemek kolay.
 
----
 
 ## Sınırlamalar ve Yol Haritası
 
@@ -558,7 +555,6 @@ Tipik flow’lar:
     - kullanıcı bazlı corpus,
     - logging / monitoring / observability katmanları eklemek gerekir.
 
----
 
 ## Katkı ve Kaynaklar
 
