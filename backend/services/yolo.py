@@ -1,11 +1,14 @@
 # app/services/yolo.py
 from __future__ import annotations
+import logging
 import os, time
 from typing import List, Tuple
 import numpy as np
 import cv2
 import onnxruntime as ort
 from utils.vision import nms, draw_dets  # YOLO-NAS returns xyxy boxes
+
+logger = logging.getLogger(__name__)
 
 class YOLOService:
     """
@@ -131,8 +134,11 @@ class YOLOService:
         # Optional sanity: labels.txt length vs model class count
         num_classes = int(scores.shape[1])
         if len(self.names) != num_classes:
-            print(f"[yolo] WARNING: labels.txt length ({len(self.names)}) != model classes ({num_classes}). "
-                  f"Class names may be misaligned.")
+            logger.warning(
+                "labels.txt length (%s) != model classes (%s). Class names may be misaligned.",
+                len(self.names),
+                num_classes,
+            )
 
         # class + confidence per detection
         cls_ids = np.argmax(scores, axis=1).astype(np.int32)

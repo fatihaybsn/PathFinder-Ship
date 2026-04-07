@@ -1,5 +1,6 @@
 # backend/web/app.py
 # --- Üstte FastAPI ve standart importlar ---
+import logging
 from fastapi import FastAPI, UploadFile, File, Form, BackgroundTasks
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
@@ -7,21 +8,23 @@ from pydantic import BaseModel
 from typing import List, Optional
 from collections import Counter
 from pathlib import Path
-import os, cv2, numpy as np
+import cv2, numpy as np
 
 # 1) .env'yi yükleyen yer ÖNCE gelsin
-from config import CFG  # load_dotenv() burada çalışır ✅
+from config import BACKEND_ROOT, CFG, DATA_ROOT, readiness_report  # load_dotenv() burada çalışır
 
 # 2) Artık utils.* ve servisler
 from utils.storage import ensure_dir, save_with_ring_buffer
 from utils.mailer import send_image_via_email
-from utils.text import fallback_instruction, build_model_only_prompt
+from utils.text import fallback_instruction
 
 from services.nlu_classifier import NLUClassifier
 from services.t5 import T5Service
 from services.rag import RAGService
 from services.yolo import YOLOService
 from utils.vision import draw_dets
+
+logger = logging.getLogger(__name__)
 
 # ---------- Helpers ----------
 def load_image_from_upload(upload: UploadFile) -> np.ndarray:
@@ -33,17 +36,26 @@ def load_image_from_upload(upload: UploadFile) -> np.ndarray:
         raise ValueError("Görüntü okunamadı")
     return img
 
+
+def _static_url_for(path: str | Path) -> Optional[str]:
+    try:
+        rel = Path(path).resolve().relative_to(Path(DATA_ROOT).resolve())
+        return f"/static/{rel.as_posix()}"
+    except Exception:
+        return None
+
+
+def _stored_path_for(path: str | Path) -> str:
+    try:
+        return Path(path).resolve().relative_to(Path(BACKEND_ROOT).resolve()).as_posix()
+    except Exception:
+        return Path(path).name
+
+
 # ============ ORTAK AYARLAR ============
 PHOTO_DIR = CFG.get("PHOTO_DIR")
 DETECT_DIR = CFG.get("DETECT_DIR")
 MAX_FILES_PER_DIR = int(CFG.get("MAX_FILES_PER_DIR", 10))
-
-EMAIL_SMTP_HOST = CFG.get("EMAIL_SMTP_HOST", "")
-EMAIL_SMTP_PORT = int(CFG.get("EMAIL_SMTP_PORT", 465))
-EMAIL_USER = CFG.get("EMAIL_USER", "")
-EMAIL_PASSWORD = CFG.get("EMAIL_PASSWORD", "")
-EMAIL_FROM = CFG.get("EMAIL_FROM", EMAIL_USER)
-EMAIL_TO_PHONE = CFG.get("EMAIL_TO_PHONE", "")
 
 # ---------- Schemas ----------
 class IntentRequest(BaseModel):
@@ -87,10 +99,10 @@ class DetectResponse(BaseModel):
 app = FastAPI(title="PathFinder-Ship Web API")
 
 # /static altında data'yı sun (çizilmiş görselleri göstermek için)
-app.mount("/static", StaticFiles(directory="data"), name="static")
+app.mount("/static", StaticFiles(directory=str(DATA_ROOT), check_dir=False), name="static")
 
 # CORS
-origins = [os.getenv("FRONTEND_ORIGIN", "*")]
+origins = [origin.strip() for origin in str(CFG.get("FRONTEND_ORIGIN", "*")).split(",") if origin.strip()]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -109,6 +121,9 @@ YOLO: Optional[YOLOService] = None
 @app.on_event("startup")
 def startup_event():
     global NLU, T5, RAG, YOLO
+    report = readiness_report()
+    if report["status"] != "ok":
+        logger.warning("Startup readiness degraded; missing assets: %s", ", ".join(report["missing"]))
     NLU = NLUClassifier(CFG)
     T5 = T5Service(CFG)
     RAG = RAGService(CFG)
@@ -118,6 +133,11 @@ def startup_event():
 @app.get("/api/health")
 def health():
     return {"ok": True}
+
+
+@app.get("/api/readiness")
+def readiness():
+    return readiness_report()
 
 
 # ---------- Intent ----------
@@ -202,14 +222,9 @@ async def take_photo_api(background_tasks: BackgroundTasks, file: UploadFile = F
         body="PathFinder-Ship posted a photo"
     )
 
-    # URL (StaticFiles(directory='data')) altında servis
-    try:
-        rel = Path(target_path).relative_to("data")
-        image_url = f"/static/{rel.as_posix()}"
-    except Exception:
-        image_url = None
+    image_url = _static_url_for(target_path)
 
-    return {"ok": True, "stored": str(target_path), "image_url": image_url}
+    return {"ok": True, "stored": _stored_path_for(target_path), "image_url": image_url}
 
 
 narration = None
@@ -255,11 +270,7 @@ async def detect_api(background_tasks: BackgroundTasks, file: UploadFile = File(
             body=f"{narration}\nDetail: {summary}" or f"Detail: {summary}"
         )
 
-        try:
-            rel = Path(target_path).relative_to("data")
-            image_url = f"/static/{rel.as_posix()}"
-        except Exception:
-            image_url = None
+        image_url = _static_url_for(target_path)
 
     # Kutuları istemciye göndermek için listele
     boxes_list = [[float(x1), float(y1), float(x2), float(y2)] for (x1, y1, x2, y2) in boxes] if boxes else []
@@ -276,8 +287,9 @@ async def detect_api(background_tasks: BackgroundTasks, file: UploadFile = File(
 @app.post("/api/upload")
 async def upload_doc(file: UploadFile = File(...)):
     # Dosyayı corpus'a koy; istersen burada indexer'ı tetikleyebilirsin.
-    out_path = f"backend/data/rag/corpus/{os.path.basename(file.filename)}"
-    ensure_dir(os.path.dirname(out_path))
+    safe_name = Path(file.filename or "upload.bin").name
+    out_path = Path(str(CFG.get("RAG_CORPUS_DIR"))) / safe_name
+    ensure_dir(out_path)
     with open(out_path, "wb") as f:
         f.write(await file.read())
-    return {"ok": True, "stored": out_path}
+    return {"ok": True, "stored": _stored_path_for(out_path)}

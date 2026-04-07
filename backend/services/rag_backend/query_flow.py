@@ -1,8 +1,8 @@
 # app/services/rag_backend/query_flow.py
 from __future__ import annotations
 from typing import List, Dict, Any, Optional
-import os
 
+from config import CFG
 from services.t5 import T5Service
 from services.rag_backend.search import hybrid_search
 from services.rag_backend.prompt import create_context
@@ -20,16 +20,14 @@ from services.rag_backend import RAG_WEB_MIN_STRENGTH, WEB_CHUNK_SUPPORT_THRESHO
 
 # ---- Yardımcı: cfg al (dotenv ile .env okunmuş olsun) ----
 def _load_cfg() -> dict:
-    # main.py zaten dotenv'i yükledi; yine de env'den okumak güvenli
     return {
-        "RAG_SCORE_THRESHOLD": float(os.getenv("RAG_SCORE_THRESHOLD", "0.5")),
-        "RAG_TOP_K": int(os.getenv("RAG_TOP_K", "4")),
-        "RAG_MAX_CTX_TOKENS": int(os.getenv("RAG_MAX_CTX_TOKENS", "512")),
-        # T5 için gerekenler de env'de olmalı (T5_TOKENIZER_DIR, T5_ENCODER, T5_DECODER, BOT_NAME, vb.)
-        "T5_TOKENIZER_DIR": os.getenv("T5_TOKENIZER_DIR", "assets/models/t5/tokenizer"),
-        "T5_ENCODER": os.getenv("T5_ENCODER", "assets/models/t5/encoder_model_int8.onnx"),
-        "T5_DECODER": os.getenv("T5_DECODER", "assets/models/t5/decoder_model_int8.onnx"),
-        "BOT_NAME": os.getenv("BOT_NAME", "Passenger-Bot"),
+        "RAG_SCORE_THRESHOLD": float(CFG.get("RAG_SCORE_THRESHOLD", 0.5)),
+        "RAG_TOP_K": int(CFG.get("RAG_TOP_K", 4)),
+        "RAG_MAX_CTX_TOKENS": int(CFG.get("RAG_MAX_CTX_TOKENS", 512)),
+        "T5_TOKENIZER_DIR": CFG.get("T5_TOKENIZER_DIR", "assets/models/t5/tokenizer"),
+        "T5_ENCODER": CFG.get("T5_ENCODER", "assets/models/t5/encoder_model_int8.onnx"),
+        "T5_DECODER": CFG.get("T5_DECODER", "assets/models/t5/decoder_model_int8.onnx"),
+        "BOT_NAME": CFG.get("BOT_NAME", "Passenger-Bot"),
     }
 
 

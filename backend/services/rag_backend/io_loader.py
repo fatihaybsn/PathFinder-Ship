@@ -1,7 +1,9 @@
 from typing import List, Dict
 import os, docx, fitz
+from pathlib import Path
 
 import glob
+from config import CFG
 
 def read_txt(file_path):
     with open(file_path, "r", encoding="utf-8") as f:
@@ -18,14 +20,16 @@ def read_pdf(file_path):
             text += page.get_text()
     return text
 
-def load_documents_from_folder(folder_path="data/rag/corpus"):
+def load_documents_from_folder(folder_path=None):
+    folder = str(folder_path or CFG.get("RAG_CORPUS_DIR", "data/rag/corpus"))
     documents = []
-    for file_path in glob.glob(os.path.join(folder_path, "*")):
-        if file_path.endswith(".txt"):
+    for file_path in glob.glob(os.path.join(folder, "*")):
+        suffix = Path(file_path).suffix.lower()
+        if suffix == ".txt":
             content = read_txt(file_path)
-        elif file_path.endswith(".docx"):
+        elif suffix == ".docx":
             content = read_docx(file_path)
-        elif file_path.endswith(".pdf"):
+        elif suffix == ".pdf":
             content = read_pdf(file_path)
         else:
             continue

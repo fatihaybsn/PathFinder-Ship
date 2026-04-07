@@ -1,10 +1,11 @@
 # app/services/rag_backend/indexer.py
 from __future__ import annotations
 from typing import List, Dict, Tuple
-import os
 import json
+import logging
 import sqlite3
 from datetime import datetime
+from pathlib import Path
 
 from sentence_transformers import SentenceTransformer
 import chromadb
@@ -12,6 +13,9 @@ from tqdm import tqdm
 
 # .env üzerinden ayarlar (gerekirse)
 from . import EMBED_MODEL, CHROMA_PATH
+from config import CFG
+
+logger = logging.getLogger(__name__)
 
 # -------------------------
 # Model & Chroma init
@@ -19,15 +23,15 @@ from . import EMBED_MODEL, CHROMA_PATH
 embedding_model = SentenceTransformer(EMBED_MODEL, device="cpu")
 
 # Chroma kalıcı istemci ve koleksiyon
-CHROMA_COLLECTION = os.getenv("CHROMA_COLLECTION", "pathfinder_corpus")
+CHROMA_COLLECTION = str(CFG.get("CHROMA_COLLECTION", "pathfinder_corpus"))
 chroma_client = chromadb.PersistentClient(path=CHROMA_PATH)
 collection = chroma_client.get_or_create_collection(CHROMA_COLLECTION)
 
 # -------------------------
 # SQLite (FTS5) init
 # -------------------------
-SQLITE_PATH = os.getenv("RAG_SQLITE_PATH", os.path.join(CHROMA_PATH, "bm25.sqlite"))
-os.makedirs(os.path.dirname(SQLITE_PATH), exist_ok=True)
+SQLITE_PATH = str(CFG.get("RAG_SQLITE_PATH") or Path(CHROMA_PATH) / "bm25.sqlite")
+Path(SQLITE_PATH).parent.mkdir(parents=True, exist_ok=True)
 conn = sqlite3.connect(SQLITE_PATH)
 cursor = conn.cursor()
 sqlite_cur = cursor
@@ -67,7 +71,7 @@ def add_chunks_to_db(chunks: List[Dict], batch_size: int = 100) -> None:
     Büyük veri setlerinde ciddi performans sağlar.
     """
     if not chunks:
-        print("[indexer] Eklenecek chunk yok.")
+        logger.info("No chunks to add.")
         return
 
     # Toplam sayaç
@@ -108,8 +112,12 @@ def add_chunks_to_db(chunks: List[Dict], batch_size: int = 100) -> None:
         )
 
     conn.commit()
-    print(f"[indexer] {total} chunk başarıyla eklendi → "
-          f"Chroma('{CHROMA_COLLECTION}') ve SQLite('{SQLITE_PATH}')")
+    logger.info(
+        "%s chunks added to Chroma collection '%s' and SQLite '%s'.",
+        total,
+        CHROMA_COLLECTION,
+        Path(SQLITE_PATH).name,
+    )
 
 
 def close():
@@ -137,16 +145,15 @@ if __name__ == "__main__":
             chroma_client.delete_collection(CHROMA_COLLECTION)
         except Exception:
             pass
-        global Collection
         collection = chroma_client.get_or_create_collection(CHROMA_COLLECTION)
         # FTS5 temizliği (tabloyu boşalt)
         cursor.execute("DELETE FROM documents;")
         conn.commit()
-        print("[indexer] Reset tamamlandı.")
+        logger.info("Indexer reset completed.")
 
     # Belgeleri yükle → chunk'la → ekle
     docs = load_documents_from_folder(args.src)
     chunks = preprocess_documents(docs)
-    print(f"[indexer] {len(docs)} belge, {len(chunks)} chunk üretildi.")
+    logger.info("%s documents produced %s chunks.", len(docs), len(chunks))
     add_chunks_to_db(chunks, batch_size=args.batch_size)
-    print("[indexer] İndeksleme bitti.")
+    logger.info("Indexing completed.")

@@ -1,8 +1,8 @@
 # app/services/rag_backend/preprocess.py
 from __future__ import annotations
 from typing import List, Dict
-import os
 import re
+from config import CFG
 
 # Tokenizer opsiyonel: yoksa kelime-bazlı chunking'e düşeceğiz
 try:
@@ -16,18 +16,18 @@ except Exception:
 # .env'den konfig (token bazlı)
 # -----------------------------
 # T5 tokenizer klasörü (önce RAG özel, yoksa T5 ile aynı)
-_RAG_TOK_DIR = os.getenv("RAG_TOKENIZER_DIR") or os.getenv("T5_TOKENIZER_DIR", "assets/models/t5/tokenizer")
+_RAG_TOK_DIR = str(CFG.get("RAG_TOKENIZER_DIR") or CFG.get("T5_TOKENIZER_DIR", "assets/models/t5/tokenizer"))
 # Token bazlı chunk parametreleri
-CHUNK_TOKENS = int(os.getenv("RAG_CHUNK_TOKENS", os.getenv("RAG_CHUNK_SIZE", 90)))           # eski isim desteği
-OVERLAP_TOKENS = int(os.getenv("RAG_CHUNK_OVERLAP_TOKENS", os.getenv("RAG_CHUNK_OVERLAP", 20)))
+CHUNK_TOKENS = int(CFG.get("RAG_CHUNK_TOKENS", 90))
+OVERLAP_TOKENS = int(CFG.get("RAG_CHUNK_OVERLAP_TOKENS", 20))
 
 CHUNK_SIZE = CHUNK_TOKENS
 CHUNK_OVERLAP = OVERLAP_TOKENS
 # -----------------------------
 # Yedek (kelime bazlı) parametreler
 # -----------------------------
-WORD_CHUNK_SIZE = int(os.getenv("RAG_WORD_CHUNK_SIZE", 90))
-WORD_OVERLAP = int(os.getenv("RAG_WORD_CHUNK_OVERLAP", 20))
+WORD_CHUNK_SIZE = int(CFG.get("RAG_WORD_CHUNK_SIZE", 90))
+WORD_OVERLAP = int(CFG.get("RAG_WORD_CHUNK_OVERLAP", 20))
 
 # -----------------------------
 # Tokenizer'ı (varsa) yükle

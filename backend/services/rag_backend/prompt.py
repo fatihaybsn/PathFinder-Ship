@@ -2,13 +2,13 @@
 from typing import List, Dict, Optional
 from . import RAG_MAX_CTX_TOKENS
 import json
-import os
 from transformers import AutoTokenizer
+from config import CFG
 from utils.text import rag_instruction  # prompt iskeleti için
 
 # T5 tokenizer ve sınır
-_T5_TOK_DIR = os.getenv("T5_TOKENIZER_DIR", "assets/models/t5/tokenizer")
-_T5_MAX = int(os.getenv("T5_MAX_SRC_LEN", "512"))
+_T5_TOK_DIR = str(CFG.get("T5_TOKENIZER_DIR", "assets/models/t5/tokenizer"))
+_T5_MAX = int(CFG.get("T5_MAX_SRC_LEN", 512))
 _tok = AutoTokenizer.from_pretrained(_T5_TOK_DIR, use_fast=True, local_files_only=True)
 
 

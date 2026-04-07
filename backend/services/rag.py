@@ -9,10 +9,10 @@ from services.rag_backend.prompt import create_context
 from services.rag_backend.websearch import process_web_results
 from services.rag_backend import TOP_K as BACKEND_TOP_K, RAG_MAX_CTX_TOKENS as BACKEND_MAX_CTX_TOKENS # __init__.py dosyasından alıyor.
 
-import os
-# .env ile ayarlanabilir; yoksa bu varsayılanları kullanır
-RAG_WEB_MIN_STRENGTH = float(os.getenv("RAG_WEB_MIN_STRENGTH", "0.75"))
-WEB_CHUNK_SUPPORT_THRESHOLD = float(os.getenv("WEB_CHUNK_SUPPORT_THRESHOLD", "0.70"))
+from config import CFG
+
+RAG_WEB_MIN_STRENGTH = float(CFG.get("RAG_WEB_MIN_STRENGTH", 0.75))
+WEB_CHUNK_SUPPORT_THRESHOLD = float(CFG.get("WEB_CHUNK_SUPPORT_THRESHOLD", 0.70))
 
 def _web_strength(chunks):
     """
