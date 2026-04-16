@@ -5,7 +5,7 @@ from fastapi import FastAPI, UploadFile, File, Form, BackgroundTasks
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import Any, List, Optional
 from collections import Counter
 from pathlib import Path
 import cv2, numpy as np
@@ -19,9 +19,11 @@ from utils.mailer import send_image_via_email
 from utils.text import fallback_instruction
 
 from services.nlu_classifier import NLUClassifier
+from services.pipeline_orchestrator import PipelineOrchestrator
 from services.t5 import T5Service
 from services.rag import RAGService
 from services.yolo import YOLOService
+from schemas.pipeline import RunResult
 from utils.vision import draw_dets
 
 logger = logging.getLogger(__name__)
@@ -88,6 +90,11 @@ class RagResponse(BaseModel):
     sources: List[str]
 
 
+class RunRequest(BaseModel):
+    message: str
+    metadata: dict[str, Any] | None = None
+
+
 class DetectResponse(BaseModel):
     labels: List[str]
     summary: str
@@ -116,11 +123,12 @@ NLU: Optional[NLUClassifier] = None
 T5: Optional[T5Service] = None
 RAG: Optional[RAGService] = None
 YOLO: Optional[YOLOService] = None
+PIPELINE: Optional[PipelineOrchestrator] = None
 
 
 @app.on_event("startup")
 def startup_event():
-    global NLU, T5, RAG, YOLO
+    global NLU, T5, RAG, YOLO, PIPELINE
     report = readiness_report()
     if report["status"] != "ok":
         logger.warning("Startup readiness degraded; missing assets: %s", ", ".join(report["missing"]))
@@ -128,6 +136,7 @@ def startup_event():
     T5 = T5Service(CFG)
     RAG = RAGService(CFG)
     YOLO = YOLOService(CFG)
+    PIPELINE = PipelineOrchestrator(CFG, NLU, T5, RAG, YOLO)
 
 
 @app.get("/api/health")
@@ -197,6 +206,19 @@ def rag_api(body: RagRequest):
 
     # 4) UI'ya dön
     return {"answer": answer, "used_context": used_ctx, "sources": sources}
+
+
+@app.post("/api/run", response_model=RunResult)
+def run_api(body: RunRequest):
+    if PIPELINE is None:
+        logger.error("Pipeline is not initialized.")
+        return RunResult(
+            input_text=body.message,
+            status="failed",
+            errors=["pipeline is not initialized"],
+        )
+
+    return PIPELINE.run(body.message, metadata=body.metadata)
 
 
 @app.post("/api/photo")
