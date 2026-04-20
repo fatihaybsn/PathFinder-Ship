@@ -1,9 +1,12 @@
 # app/services/nlu_classifier.py
 from __future__ import annotations
+import time
 import numpy as np
 import onnxruntime as ort
 from typing import Tuple, List, Dict, Any
 from transformers import AutoTokenizer, AutoConfig
+
+from schemas.pipeline import IntentResult, intent_result_from_prediction
 
 _CANONICAL = {"open_camera", "close_camera", "take_photo", "object_detect", "chat"}
 
@@ -19,6 +22,11 @@ def _normalize_label(label: str) -> str:
         (label or "").strip().lower()
         .replace("-", "_").replace(" ", "_")
     )
+
+
+def _elapsed_ms(start: float) -> int:
+    return int((time.perf_counter() - start) * 1000)
+
 
 class NLUClassifier:
     """
@@ -65,11 +73,14 @@ class NLUClassifier:
         return self._labels
 
     # --- Core ---
-    def predict(self, text: str) -> Tuple[str, float]:
+    def classify_intent(self, text: str, threshold: float | None = None) -> IntentResult:
         """
-        Metin → (kanonik etiket, olasılık)
-        Hata halinde ('chat', 0.0) döner ve last_error set edilir.
+        Metin -> IntentResult.
+
+        Bu katman sadece sınıflandırma yapar; T5/RAG/YOLO/kamera/e-posta gibi
+        yan etkili servisleri çağırmaz.
         """
+        started = time.perf_counter()
         self.last_error = None
         try:
             # ORT ve giriş isimleri hazırla
@@ -111,8 +122,38 @@ class NLUClassifier:
             # Beklenen 5 etiketten biri değilse güvenli varsayılanı 'chat' yap
             if canon not in _CANONICAL:
                 canon = "chat"
-            return canon, score
+
+            raw_scores: Dict[str, float] = {}
+            for label_index, probability in enumerate(probs[0]):
+                label = self.labels[label_index] if 0 <= label_index < len(self.labels) else "chat"
+                normalized = _normalize_label(label)
+                if normalized not in _CANONICAL:
+                    normalized = "chat"
+                raw_scores[normalized] = max(raw_scores.get(normalized, 0.0), float(probability))
+
+            return intent_result_from_prediction(
+                label=canon,
+                confidence=score,
+                threshold=threshold,
+                raw_scores=raw_scores,
+                latency_ms=_elapsed_ms(started),
+            )
 
         except Exception as e:
             self.last_error = f"{type(e).__name__}: {e}"
-            return "chat", 0.0
+            return intent_result_from_prediction(
+                label="chat",
+                confidence=0.0,
+                threshold=threshold,
+                raw_scores=None,
+                latency_ms=_elapsed_ms(started),
+                error=self.last_error,
+            )
+
+    def predict(self, text: str) -> Tuple[str, float]:
+        """
+        Geriye uyumlu eski arayüz: Metin -> (kanonik etiket, olasılık).
+        Yeni kod classify_intent(...) kullanmalıdır.
+        """
+        result = self.classify_intent(text)
+        return result.label, float(result.confidence or 0.0)

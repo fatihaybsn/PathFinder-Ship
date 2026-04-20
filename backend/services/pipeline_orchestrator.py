@@ -18,15 +18,10 @@ from schemas.pipeline import (
     intent_result_from_prediction,
     retrieval_result_from_legacy,
 )
+from services.route_decision import CAMERA_ACTIONS, DEFAULT_INTENT_THRESHOLD, decide_route, normalize_intent_label
 from utils.text import fallback_instruction
 
 logger = logging.getLogger(__name__)
-
-CAMERA_ACTIONS = {
-    "open_camera": ("open_camera", True),
-    "close_camera": ("close_camera", False),
-    "take_photo": ("capture_photo", True),
-}
 
 
 def _elapsed_ms(start: float) -> int:
@@ -61,7 +56,7 @@ class PipelineOrchestrator:
         self.t5 = t5
         self.rag = rag
         self.yolo = yolo
-        self.intent_threshold = float(cfg.get("CLS_ROUTE_THRESHOLD", 0.7))
+        self.intent_threshold = float(cfg.get("CLS_ROUTE_THRESHOLD", DEFAULT_INTENT_THRESHOLD))
 
     def run(
         self,
@@ -86,7 +81,7 @@ class PipelineOrchestrator:
             )
 
         intent = self._predict_intent(text, warnings)
-        route = self._decide_route(intent, request_options, image_bgr)
+        route = self._decide_route(text, intent, request_options, image_bgr)
 
         try:
             result = self._execute_route(text, route, intent, request_options, image_bgr, warnings)
@@ -124,89 +119,51 @@ class PipelineOrchestrator:
     def _predict_intent(self, text: str, warnings: list[str]) -> IntentResult:
         started = time.perf_counter()
         try:
-            label, confidence = self.nlu.predict(text)
-            error = None
-            if getattr(self.nlu, "last_error", None):
-                error = "intent service failed"
+            if hasattr(self.nlu, "classify_intent"):
+                intent = self.nlu.classify_intent(text, threshold=self.intent_threshold)
+                if intent.threshold is None:
+                    intent.threshold = self.intent_threshold
+                if intent.latency_ms is None:
+                    intent.latency_ms = _elapsed_ms(started)
+            else:
+                label, confidence = self.nlu.predict(text)
+                error = None
+                if getattr(self.nlu, "last_error", None):
+                    error = "intent service failed"
+                intent = intent_result_from_prediction(
+                    label=label,
+                    confidence=float(confidence) if confidence is not None else None,
+                    threshold=self.intent_threshold,
+                    latency_ms=_elapsed_ms(started),
+                    error=error,
+                )
+
+            if intent.error:
                 warnings.append("Intent service degraded; routed with fallback.")
         except Exception:
             logger.exception("Intent prediction failed")
-            label, confidence = "chat", 0.0
-            error = "intent service failed"
             warnings.append("Intent service failed; routed as chat fallback.")
+            return intent_result_from_prediction(
+                label="chat",
+                confidence=0.0,
+                threshold=self.intent_threshold,
+                latency_ms=_elapsed_ms(started),
+                error="intent service failed",
+            )
 
-        return intent_result_from_prediction(
-            label=label,
-            confidence=float(confidence) if confidence is not None else None,
-            threshold=self.intent_threshold,
-            latency_ms=_elapsed_ms(started),
-            error=error,
-        )
+        return intent
 
     def _decide_route(
         self,
+        text: str,
         intent: IntentResult,
         request_options: Mapping[str, Any],
         image_bgr: Any | None,
     ) -> RouteDecision:
-        confident = bool(intent.is_confident)
-        label = intent.label
-
-        if intent.error:
-            return RouteDecision(
-                route="chat",
-                reason="intent failure fallback",
-                source_intent=label,
-                confidence=intent.confidence,
-                fallback_used=True,
-                fallback_reason="intent service failed",
-            )
-
-        if confident and label in CAMERA_ACTIONS:
-            action, _ = CAMERA_ACTIONS[label]
-            return RouteDecision(
-                route="camera_action",
-                reason=f"confident {label} intent",
-                source_intent=label,
-                confidence=intent.confidence,
-                requires_client_action=True,
-                client_action=action,
-            )
-
-        if confident and label == "object_detect":
-            return RouteDecision(
-                route="detect",
-                reason="confident object_detect intent",
-                source_intent=label,
-                confidence=intent.confidence,
-                requires_client_action=image_bgr is None,
-                client_action="capture_photo" if image_bgr is None else None,
-            )
-
-        if confident and label == "chat" and not request_options["use_internet"]:
-            return RouteDecision(
-                route="chat",
-                reason="confident chat intent",
-                source_intent=label,
-                confidence=intent.confidence,
-            )
-
-        if confident and label == "chat" and request_options["use_internet"]:
-            return RouteDecision(
-                route="rag",
-                reason="chat intent with web context requested",
-                source_intent=label,
-                confidence=intent.confidence,
-            )
-
-        return RouteDecision(
-            route="rag",
-            reason="fallback to retrieval pipeline",
-            source_intent=label,
-            confidence=intent.confidence,
-            fallback_used=True,
-            fallback_reason="intent below threshold or unsupported route",
-        )
+        route_metadata = dict(request_options)
+        route_metadata["has_image"] = image_bgr is not None
+        route_metadata["intent_threshold"] = self.intent_threshold
+        return decide_route(text, intent, metadata=route_metadata)
 
     def _execute_route(
         self,
@@ -227,7 +184,7 @@ class PipelineOrchestrator:
 
     def _run_client_action(self, text: str, route: RouteDecision, intent: IntentResult) -> RunResult:
         action = route.client_action or "none"
-        requires_permission = CAMERA_ACTIONS.get(intent.label, (action, False))[1]
+        requires_permission = CAMERA_ACTIONS.get(normalize_intent_label(intent.label), (action, False))[1]
         client_action = ClientAction(
             action=action,
             reason=route.reason,

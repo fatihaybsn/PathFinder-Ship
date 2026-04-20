@@ -5,7 +5,7 @@ from fastapi import FastAPI, UploadFile, File, Form, BackgroundTasks
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import Any, List, Optional
+from typing import Any, Dict, List, Optional
 from collections import Counter
 from pathlib import Path
 import cv2, numpy as np
@@ -23,7 +23,7 @@ from services.pipeline_orchestrator import PipelineOrchestrator
 from services.t5 import T5Service
 from services.rag import RAGService
 from services.yolo import YOLOService
-from schemas.pipeline import RunResult
+from schemas.pipeline import RunResult, intent_result_from_prediction
 from utils.vision import draw_dets
 
 logger = logging.getLogger(__name__)
@@ -67,8 +67,14 @@ class IntentRequest(BaseModel):
 class IntentResponse(BaseModel):
     intent: str
     score: float
-    threshold: float
+    threshold: Optional[float] = None
     narration: Optional[str] = None
+    label: Optional[str] = None
+    confidence: Optional[float] = None
+    is_confident: Optional[bool] = None
+    raw_scores: Optional[Dict[str, float]] = None
+    latency_ms: Optional[int] = None
+    error: Optional[str] = None
 
 class ChatRequest(BaseModel):
     message: str
@@ -152,23 +158,37 @@ def readiness():
 # ---------- Intent ----------
 @app.post("/api/intent", response_model=IntentResponse)
 def intent_api(body: IntentRequest):
-    label, score = NLU.predict(body.text)
+    thr = float(CFG.get("CLS_ROUTE_THRESHOLD", 0.60))
+    if NLU is None:
+        result = intent_result_from_prediction(
+            label="chat",
+            confidence=0.0,
+            threshold=thr,
+            error="intent service is not initialized",
+        )
+    elif hasattr(NLU, "classify_intent"):
+        result = NLU.classify_intent(body.text, threshold=thr)
+    else:
+        label, score = NLU.predict(body.text)
+        result = intent_result_from_prediction(
+            label=label,
+            confidence=float(score),
+            threshold=thr,
+            error="intent service failed" if getattr(NLU, "last_error", None) else None,
+        )
 
-    narration = None
-    thr = float(CFG.get("CLS_ROUTE_THRESHOLD", 0.7))
-
-    if score >= thr:
-        if label == "open_camera":
-            narration = T5.narrate_open_camera()
-        elif label == "close_camera":
-            narration = T5.narrate_close_camera()
-        elif label == "take_photo":
-            narration = T5.narrate_take_photo()
-        # object_detect: algılama yapılmadan sadece niyet var.
-        # İstersen burada "hazırlanıyorum" tarzı bir narration da üretebilirsin
-        # (örn. T5.narrate_detection("...")), ama tipik akışta detect sonrası üretiyoruz.
-
-    return {"intent": label, "score": float(score), "threshold": thr, "narration": narration}
+    return {
+        "intent": result.label,
+        "score": float(result.confidence or 0.0),
+        "threshold": result.threshold,
+        "narration": None,
+        "label": result.label,
+        "confidence": result.confidence,
+        "is_confident": result.is_confident,
+        "raw_scores": result.raw_scores,
+        "latency_ms": result.latency_ms,
+        "error": result.error,
+    }
 
 
 # ---------- Chat ----------

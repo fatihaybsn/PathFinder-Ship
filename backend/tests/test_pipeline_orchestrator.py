@@ -3,7 +3,7 @@ import warnings
 
 from fastapi.testclient import TestClient
 
-from schemas.pipeline import RunResult, to_serializable_dict
+from schemas.pipeline import IntentResult, RunResult, to_serializable_dict
 from services.pipeline_orchestrator import PipelineOrchestrator
 
 
@@ -149,6 +149,45 @@ class RunEndpointTests(unittest.TestCase):
         self.assertEqual(body["input_text"], "hello")
         self.assertEqual(body["final_answer"], "ok")
         self.assertEqual(body["metadata"]["use_internet"], True)
+
+    def test_intent_endpoint_returns_intent_without_t5_side_effect(self):
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", DeprecationWarning)
+            import web.app as web_app
+
+        class FakeNLU:
+            def classify_intent(self, text, threshold=None):
+                return IntentResult(
+                    label="open_camera",
+                    confidence=0.91,
+                    threshold=threshold,
+                    is_confident=True,
+                    raw_scores={"open_camera": 0.91},
+                    latency_ms=1,
+                )
+
+        class ExplodingT5:
+            def __getattr__(self, name):
+                raise AssertionError(f"T5 should not be called by /api/intent: {name}")
+
+        previous_nlu = web_app.NLU
+        previous_t5 = web_app.T5
+        web_app.NLU = FakeNLU()
+        web_app.T5 = ExplodingT5()
+        try:
+            client = TestClient(web_app.app)
+            response = client.post("/api/intent", json={"text": "open camera"})
+        finally:
+            web_app.NLU = previous_nlu
+            web_app.T5 = previous_t5
+
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertEqual(body["intent"], "open_camera")
+        self.assertEqual(body["label"], "open_camera")
+        self.assertEqual(body["score"], 0.91)
+        self.assertIsNone(body["narration"])
+        self.assertTrue(body["is_confident"])
 
 
 if __name__ == "__main__":
