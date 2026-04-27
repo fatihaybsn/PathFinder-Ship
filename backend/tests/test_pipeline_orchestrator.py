@@ -3,7 +3,7 @@ import warnings
 
 from fastapi.testclient import TestClient
 
-from schemas.pipeline import IntentResult, RunResult, to_serializable_dict
+from schemas.pipeline import IntentResult, RetrievedChunk, RetrievalResult, RunResult, to_serializable_dict
 from services.pipeline_orchestrator import PipelineOrchestrator
 
 
@@ -39,9 +39,31 @@ class FakeT5:
 class FakeRAG:
     top_k = 2
     thr = 0.4
+    max_ctx_tokens = 512
 
     def retrieve(self, question, use_internet=False, web_only=False):
         return ["context text"], 0.82, ["local:test.txt"]
+
+    def retrieve_structured(self, question, use_internet=False, web_only=False):
+        return RetrievalResult(
+            query=question,
+            chunks=[
+                RetrievedChunk(
+                    text="context text",
+                    source="local:test.txt",
+                    score=0.82,
+                    rank=1,
+                    retrieval_type="local_hybrid",
+                    metadata={"file_name": "test.txt"},
+                ),
+            ],
+            top_k=self.top_k,
+            best_score=0.82,
+            threshold=self.thr,
+            used_context=True,
+            retrieval_mode="local_only",
+            latency_ms=5,
+        )
 
 
 class FakeYOLO:

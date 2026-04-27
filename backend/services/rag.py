@@ -1,6 +1,7 @@
 # app/services/rag.py
 from __future__ import annotations
-from typing import List, Tuple, Dict, Any
+import time
+from typing import List, Tuple, Dict, Any, Optional
 
 # Backend (defterden taşıdığın kodların modüler hali)
 # Aşağıdaki importlar, app/services/rag_backend/ altına koyduğun dosyalardan gelmelidir.
@@ -10,9 +11,15 @@ from services.rag_backend.websearch import process_web_results
 from services.rag_backend import TOP_K as BACKEND_TOP_K, RAG_MAX_CTX_TOKENS as BACKEND_MAX_CTX_TOKENS # __init__.py dosyasından alıyor.
 
 from config import CFG
+from schemas.pipeline import RetrievedChunk, RetrievalResult
 
 RAG_WEB_MIN_STRENGTH = float(CFG.get("RAG_WEB_MIN_STRENGTH", 0.75))
 WEB_CHUNK_SUPPORT_THRESHOLD = float(CFG.get("WEB_CHUNK_SUPPORT_THRESHOLD", 0.70))
+
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
 
 def _web_strength(chunks):
     """
@@ -26,6 +33,55 @@ def _web_strength(chunks):
     top = max(float(c.get("score", 0.0)) for c in chunks)
     support = sum(1 for c in chunks if float(c.get("score", 0.0)) >= WEB_CHUNK_SUPPORT_THRESHOLD)
     return 0.5*top + 0.5*min(1.0, support/3.0)
+
+
+def build_context_from_chunks(
+    chunks: List[RetrievedChunk],
+    max_tokens: int,
+    question: str,
+) -> str:
+    """
+    RetrievedChunk listesinden create_context-uyumlu dict listesi oluşturup
+    context string üretir.  Evidence chunk'ları korunurken context string
+    ayrıca üretilir.
+    """
+    raw = [{"chunk": c.text} for c in chunks]
+    return create_context(raw, max_tokens=max_tokens, question=question)
+
+
+def _map_local_chunks(
+    retrieved: List[Dict[str, Any]],
+) -> List[RetrievedChunk]:
+    """hybrid_search sonuçlarını RetrievedChunk listesine dönüştürür."""
+    out: List[RetrievedChunk] = []
+    for i, r in enumerate(retrieved):
+        out.append(RetrievedChunk(
+            text=r.get("chunk", ""),
+            source=f"local:{r.get('file_name', 'unknown')}",
+            score=float(r.get("score", 0.0)),
+            rank=i + 1,
+            retrieval_type="local_hybrid",
+            metadata={"file_name": r.get("file_name", "unknown")},
+        ))
+    return out
+
+
+def _map_web_chunks(
+    web_chunks: List[Dict[str, Any]],
+    rank_offset: int = 0,
+) -> List[RetrievedChunk]:
+    """process_web_results sonuçlarını RetrievedChunk listesine dönüştürür."""
+    out: List[RetrievedChunk] = []
+    for i, c in enumerate(web_chunks):
+        out.append(RetrievedChunk(
+            text=c.get("chunk", ""),
+            source=c.get("source", ""),
+            score=float(c.get("score", 0.0)) if c.get("score") is not None else None,
+            rank=rank_offset + i + 1,
+            retrieval_type="web",
+            metadata={"title": c.get("title", "")},
+        ))
+    return out
 
 
 class RAGService:
@@ -114,3 +170,134 @@ class RAGService:
             else:
                 # hem yerel zayıf hem web zayıf → model-only
                 return [], top_score, []
+
+    # ------------------------------------------------------------------
+    # Structured retrieval — chunk-level evidence korunur
+    # ------------------------------------------------------------------
+
+    def retrieve_structured(
+        self,
+        question: str,
+        use_internet: bool = False,
+        web_only: bool = False,
+    ) -> RetrievalResult:
+        """
+        Structured RAG retrieval.
+
+        Mevcut retrieve() ile aynı karar ağacını kullanır ama chunk-level
+        evidence'i RetrievedChunk/RetrievalResult olarak döndürür.
+        Score, rank, source, retrieval_type bilgileri korunur.
+
+        Dönüş: RetrievalResult (Pydantic model)
+        """
+        started = time.perf_counter()
+
+        try:
+            return self._retrieve_structured_inner(question, use_internet, web_only, started)
+        except Exception as exc:
+            elapsed = int((time.perf_counter() - started) * 1000)
+            return RetrievalResult(
+                query=question,
+                chunks=[],
+                top_k=self.top_k,
+                threshold=self.thr,
+                used_context=False,
+                retrieval_mode="error",
+                fallback_used=True,
+                fallback_reason="retrieval_exception",
+                latency_ms=elapsed,
+                error=str(exc),
+            )
+
+    def _retrieve_structured_inner(
+        self,
+        question: str,
+        use_internet: bool,
+        web_only: bool,
+        started: float,
+    ) -> RetrievalResult:
+        """Core structured retrieval logic (called by retrieve_structured)."""
+
+        # 1) Lokal hibrit arama
+        retrieved = hybrid_search(question, top_k=self.top_k)
+        top_score = float(max((r.get("score", 0.0) for r in retrieved), default=0.0))
+
+        # 2) Web chunk'ları (gerekirse)
+        raw_web: List[Dict[str, Any]] = []
+        if use_internet and question.strip():
+            try:
+                raw_web = process_web_results(question) or []
+            except Exception:
+                raw_web = []
+
+        # 3) Skor kapısı
+        local_ok = bool(retrieved) and (top_score >= self.thr)
+        ws = _web_strength(raw_web) if (use_internet and raw_web) else 0.0
+        eligible_web = raw_web if (use_internet and ws >= RAG_WEB_MIN_STRENGTH) else []
+
+        # 4) Karar ağacı — chunk mapping ve mode belirleme
+        if not use_internet:
+            if local_ok:
+                chunks = _map_local_chunks(retrieved)
+                mode = "local_only"
+                fallback_used = False
+                fallback_reason = None
+            else:
+                chunks = []
+                mode = "empty"
+                fallback_used = True
+                fallback_reason = "local_retrieval_below_threshold"
+        elif web_only:
+            if eligible_web:
+                chunks = _map_web_chunks(eligible_web)
+                mode = "web_only"
+                fallback_used = False
+                fallback_reason = None
+            elif local_ok:
+                chunks = _map_local_chunks(retrieved)
+                mode = "local_only"
+                fallback_used = True
+                fallback_reason = "web_retrieval_weak_fell_back_to_local"
+            else:
+                chunks = []
+                mode = "empty"
+                fallback_used = True
+                fallback_reason = "empty_retrieval"
+        else:
+            if local_ok and eligible_web:
+                local_chunks = _map_local_chunks(retrieved)
+                web_chunks_mapped = _map_web_chunks(eligible_web, rank_offset=len(local_chunks))
+                chunks = local_chunks + web_chunks_mapped
+                mode = "hybrid_local_web"
+                fallback_used = False
+                fallback_reason = None
+            elif local_ok:
+                chunks = _map_local_chunks(retrieved)
+                mode = "local_only"
+                fallback_used = False
+                fallback_reason = None
+            elif eligible_web:
+                chunks = _map_web_chunks(eligible_web)
+                mode = "web_only"
+                fallback_used = True
+                fallback_reason = "local_retrieval_below_threshold"
+            else:
+                chunks = []
+                mode = "empty"
+                fallback_used = True
+                fallback_reason = "empty_retrieval"
+
+        elapsed = int((time.perf_counter() - started) * 1000)
+
+        return RetrievalResult(
+            query=question,
+            chunks=chunks,
+            top_k=self.top_k,
+            best_score=top_score if retrieved else None,
+            threshold=self.thr,
+            used_context=bool(chunks),
+            retrieval_mode=mode,
+            fallback_used=fallback_used,
+            fallback_reason=fallback_reason,
+            latency_ms=elapsed,
+        )

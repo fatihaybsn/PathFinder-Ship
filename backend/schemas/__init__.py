@@ -11,6 +11,7 @@ from .pipeline import (
     detection_result_from_legacy,
     generation_result_from_text,
     intent_result_from_prediction,
+    retrieval_result_empty,
     retrieval_result_from_legacy,
     to_serializable_dict,
 )
@@ -28,6 +29,8 @@ __all__ = [
     "detection_result_from_legacy",
     "generation_result_from_text",
     "intent_result_from_prediction",
+    "retrieval_result_empty",
     "retrieval_result_from_legacy",
     "to_serializable_dict",
 ]
+

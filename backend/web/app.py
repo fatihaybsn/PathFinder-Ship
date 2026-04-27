@@ -94,6 +94,7 @@ class RagResponse(BaseModel):
     answer: str
     used_context: bool
     sources: List[str]
+    retrieval: Optional[dict] = None  # structured RAG evidence (ek alan)
 
 
 class RunRequest(BaseModel):
@@ -202,30 +203,52 @@ def chat_api(body: ChatRequest):
 # app.py (FastAPI)
 @app.post("/api/rag", response_model=RagResponse)
 def rag_api(body: RagRequest):
-    # 1) RAG araması: context + en iyi skor + kaynaklar
-    contexts, best_score, sources = RAG.retrieve(
-        body.question,
-        use_internet=body.use_internet,
-        web_only=body.web_only,
-    )
+    from schemas.pipeline import to_serializable_dict
 
-    used_ctx = bool(contexts)
+    retrieval_dict = None
 
-    # 3) Cevabı üret
-    if used_ctx:
-        # RAG: context + question + RAG instruction
+    if hasattr(RAG, "retrieve_structured"):
+        # Structured retrieval — chunk-level evidence korunur
+        retrieval = RAG.retrieve_structured(
+            body.question,
+            use_internet=body.use_internet,
+            web_only=body.web_only,
+        )
+        used_ctx = retrieval.used_context
+        sources = [c.source for c in retrieval.chunks if c.source] if retrieval.chunks else []
+
+        if used_ctx and retrieval.chunks:
+            from services.rag import build_context_from_chunks
+            ctx_str = build_context_from_chunks(
+                retrieval.chunks,
+                max_tokens=RAG.max_ctx_tokens,
+                question=body.question,
+            )
+            contexts = [ctx_str] if ctx_str else []
+        else:
+            contexts = []
+
+        retrieval_dict = to_serializable_dict(retrieval)
+    else:
+        # Legacy fallback
+        contexts, best_score, sources = RAG.retrieve(
+            body.question,
+            use_internet=body.use_internet,
+            web_only=body.web_only,
+        )
+        used_ctx = bool(contexts)
+
+    # Cevabı üret
+    if used_ctx and contexts:
         answer = T5.answer(body.question, contexts)
     else:
-        # Fallback: context yok → chat’ten farklı instruction (utils/text.py’deki senin metnin)
-        # YENİ
-        instr = fallback_instruction()  # text.py
+        instr = fallback_instruction()
         answer = T5.answer_model_only_with_instruction(body.question, instruction=instr)
         used_ctx = False
         sources = []
 
-
-    # 4) UI'ya dön
-    return {"answer": answer, "used_context": used_ctx, "sources": sources}
+    # UI'ya dön (eski alanlar korunur, retrieval opsiyonel ek alan)
+    return {"answer": answer, "used_context": used_ctx, "sources": sources, "retrieval": retrieval_dict}
 
 
 @app.post("/api/run", response_model=RunResult)

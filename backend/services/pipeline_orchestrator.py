@@ -288,24 +288,48 @@ class PipelineOrchestrator:
         use_internet = bool(request_options["use_internet"])
         web_only = bool(request_options["web_only"] or (intent.label == "chat" and use_internet))
 
-        retrieval_started = time.perf_counter()
-        contexts, best_score, sources = self.rag.retrieve(
-            text,
-            use_internet=use_internet,
-            web_only=web_only,
-        )
-        retrieval = retrieval_result_from_legacy(
-            text,
-            contexts,
-            best_score,
-            sources,
-            top_k=getattr(self.rag, "top_k", None),
-            threshold=getattr(self.rag, "thr", None),
-            retrieval_mode="web" if web_only else "hybrid",
-            fallback_used=not bool(contexts),
-            fallback_reason=None if contexts else "no retrieval context",
-            latency_ms=_elapsed_ms(retrieval_started),
-        )
+        # --- Structured retrieval (preferred) ---
+        if hasattr(self.rag, "retrieve_structured"):
+            retrieval_started = time.perf_counter()
+            retrieval = self.rag.retrieve_structured(
+                text,
+                use_internet=use_internet,
+                web_only=web_only,
+            )
+            if retrieval.latency_ms is None:
+                retrieval.latency_ms = _elapsed_ms(retrieval_started)
+
+            # Build context from structured chunks
+            if retrieval.used_context and retrieval.chunks:
+                from services.rag import build_context_from_chunks
+                ctx_str = build_context_from_chunks(
+                    retrieval.chunks,
+                    max_tokens=getattr(self.rag, "max_ctx_tokens", 512),
+                    question=text,
+                )
+                contexts = [ctx_str] if ctx_str else []
+            else:
+                contexts = []
+        else:
+            # --- Legacy fallback ---
+            retrieval_started = time.perf_counter()
+            contexts, best_score, sources = self.rag.retrieve(
+                text,
+                use_internet=use_internet,
+                web_only=web_only,
+            )
+            retrieval = retrieval_result_from_legacy(
+                text,
+                contexts,
+                best_score,
+                sources,
+                top_k=getattr(self.rag, "top_k", None),
+                threshold=getattr(self.rag, "thr", None),
+                retrieval_mode="web" if web_only else "hybrid",
+                fallback_used=not bool(contexts),
+                fallback_reason=None if contexts else "no retrieval context",
+                latency_ms=_elapsed_ms(retrieval_started),
+            )
 
         generation_started = time.perf_counter()
         if contexts:
@@ -340,3 +364,4 @@ class PipelineOrchestrator:
             retrieval=retrieval,
             generation=generation,
         )
+

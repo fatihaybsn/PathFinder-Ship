@@ -190,6 +190,33 @@ def retrieval_result_from_legacy(
     )
 
 
+def retrieval_result_empty(
+    query: str,
+    *,
+    top_k: int | None = None,
+    best_score: float | None = None,
+    threshold: float | None = None,
+    retrieval_mode: str = "empty",
+    fallback_reason: str = "empty_retrieval",
+    latency_ms: int | None = None,
+    error: str | None = None,
+) -> RetrievalResult:
+    """Convenience constructor for empty or failed retrieval results."""
+    return RetrievalResult(
+        query=query,
+        chunks=[],
+        top_k=top_k,
+        best_score=best_score,
+        threshold=threshold,
+        used_context=False,
+        retrieval_mode=retrieval_mode,
+        fallback_used=True,
+        fallback_reason=fallback_reason,
+        latency_ms=latency_ms,
+        error=error,
+    )
+
+
 def generation_result_from_text(
     text: str | None,
     *,

@@ -45,12 +45,17 @@ def chroma_search(query: str, top_k: int = TOP_K) -> List[Tuple[str, float, str]
     """
     ChromaDB üzerinde semantik arama.
     Dönüş: (chunk_text, distance, file_name)
+
+    Not: Index tarafında embedding_model.encode() ile manuel embedding
+    üretildiği için, query tarafında da aynı model kullanılır.
+    query_texts yerine query_embeddings ile tutarlılık sağlanır.
     """
     if collection is None:
         return []
 
+    query_embedding = embedding_model.encode([query], convert_to_numpy=True).tolist()
     res = collection.query(
-        query_texts=[query],
+        query_embeddings=query_embedding,
         n_results=top_k,
         include=["documents", "distances", "metadatas"],
     )
