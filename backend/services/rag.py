@@ -55,13 +55,16 @@ def _map_local_chunks(
     """hybrid_search sonuçlarını RetrievedChunk listesine dönüştürür."""
     out: List[RetrievedChunk] = []
     for i, r in enumerate(retrieved):
+        metadata = dict(r.get("metadata") or {})
+        metadata.setdefault("file_name", r.get("file_name", "unknown"))
+        source_name = metadata.get("source") or r.get("file_name", "unknown")
         out.append(RetrievedChunk(
             text=r.get("chunk", ""),
-            source=f"local:{r.get('file_name', 'unknown')}",
+            source=f"local:{source_name}",
             score=float(r.get("score", 0.0)),
             rank=i + 1,
             retrieval_type="local_hybrid",
-            metadata={"file_name": r.get("file_name", "unknown")},
+            metadata=metadata,
         ))
     return out
 

@@ -3,6 +3,7 @@ import unittest
 from schemas.pipeline import (
     ClientAction,
     DetectionResult,
+    IndexingResult,
     IntentResult,
     RetrievedChunk,
     RetrievalResult,
@@ -74,6 +75,23 @@ class PipelineSchemaTests(unittest.TestCase):
         self.assertTrue(serialized_action["requires_user_permission"])
         self.assertEqual(serialized_detection["status"], "not_run")
         self.assertEqual(serialized_detection["objects"], [])
+
+    def test_indexing_result_serializes_upload_status(self):
+        result = IndexingResult(
+            filename="manual.txt",
+            document_id="doc_abc",
+            saved_path="data/rag/corpus/manual__abc.txt",
+            indexed=True,
+            indexed_chunk_count=2,
+            warnings=[],
+        )
+
+        serialized = to_serializable_dict(result)
+
+        self.assertEqual(serialized["filename"], "manual.txt")
+        self.assertEqual(serialized["document_id"], "doc_abc")
+        self.assertTrue(serialized["indexed"])
+        self.assertEqual(serialized["indexed_chunk_count"], 2)
 
 
 if __name__ == "__main__":

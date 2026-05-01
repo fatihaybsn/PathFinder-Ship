@@ -49,6 +49,19 @@ class RetrievalResult(BaseModel):
     error: str | None = None
 
 
+class IndexingResult(BaseModel):
+    filename: str
+    document_id: str | None = None
+    saved_path: str | None = None
+    indexed: bool = False
+    indexed_chunk_count: int = 0
+    skipped: bool = False
+    skip_reason: str | None = None
+    warnings: list[str] = Field(default_factory=list)
+    error: str | None = None
+    metadata: dict[str, Any] | None = None
+
+
 class GenerationResult(BaseModel):
     text: str
     model_name: str | None = None

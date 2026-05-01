@@ -4,7 +4,15 @@ import time
 import numpy as np
 import onnxruntime as ort
 from typing import Tuple, List, Dict, Any
-from transformers import AutoTokenizer, AutoConfig
+
+try:
+    from transformers import AutoTokenizer, AutoConfig
+except Exception:
+    try:
+        from transformers import AutoTokenizer
+    except Exception:
+        AutoTokenizer = None
+    AutoConfig = None
 
 from schemas.pipeline import IntentResult, intent_result_from_prediction
 
@@ -55,6 +63,8 @@ class NLUClassifier:
     @property
     def tokenizer(self):
         if self._tok is None:
+            if AutoTokenizer is None:
+                raise RuntimeError("transformers AutoTokenizer is not available")
             # Yerel klasörden yükler (tokenizer + vocab dosyaları + merges vs.)
             self._tok = AutoTokenizer.from_pretrained(self.tok_dir, use_fast=True, local_files_only=True)
         return self._tok
@@ -63,6 +73,8 @@ class NLUClassifier:
     def labels(self) -> List[str]:
         if self._labels is None:
             try:
+                if AutoConfig is None:
+                    raise RuntimeError("transformers AutoConfig is not available")
                 cfg = AutoConfig.from_pretrained(self.tok_dir, local_files_only=True)
                 # id2label sözlüğünü sıraya göre listeye çevir
                 id2label = getattr(cfg, "id2label", None) or {}

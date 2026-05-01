@@ -182,6 +182,11 @@ def build_config() -> Dict[str, Any]:
     cfg["YOLO_PREPROC_IN_MODEL"] = _get_bool("YOLO_PREPROC_IN_MODEL", False)
 
     cfg["RAG_CORPUS_DIR"] = _get_path("RAG_CORPUS_DIR", DATA_ROOT / "rag" / "corpus")
+    cfg["UPLOAD_MAX_BYTES"] = _get_int("UPLOAD_MAX_BYTES", 10 * 1024 * 1024)
+    cfg["RAG_UPLOAD_ALLOWED_EXTENSIONS"] = _get_str(
+        "RAG_UPLOAD_ALLOWED_EXTENSIONS",
+        ".pdf,.docx,.txt,.md,.html,.htm",
+    )
     cfg["RAG_SCORE_THRESHOLD"] = _get_float("RAG_SCORE_THRESHOLD", 0.40)
     cfg["RAG_TOP_K"] = _get_int("RAG_TOP_K", 4)
     cfg["RAG_MAX_CTX_TOKENS"] = _get_int("RAG_MAX_CTX_TOKENS", 512)

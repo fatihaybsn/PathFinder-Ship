@@ -2,6 +2,7 @@
 # --- Üstte FastAPI ve standart importlar ---
 import logging
 from fastapi import FastAPI, UploadFile, File, Form, BackgroundTasks
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -20,10 +21,11 @@ from utils.text import fallback_instruction
 
 from services.nlu_classifier import NLUClassifier
 from services.pipeline_orchestrator import PipelineOrchestrator
+from services.document_indexing import UploadIndexingError, index_upload_file, upload_error_response
 from services.t5 import T5Service
 from services.rag import RAGService
 from services.yolo import YOLOService
-from schemas.pipeline import RunResult, intent_result_from_prediction
+from schemas.pipeline import RunResult, intent_result_from_prediction, to_serializable_dict
 from utils.vision import draw_dets
 
 logger = logging.getLogger(__name__)
@@ -351,10 +353,20 @@ async def detect_api(background_tasks: BackgroundTasks, file: UploadFile = File(
 # (Opsiyonel) Belgeleri yükleyip indeksleme için bir uç nokta:
 @app.post("/api/upload")
 async def upload_doc(file: UploadFile = File(...)):
-    # Dosyayı corpus'a koy; istersen burada indexer'ı tetikleyebilirsin.
-    safe_name = Path(file.filename or "upload.bin").name
-    out_path = Path(str(CFG.get("RAG_CORPUS_DIR"))) / safe_name
-    ensure_dir(out_path)
-    with open(out_path, "wb") as f:
-        f.write(await file.read())
-    return {"ok": True, "stored": _stored_path_for(out_path)}
+    try:
+        result = await index_upload_file(file, CFG)
+    except UploadIndexingError as exc:
+        return JSONResponse(status_code=exc.status_code, content=upload_error_response(exc))
+
+    body = to_serializable_dict(result)
+    body["ok"] = bool(result.saved_path)
+    body["stored"] = result.saved_path
+
+    if result.indexed:
+        body["message"] = "File uploaded and indexed successfully"
+    elif result.skipped:
+        body["message"] = "File uploaded but indexing skipped"
+    else:
+        body["message"] = "File uploaded but indexing failed"
+
+    return body

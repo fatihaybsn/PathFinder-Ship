@@ -41,7 +41,7 @@ def _min_max_scale(values: List[float]) -> List[float]:
 # -----------------------------
 # Arama fonksiyonları
 # -----------------------------
-def chroma_search(query: str, top_k: int = TOP_K) -> List[Tuple[str, float, str]]:
+def chroma_search(query: str, top_k: int = TOP_K, include_metadata: bool = False) -> List[Tuple]:
     """
     ChromaDB üzerinde semantik arama.
     Dönüş: (chunk_text, distance, file_name)
@@ -63,18 +63,26 @@ def chroma_search(query: str, top_k: int = TOP_K) -> List[Tuple[str, float, str]
     dists = (res.get("distances") or [[]])[0]
     metas = (res.get("metadatas") or [[]])[0]
 
-    out: List[Tuple[str, float, str]] = []
+    out: List[Tuple] = []
     for doc, dist, meta in zip(docs, dists, metas):
         # meta dict ise doğrudan, string ise json.loads ile al
         if isinstance(meta, dict):
             fname = meta.get("file_name") or meta.get("source") or meta.get("path") or "unknown"
+            metadata = meta
         else:
             fname = _extract_fname(meta)
-        out.append((str(doc), float(dist), fname))
+            try:
+                metadata = json.loads(meta) if meta else {}
+            except Exception:
+                metadata = {}
+        if include_metadata:
+            out.append((str(doc), float(dist), fname, metadata))
+        else:
+            out.append((str(doc), float(dist), fname))
     return out
 
 
-def bm25_search(query: str, top_k: int = TOP_K) -> List[Tuple[str, float, str]]:
+def bm25_search(query: str, top_k: int = TOP_K, include_metadata: bool = False) -> List[Tuple]:
     """
     SQLite FTS5 üzerinde anahtar kelime araması.
     Dönüş: (chunk_text, bm25_score, file_name)  -- Not: bm25_score'da DÜŞÜK değer daha iyi.
@@ -96,10 +104,17 @@ def bm25_search(query: str, top_k: int = TOP_K) -> List[Tuple[str, float, str]]:
     except Exception:
         return []
 
-    out: List[Tuple[str, float, str]] = []
+    out: List[Tuple] = []
     for content, score, metadata_json in rows:
         fname = _extract_fname(metadata_json)
-        out.append((str(content), float(score), fname))
+        try:
+            metadata = json.loads(metadata_json) if metadata_json else {}
+        except Exception:
+            metadata = {}
+        if include_metadata:
+            out.append((str(content), float(score), fname, metadata))
+        else:
+            out.append((str(content), float(score), fname))
     return out
 
 
@@ -109,35 +124,39 @@ def hybrid_search(query: str, top_k: int = TOP_K) -> List[Dict[str, Any]]:
     Dönüş: [{'chunk': str, 'score': float(0..1), 'file_name': str}, ...]  skora göre azalan
     """
     # 1) alt aramalar
-    chroma_results = chroma_search(query, top_k=top_k)   # (text, distance, fname)
-    bm25_results   = bm25_search(query, top_k=top_k)     # (text, bm25,   fname)
+    chroma_results = chroma_search(query, top_k=top_k, include_metadata=True)   # (text, distance, fname, metadata)
+    bm25_results   = bm25_search(query, top_k=top_k, include_metadata=True)     # (text, bm25,   fname, metadata)
 
     # 2) Chroma: distance -> similarity (1 - d), ardından normalize
-    ch_texts = [t for t, _, _ in chroma_results]
-    ch_fnames = [f for _, _, f in chroma_results]
-    ch_sims_raw = [max(0.0, 1.0 - d) for _, d, _ in chroma_results]  # d ~ [0,2], güvenli kırpma
+    ch_texts = [t for t, _, _, _ in chroma_results]
+    ch_fnames = [f for _, _, f, _ in chroma_results]
+    ch_metas = [m for _, _, _, m in chroma_results]
+    ch_sims_raw = [max(0.0, 1.0 - d) for _, d, _, _ in chroma_results]  # d ~ [0,2], güvenli kırpma
     ch_sims = _min_max_scale(ch_sims_raw)
 
     # 3) BM25: küçük değer daha iyi → negatifine çevirip normalize et
-    bm_texts = [t for t, _, _ in bm25_results]
-    bm_fnames = [f for _, _, f in bm25_results]
-    bm_scores_raw = [-s for _, s, _ in bm25_results]  # büyük değer daha iyi olacak
+    bm_texts = [t for t, _, _, _ in bm25_results]
+    bm_fnames = [f for _, _, f, _ in bm25_results]
+    bm_metas = [m for _, _, _, m in bm25_results]
+    bm_scores_raw = [-s for _, s, _, _ in bm25_results]  # büyük değer daha iyi olacak
     bm_scores = _min_max_scale(bm_scores_raw)
 
     # 4) Birleştir (text bazında)
-    combined: Dict[str, Dict[str, float | str]] = {}
+    combined: Dict[str, Dict[str, Any]] = {}
 
     # Chroma katkısı
-    for text, sim, fname in zip(ch_texts, ch_sims, ch_fnames):
+    for text, sim, fname, metadata in zip(ch_texts, ch_sims, ch_fnames, ch_metas):
         if text not in combined:
-            combined[text] = {"score": 0.0, "file_name": fname}
+            combined[text] = {"score": 0.0, "file_name": fname, "metadata": metadata}
         combined[text]["score"] = float(combined[text]["score"]) + float(sim) * float(VECTOR_WEIGHT)
 
     # BM25 katkısı
-    for text, sc, fname in zip(bm_texts, bm_scores, bm_fnames):
+    for text, sc, fname, metadata in zip(bm_texts, bm_scores, bm_fnames, bm_metas):
         if text not in combined:
-            combined[text] = {"score": 0.0, "file_name": fname}
+            combined[text] = {"score": 0.0, "file_name": fname, "metadata": metadata}
         combined[text]["score"] = float(combined[text]["score"]) + float(sc) * float(BM25_WEIGHT)
+        if not combined[text].get("metadata") and metadata:
+            combined[text]["metadata"] = metadata
         # Eğer farklı kaynak isimleri varsa ilkini koruyoruz; istersen burada tercih yapabilirsin.
 
     if not combined:
@@ -145,7 +164,12 @@ def hybrid_search(query: str, top_k: int = TOP_K) -> List[Dict[str, Any]]:
 
     # 5) Skoru [0,1] aralığına kırp
     results = [
-        {"chunk": text, "score": max(0.0, min(1.0, float(data["score"]))), "file_name": str(data["file_name"])}
+        {
+            "chunk": text,
+            "score": max(0.0, min(1.0, float(data["score"]))),
+            "file_name": str(data["file_name"]),
+            "metadata": data.get("metadata") if isinstance(data.get("metadata"), dict) else {},
+        }
         for text, data in combined.items()
     ]
 

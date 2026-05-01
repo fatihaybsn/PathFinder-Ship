@@ -124,7 +124,9 @@ def chunk_text(text: str,
     """
     if _tokenizer is not None:
         try:
-            return _chunk_by_tokens(text, chunk_tokens, overlap_tokens)
+            chunks = _chunk_by_tokens(text, chunk_tokens, overlap_tokens)
+            if chunks:
+                return chunks
         except Exception:
             # herhangi bir tokenizer hatasında kelime bazlıya düş
             pass
@@ -142,11 +144,24 @@ def preprocess_documents(documents: List[Dict]) -> List[Dict]:
     for doc in documents:
         file_name = doc.get("file_name") or doc.get("name") or "unknown"
         raw_text = doc.get("text") or doc.get("content") or ""
+        base_metadata = dict(doc.get("metadata") or {})
+        for key in ("document_id", "source", "uploaded_at", "content_hash", "saved_path"):
+            if doc.get(key) is not None:
+                base_metadata.setdefault(key, doc.get(key))
+        base_metadata.setdefault("file_name", file_name)
+        base_metadata.setdefault("source", file_name)
+
         pieces = chunk_text(raw_text, CHUNK_TOKENS, OVERLAP_TOKENS)
         for i, p in enumerate(pieces):
+            chunk_metadata = dict(base_metadata)
+            chunk_metadata["chunk_index"] = i
             results.append({
                 "file_name": file_name,
                 "chunk": p,
-                "order": i
+                "order": i,
+                "chunk_index": i,
+                "document_id": chunk_metadata.get("document_id"),
+                "source": chunk_metadata.get("source"),
+                "metadata": chunk_metadata,
             })
     return results
