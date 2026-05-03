@@ -1,10 +1,13 @@
 # app/services/t5.py
 from __future__ import annotations
+import logging
 import os
+import time
 from typing import Optional, List, Dict
 import numpy as np
 import onnxruntime as ort
 from transformers import AutoTokenizer
+from schemas.pipeline import GenerationResult
 from utils.text import (
     build_chat_prompt,
     build_rag_prompt,
@@ -15,6 +18,17 @@ from utils.text import (
     build_model_only_prompt,  
     fallback_instruction,   
 )
+
+logger = logging.getLogger(__name__)
+
+
+class T5DecodeError(RuntimeError):
+    """Raised when tokenizer decode fails after ONNX inference completed."""
+
+
+def _elapsed_ms(start: float) -> int:
+    return int((time.perf_counter() - start) * 1000)
+
 
 # ---------- utils: sampling ----------
 def _softmax(x: np.ndarray) -> np.ndarray:
@@ -65,6 +79,9 @@ class T5Service:
         self.dec_path = cfg.get("T5_DECODER", "assets/models/t5/decoder_with_past_model_int8.onnx")  
         self.bot_name = cfg.get("BOT_NAME", "Passenger-Bot")
         self.app_name = cfg.get("APP_NAME", "PathFinder-Ship")
+        self.model_name = cfg.get("T5_MODEL_NAME") or "local-t5-onnx"
+        self.runtime = "onnxruntime"
+        self.device = "cpu"
 
         # limits
         self.max_src_len  = int(cfg.get("T5_MAX_SRC_LEN", 512))
@@ -97,42 +114,180 @@ class T5Service:
         """
         Small-talk or basic chat (no RAG). English output.
         """
+        return self.chat_structured(user_text).text
+
+    def chat_structured(self, user_text: str) -> GenerationResult:
         prompt = build_chat_prompt(user_text, self.bot_name, self.app_name)
-        return self._generate_text(prompt, mode="chat")
+        return self.generate_structured(
+            prompt,
+            mode="chat",
+            prompt_type="chat",
+        )
 
     def answer(self, question: str, context: Optional[List[str] | str]) -> str:
         """
         QA mode: optionally uses RAG context. English output.
         """
+        return self.answer_structured(question, context).text
+
+    def answer_structured(self, question: str, context: Optional[List[str] | str]) -> GenerationResult:
         prompt = build_rag_prompt(question, context)
-        return self._generate_text(prompt, mode="rag")
+        return self.generate_structured(
+            prompt,
+            mode="rag",
+            prompt_type="rag_answer",
+        )
     
     def answer_model_only_with_instruction(self, question: str, instruction: str | None = None) -> str:
         """
         RAG skoru düşük olduğunda kullanılan fallback cevaplayıcı.
         Chat'ten farklı bir instruction ile tek-şut cevap üretir.
         """
+        return self.answer_model_only_with_instruction_structured(question, instruction=instruction).text
+
+    def answer_model_only_with_instruction_structured(
+        self,
+        question: str,
+        instruction: str | None = None,
+    ) -> GenerationResult:
         inst = instruction if instruction is not None else fallback_instruction()
         prompt = build_model_only_prompt(question, inst)
-        return self._generate_text(prompt, mode="chat")  
+        return self.generate_structured(
+            prompt,
+            mode="chat",
+            prompt_type="model_only",
+        )  
 
     def narrate_open_camera(self) -> str:
+        return self.narrate_open_camera_structured().text
+
+    def narrate_open_camera_structured(self) -> GenerationResult:
         prompt = build_open_camera_prompt(self.bot_name)
-        return self._generate_text(prompt, mode="chat")
+        return self.generate_structured(
+            prompt,
+            mode="chat",
+            prompt_type="camera_narration",
+        )
 
     def narrate_close_camera(self) -> str:
+        return self.narrate_close_camera_structured().text
+
+    def narrate_close_camera_structured(self) -> GenerationResult:
         prompt = build_close_camera_prompt(self.bot_name)
-        return self._generate_text(prompt, mode="chat")
+        return self.generate_structured(
+            prompt,
+            mode="chat",
+            prompt_type="camera_narration",
+        )
 
     def narrate_take_photo(self) -> str:
+        return self.narrate_take_photo_structured().text
+
+    def narrate_take_photo_structured(self) -> GenerationResult:
         prompt = build_take_photo_prompt(self.bot_name)
-        return self._generate_text(prompt, mode="chat")
+        return self.generate_structured(
+            prompt,
+            mode="chat",
+            prompt_type="camera_narration",
+        )
 
     def narrate_detection(self, objects: list[str] | str) -> str:
+        return self.narrate_detection_structured(objects).text
+
+    def narrate_detection_structured(self, objects: list[str] | str) -> GenerationResult:
         prompt = build_detection_prompt(objects, self.bot_name)
         # Greedy/temkinli üretim: gevezelik ve preamble eğilimini azaltır
-        out = self._generate_text(prompt, mode="rag")
-        return (out or "").strip()
+        return self.generate_structured(
+            prompt,
+            mode="rag",
+            prompt_type="detection_narration",
+        )
+
+    def generate_structured(
+        self,
+        prompt: str,
+        *,
+        mode: str = "chat",
+        prompt_type: str = "unknown",
+        max_new_tokens: int | None = None,
+        fallback_text: str | None = None,
+    ) -> GenerationResult:
+        """
+        Generate text and return a structured result without changing the core
+        ONNX inference logic used by legacy string-returning methods.
+        """
+        prompt = prompt or ""
+        resolved_max_new = self._max_new_for_mode(mode, max_new_tokens)
+        started = time.perf_counter()
+
+        base = {
+            "model_name": self.model_name,
+            "runtime": self.runtime,
+            "device": self.device,
+            "prompt_type": prompt_type,
+            "input_chars": len(prompt),
+            "max_new_tokens": resolved_max_new,
+        }
+
+        if not prompt.strip():
+            text = fallback_text or self._fallback_text(prompt_type)
+            return GenerationResult(
+                text=text,
+                **base,
+                output_chars=len(text),
+                latency_ms=_elapsed_ms(started),
+                empty_output=True,
+                fallback_used=True,
+                fallback_reason="empty_prompt",
+                error="empty_prompt",
+            )
+
+        try:
+            output_text, meta = self._generate_text_with_metadata(
+                prompt,
+                mode=mode,
+                max_new_tokens=resolved_max_new,
+            )
+            fallback_reason = self._invalid_generation_reason(output_text)
+            result_text = output_text
+            fallback_used = False
+            empty_output = False
+
+            if fallback_reason:
+                result_text = fallback_text or self._fallback_text(prompt_type)
+                fallback_used = True
+                empty_output = True
+
+            return GenerationResult(
+                text=result_text,
+                **base,
+                output_chars=len(result_text or ""),
+                input_tokens=meta.get("input_tokens"),
+                output_tokens=meta.get("output_tokens"),
+                input_truncated=meta.get("input_truncated"),
+                output_truncated=meta.get("output_truncated"),
+                latency_ms=_elapsed_ms(started),
+                empty_output=empty_output,
+                fallback_used=fallback_used,
+                fallback_reason=fallback_reason,
+            )
+        except T5DecodeError:
+            fallback_reason = "decode_failed"
+        except Exception:
+            logger.exception("T5 generation failed for prompt_type=%s", prompt_type)
+            fallback_reason = "inference_failed"
+
+        text = fallback_text or self._fallback_text(prompt_type)
+        return GenerationResult(
+            text=text,
+            **base,
+            output_chars=len(text),
+            latency_ms=_elapsed_ms(started),
+            empty_output=True,
+            fallback_used=True,
+            fallback_reason=fallback_reason,
+            error=fallback_reason,
+        )
 
 
     # ============ CORE ============
@@ -153,6 +308,60 @@ class T5Service:
         }
 
     def _generate_text(self, prompt: str, mode: str) -> str:
+        return self._generate_text_with_metadata(prompt, mode=mode)[0]
+
+    def _max_new_for_mode(self, mode: str, max_new_tokens: int | None = None) -> int:
+        if max_new_tokens is not None:
+            try:
+                return max(0, int(max_new_tokens))
+            except Exception:
+                pass
+        if mode == "chat":
+            return max(0, int(self.max_new_chat))
+        return max(0, int(self.max_new_rag))
+
+    def _fallback_text(self, prompt_type: str | None) -> str:
+        if prompt_type == "camera_narration":
+            return "Okay, I will handle that now."
+        if prompt_type == "detection_narration":
+            return "I couldn't generate a narration right now."
+        if prompt_type in {"rag_answer", "model_only"}:
+            return "I don't know."
+        return "I couldn't generate a response right now."
+
+    def _count_prompt_tokens(self, prompt: str) -> int | None:
+        try:
+            enc = self.tok([prompt], padding=False, truncation=False, return_attention_mask=False)
+            ids = enc.get("input_ids", [])
+            if ids and hasattr(ids[0], "__len__"):
+                return len(ids[0])
+        except Exception:
+            return None
+        return None
+
+    def _invalid_generation_reason(self, text: str | None) -> str | None:
+        if text is None:
+            return "empty_generation"
+        stripped = str(text).strip()
+        if not stripped:
+            return "empty_generation"
+
+        special_tokens = getattr(self.tok, "all_special_tokens", []) or []
+        without_special = stripped
+        for token in special_tokens:
+            if token:
+                without_special = without_special.replace(str(token), "")
+        if not without_special.strip():
+            return "invalid_generation"
+        return None
+
+    def _generate_text_with_metadata(
+        self,
+        prompt: str,
+        mode: str,
+        max_new_tokens: int | None = None,
+    ) -> tuple[str, dict[str, int | bool | None]]:
+        full_input_tokens = self._count_prompt_tokens(prompt)
         # tokenize
         enc = self.tok([prompt], padding=False, truncation=True,
                        max_length=self.max_src_len, return_tensors="np")
@@ -177,14 +386,15 @@ class T5Service:
 
         # decoding config
         if mode == "chat":
-            max_new = self.max_new_chat
+            max_new = self._max_new_for_mode(mode, max_new_tokens)
             do_sample, top_p, temperature = True, 0.9, 0.7
         else:
-            max_new = self.max_new_rag
+            max_new = self._max_new_for_mode(mode, max_new_tokens)
             do_sample, top_p, temperature = False, None, None
 
         generated = [self.decoder_start_token_id]
         past = None
+        output_truncated = True if max_new == 0 else False
 
         for _ in range(max_new):
             if not self._has_past:
@@ -238,11 +448,30 @@ class T5Service:
             # choose next token
             next_id = _top_p_sample(logits, top_p, temperature) if do_sample else _greedy(logits)
             if next_id == self.eos_token_id:
+                output_truncated = False
                 break
             generated.append(int(next_id))
 
-        return self.tok.decode(
-            generated[1:],  # drop start token
-            skip_special_tokens=True,
-            clean_up_tokenization_spaces=True
-        ).strip()
+        if max_new > 0 and len(generated) - 1 < max_new:
+            output_truncated = False
+
+        try:
+            text = self.tok.decode(
+                generated[1:],  # drop start token
+                skip_special_tokens=True,
+                clean_up_tokenization_spaces=True
+            ).strip()
+        except Exception as exc:
+            raise T5DecodeError("tokenizer decode failed") from exc
+
+        metadata = {
+            "input_tokens": full_input_tokens,
+            "output_tokens": max(0, len(generated) - 1),
+            "input_truncated": (
+                bool(full_input_tokens > self.max_src_len)
+                if full_input_tokens is not None
+                else None
+            ),
+            "output_truncated": output_truncated,
+        }
+        return text, metadata

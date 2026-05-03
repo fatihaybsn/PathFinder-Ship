@@ -258,21 +258,27 @@ class PipelineOrchestrator:
         )
 
     def _run_chat(self, text: str, route: RouteDecision, intent: IntentResult) -> RunResult:
-        started = time.perf_counter()
-        answer = self.t5.chat(text)
-        generation = generation_result_from_text(
-            answer,
-            model_name="t5",
-            runtime="onnx",
-            prompt_type="chat",
-            input_chars=len(text),
-            latency_ms=_elapsed_ms(started),
-        )
+        if hasattr(self.t5, "chat_structured"):
+            generation = self.t5.chat_structured(text)
+            answer = generation.text
+        else:
+            started = time.perf_counter()
+            answer = self.t5.chat(text)
+            generation = generation_result_from_text(
+                answer,
+                model_name="t5",
+                runtime="onnxruntime",
+                device="cpu",
+                prompt_type="chat",
+                input_chars=len(text),
+                max_new_tokens=getattr(self.t5, "max_new_chat", None),
+                latency_ms=_elapsed_ms(started),
+            )
 
         return RunResult(
             input_text=text,
             final_answer=answer,
-            status="completed",
+            status="degraded" if generation.fallback_used else "completed",
             intent=intent,
             route=route,
             generation=generation,
@@ -333,27 +339,50 @@ class PipelineOrchestrator:
 
         generation_started = time.perf_counter()
         if contexts:
-            answer = self.t5.answer(text, contexts)
+            if hasattr(self.t5, "answer_structured"):
+                generation = self.t5.answer_structured(text, contexts)
+                answer = generation.text
+            else:
+                answer = self.t5.answer(text, contexts)
+                generation = generation_result_from_text(
+                    answer,
+                    model_name="t5",
+                    runtime="onnxruntime",
+                    device="cpu",
+                    prompt_type="rag_answer",
+                    input_chars=len(text),
+                    max_new_tokens=getattr(self.t5, "max_new_rag", None),
+                    latency_ms=_elapsed_ms(generation_started),
+                )
             fallback_used = False
             fallback_reason = None
-            prompt_type = "rag"
         else:
-            answer = self.t5.answer_model_only_with_instruction(text, instruction=fallback_instruction())
+            if hasattr(self.t5, "answer_model_only_with_instruction_structured"):
+                generation = self.t5.answer_model_only_with_instruction_structured(
+                    text,
+                    instruction=fallback_instruction(),
+                )
+                answer = generation.text
+            else:
+                answer = self.t5.answer_model_only_with_instruction(text, instruction=fallback_instruction())
+                generation = generation_result_from_text(
+                    answer,
+                    model_name="t5",
+                    runtime="onnxruntime",
+                    device="cpu",
+                    prompt_type="model_only",
+                    input_chars=len(text),
+                    max_new_tokens=getattr(self.t5, "max_new_chat", None),
+                    latency_ms=_elapsed_ms(generation_started),
+                )
             fallback_used = True
-            fallback_reason = "no retrieval context"
-            prompt_type = "model_only"
+            fallback_reason = "no_retrieval_context"
 
-        generation = generation_result_from_text(
-            answer,
-            model_name="t5",
-            runtime="onnx",
-            prompt_type=prompt_type,
-            input_chars=len(text),
-            latency_ms=_elapsed_ms(generation_started),
-            fallback_used=fallback_used,
-            fallback_reason=fallback_reason,
-        )
-        status = "degraded" if route.fallback_used or fallback_used else "completed"
+        if fallback_used and not generation.fallback_used:
+            generation.fallback_used = True
+            generation.fallback_reason = fallback_reason
+
+        status = "degraded" if route.fallback_used or fallback_used or generation.fallback_used else "completed"
 
         return RunResult(
             input_text=text,
@@ -364,4 +393,3 @@ class PipelineOrchestrator:
             retrieval=retrieval,
             generation=generation,
         )
-

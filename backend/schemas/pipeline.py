@@ -70,7 +70,11 @@ class GenerationResult(BaseModel):
     prompt_type: str | None = None
     input_chars: int | None = None
     output_chars: int | None = None
+    input_tokens: int | None = None
+    output_tokens: int | None = None
     max_new_tokens: int | None = None
+    input_truncated: bool | None = None
+    output_truncated: bool | None = None
     latency_ms: int | None = None
     empty_output: bool = False
     fallback_used: bool = False
@@ -238,7 +242,11 @@ def generation_result_from_text(
     device: str | None = None,
     prompt_type: str | None = None,
     input_chars: int | None = None,
+    input_tokens: int | None = None,
+    output_tokens: int | None = None,
     max_new_tokens: int | None = None,
+    input_truncated: bool | None = None,
+    output_truncated: bool | None = None,
     latency_ms: int | None = None,
     fallback_used: bool = False,
     fallback_reason: str | None = None,
@@ -254,7 +262,11 @@ def generation_result_from_text(
         prompt_type=prompt_type,
         input_chars=input_chars,
         output_chars=len(normalized_text),
+        input_tokens=input_tokens,
+        output_tokens=output_tokens,
         max_new_tokens=max_new_tokens,
+        input_truncated=input_truncated,
+        output_truncated=output_truncated,
         latency_ms=latency_ms,
         empty_output=not bool(normalized_text.strip()),
         fallback_used=fallback_used,

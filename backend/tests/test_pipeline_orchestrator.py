@@ -1,9 +1,59 @@
+import sys
+import types
 import unittest
 import warnings
+from unittest.mock import MagicMock
+
+for _mod_name in (
+    "tokenizers",
+    "onnxruntime",
+    "transformers",
+    "sentence_transformers",
+    "chromadb",
+    "chromadb.utils",
+    "chromadb.utils.embedding_functions",
+    "bs4",
+    "ddgs",
+    "docx",
+    "fitz",
+):
+    if _mod_name not in sys.modules:
+        sys.modules[_mod_name] = types.ModuleType(_mod_name)
+
+if not hasattr(sys.modules["tokenizers"], "Tokenizer"):
+    sys.modules["tokenizers"].Tokenizer = MagicMock()
+
+if not hasattr(sys.modules["onnxruntime"], "SessionOptions"):
+    class _SessionOptions:
+        graph_optimization_level = None
+
+    class _GraphOptimizationLevel:
+        ORT_ENABLE_ALL = "ORT_ENABLE_ALL"
+
+    sys.modules["onnxruntime"].SessionOptions = _SessionOptions
+    sys.modules["onnxruntime"].GraphOptimizationLevel = _GraphOptimizationLevel
+    sys.modules["onnxruntime"].InferenceSession = MagicMock()
+
+if not hasattr(sys.modules["transformers"], "AutoTokenizer"):
+    _auto_tok = MagicMock()
+    _auto_tok.from_pretrained = MagicMock(return_value=MagicMock())
+    sys.modules["transformers"].AutoTokenizer = _auto_tok
+
+if not hasattr(sys.modules["sentence_transformers"], "SentenceTransformer"):
+    sys.modules["sentence_transformers"].SentenceTransformer = MagicMock()
+
+if not hasattr(sys.modules["chromadb"], "PersistentClient"):
+    sys.modules["chromadb"].PersistentClient = MagicMock()
+
+if not hasattr(sys.modules["bs4"], "BeautifulSoup"):
+    sys.modules["bs4"].BeautifulSoup = MagicMock()
+
+if not hasattr(sys.modules["ddgs"], "DDGS"):
+    sys.modules["ddgs"].DDGS = MagicMock()
 
 from fastapi.testclient import TestClient
 
-from schemas.pipeline import IntentResult, RetrievedChunk, RetrievalResult, RunResult, to_serializable_dict
+from schemas.pipeline import GenerationResult, IntentResult, RetrievedChunk, RetrievalResult, RunResult, to_serializable_dict
 from services.pipeline_orchestrator import PipelineOrchestrator
 
 
@@ -34,6 +84,53 @@ class FakeT5:
 
     def answer_model_only_with_instruction(self, question, instruction=None):
         return f"fallback:{question}"
+
+
+class FakeStructuredT5(FakeT5):
+    max_new_chat = 256
+    max_new_rag = 64
+
+    def chat_structured(self, text):
+        answer = f"structured-chat:{text}"
+        return GenerationResult(
+            text=answer,
+            model_name="fake-t5",
+            runtime="onnxruntime",
+            device="cpu",
+            prompt_type="chat",
+            input_chars=len(text),
+            output_chars=len(answer),
+            max_new_tokens=self.max_new_chat,
+            latency_ms=1,
+        )
+
+    def answer_structured(self, question, context):
+        answer = f"structured-rag:{question}:{len(context)}"
+        return GenerationResult(
+            text=answer,
+            model_name="fake-t5",
+            runtime="onnxruntime",
+            device="cpu",
+            prompt_type="rag_answer",
+            input_chars=len(question),
+            output_chars=len(answer),
+            max_new_tokens=self.max_new_rag,
+            latency_ms=1,
+        )
+
+    def answer_model_only_with_instruction_structured(self, question, instruction=None):
+        answer = f"structured-fallback:{question}"
+        return GenerationResult(
+            text=answer,
+            model_name="fake-t5",
+            runtime="onnxruntime",
+            device="cpu",
+            prompt_type="model_only",
+            input_chars=len(question),
+            output_chars=len(answer),
+            max_new_tokens=self.max_new_chat,
+            latency_ms=1,
+        )
 
 
 class FakeRAG:
@@ -94,6 +191,64 @@ class PipelineOrchestratorTests(unittest.TestCase):
         self.assertEqual(result.final_answer, "chat:hello")
         self.assertEqual(result.generation.prompt_type, "chat")
         self.assertIsNone(result.retrieval)
+
+    def test_chat_route_prefers_structured_t5_generation(self):
+        pipeline = self.make_pipeline(nlu=FakeNLU("chat", 0.96), t5=FakeStructuredT5())
+
+        result = pipeline.run("hello")
+
+        self.assertEqual(result.status, "completed")
+        self.assertEqual(result.final_answer, "structured-chat:hello")
+        self.assertEqual(result.generation.runtime, "onnxruntime")
+        self.assertEqual(result.generation.device, "cpu")
+        self.assertEqual(result.generation.max_new_tokens, 256)
+
+    def test_rag_route_prefers_structured_t5_generation(self):
+        class LegacyContextRAG:
+            top_k = 2
+            thr = 0.4
+
+            def retrieve(self, question, use_internet=False, web_only=False):
+                return ["context text"], 0.82, ["local:test.txt"]
+
+        pipeline = self.make_pipeline(nlu=FakeNLU("rag", 0.95), t5=FakeStructuredT5(), rag=LegacyContextRAG())
+
+        result = pipeline.run("where is the exit?")
+
+        self.assertIn(result.status, ("completed", "degraded"))
+        self.assertIsNotNone(result.retrieval)
+        self.assertIsNotNone(result.generation)
+        self.assertEqual(result.final_answer, "structured-rag:where is the exit?:1")
+        self.assertEqual(result.generation.prompt_type, "rag_answer")
+        self.assertEqual(result.generation.max_new_tokens, 64)
+        self.assertFalse(result.generation.fallback_used)
+
+    def test_rag_route_model_only_structured_generation_is_marked_fallback(self):
+        class EmptyRAG(FakeRAG):
+            def retrieve_structured(self, question, use_internet=False, web_only=False):
+                return RetrievalResult(
+                    query=question,
+                    chunks=[],
+                    top_k=self.top_k,
+                    best_score=0.1,
+                    threshold=self.thr,
+                    used_context=False,
+                    retrieval_mode="empty",
+                    fallback_used=True,
+                    fallback_reason="empty_retrieval",
+                    latency_ms=1,
+                )
+
+        pipeline = self.make_pipeline(nlu=FakeNLU("rag", 0.95), t5=FakeStructuredT5(), rag=EmptyRAG())
+
+        result = pipeline.run("unknown topic?")
+
+        self.assertEqual(result.status, "degraded")
+        self.assertFalse(result.retrieval.used_context)
+        self.assertEqual(result.final_answer, "structured-fallback:unknown topic?")
+        self.assertEqual(result.generation.prompt_type, "model_only")
+        self.assertTrue(result.generation.fallback_used)
+        self.assertEqual(result.generation.fallback_reason, "no_retrieval_context")
 
     def test_open_camera_returns_client_action_without_detection(self):
         yolo = FakeYOLO()

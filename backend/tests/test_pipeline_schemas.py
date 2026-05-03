@@ -3,11 +3,13 @@ import unittest
 from schemas.pipeline import (
     ClientAction,
     DetectionResult,
+    GenerationResult,
     IndexingResult,
     IntentResult,
     RetrievedChunk,
     RetrievalResult,
     RunResult,
+    generation_result_from_text,
     to_serializable_dict,
 )
 
@@ -63,6 +65,49 @@ class PipelineSchemaTests(unittest.TestCase):
         self.assertIsNone(serialized["intent"])
         self.assertEqual(serialized["errors"], [])
         self.assertEqual(serialized["warnings"], [])
+
+    def test_generation_result_serializes_runtime_metadata(self):
+        result = GenerationResult(
+            text="hello",
+            model_name="local-t5-onnx",
+            runtime="onnxruntime",
+            device="cpu",
+            prompt_type="chat",
+            input_chars=5,
+            output_chars=5,
+            input_tokens=3,
+            output_tokens=2,
+            max_new_tokens=256,
+            input_truncated=False,
+            output_truncated=False,
+            latency_ms=12,
+        )
+
+        serialized = to_serializable_dict(result)
+
+        self.assertEqual(serialized["runtime"], "onnxruntime")
+        self.assertEqual(serialized["device"], "cpu")
+        self.assertEqual(serialized["input_tokens"], 3)
+        self.assertFalse(serialized["input_truncated"])
+
+    def test_generation_result_helper_accepts_optional_lengths(self):
+        result = generation_result_from_text(
+            "answer",
+            model_name="local-t5-onnx",
+            runtime="onnxruntime",
+            device="cpu",
+            prompt_type="rag_answer",
+            input_chars=10,
+            input_tokens=4,
+            output_tokens=2,
+            max_new_tokens=64,
+            input_truncated=False,
+            output_truncated=True,
+        )
+
+        self.assertEqual(result.output_chars, 6)
+        self.assertEqual(result.output_tokens, 2)
+        self.assertTrue(result.output_truncated)
 
     def test_client_action_is_separate_from_detection_result(self):
         action = ClientAction(action="open_camera", requires_user_permission=True)
