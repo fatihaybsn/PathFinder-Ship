@@ -89,6 +89,30 @@ async function takePhotoBlob(mime = "image/jpeg", quality = 0.92) {
 }
 
   // ---------- Backend API helpers ----------
+  async function parseJsonResponse(response, endpointName) {
+    let body = null;
+    try {
+      body = await response.json();
+    } catch (err) {
+      throw new Error(`${endpointName} returned invalid JSON.`);
+    }
+
+    if (!response.ok) {
+      const detail = body && (body.detail || body.error || body.message);
+      throw new Error(detail || `${endpointName} failed with status ${response.status}.`);
+    }
+
+    return body;
+  }
+
+  function apiRun(message, metadata = {}) {
+    return fetch(`${BACKEND_BASE}/api/run`, {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ message, metadata }),
+    }).then(r => parseJsonResponse(r, "/api/run"));
+  }
+
   function apiIntent(text) {
     return fetch(`${BACKEND_BASE}/api/intent`, {
       method: "POST",
@@ -465,129 +489,254 @@ async function takePhotoBlob(mime = "image/jpeg", quality = 0.92) {
     runMessagePipeline(message, fileRef);
   }
 
+  function buildRunMetadata() {
+    return {
+      use_internet: webSearchEnabled,
+      web_only: false,
+    };
+  }
+
+  function appendAssistantResponse(content) {
+    const aiText = (content || "").trim() || "(Empty Answer)";
+    if (typeof addFormattedMessageToUI === "function") {
+      addFormattedMessageToUI("ai", aiText);
+    } else {
+      addMessageToUI("ai", aiText);
+    }
+    if (!chatHistory[currentChatId]) createNewChat();
+    chatHistory[currentChatId].messages.push({ role: "assistant", content: aiText });
+    saveChatHistory();
+  }
+
+  function logRunDebug(result) {
+    if (!result) return;
+    console.info("pipeline result", {
+      status: result.status,
+      route: result.route?.route,
+      intent: result.intent?.label,
+      client_action: result.client_action?.action,
+      duration_ms: result.duration_ms,
+    });
+    if (Array.isArray(result.warnings) && result.warnings.length) {
+      console.warn("pipeline warnings", result.warnings);
+    }
+  }
+
+  function formatDetectionResponse(det) {
+    const summary = det?.summary || "no objects";
+    let text = `${det?.narration ? det.narration + "\n\n" : ""}Object Summary: ${summary}`;
+    if (det?.image_url) text += `\n\n(Image: ${det.image_url})`;
+    if (det?.error) console.warn("detection warning", det.error);
+    return text;
+  }
+
+  function formatPhotoResponse(res) {
+    if (res?.image_url) {
+      return `Photo saved and available at ${res.image_url}. I've also sent it to your phone.`;
+    }
+    return "Photo saved. I've also sent it to your phone.";
+  }
+
+  function shouldDetectAfterCapture(result) {
+    const warnings = Array.isArray(result?.warnings) ? result.warnings : [];
+    const reasonText = [
+      result?.route?.route,
+      result?.route?.fallback_reason,
+      result?.client_action?.reason,
+      result?.detection?.error,
+    ].filter(Boolean).join(" ");
+
+    return (
+      result?.route?.route === "detect" ||
+      warnings.includes("missing_image_for_detection") ||
+      reasonText.includes("missing_image_for_detection")
+    );
+  }
+
+  function waitForCameraFrame(timeoutMs = 1500) {
+    return new Promise((resolve) => {
+      if (!videoEl || (videoEl.readyState >= 2 && videoEl.videoWidth > 0)) {
+        resolve();
+        return;
+      }
+
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+        videoEl.removeEventListener("loadedmetadata", finish);
+        videoEl.removeEventListener("canplay", finish);
+        resolve();
+      };
+
+      videoEl.addEventListener("loadedmetadata", finish, { once: true });
+      videoEl.addEventListener("canplay", finish, { once: true });
+      setTimeout(finish, timeoutMs);
+    });
+  }
+
+  async function captureCameraFile(filename) {
+    if (!mediaStream) {
+      await openCamera();
+    }
+    await waitForCameraFrame();
+    const blob = await takePhotoBlob();
+    if (!blob) throw new Error("Could not capture a photo.");
+    return new File([blob], filename, { type: blob.type || "image/jpeg" });
+  }
+
+  async function executeClientAction(clientAction, result, context = {}) {
+    const action = typeof clientAction === "string" ? clientAction : clientAction?.action;
+    if (!action || action === "none") return "";
+
+    if (action === "open_camera") {
+      const msg = await openCamera();
+      return result?.final_answer ? "" : (msg || "The camera is already open.");
+    }
+
+    if (action === "close_camera") {
+      const msg = closeCamera();
+      return result?.final_answer ? "" : msg;
+    }
+
+    if (action === "capture_photo") {
+      const shouldDetect = shouldDetectAfterCapture(result);
+      if (shouldDetect) {
+        const file = context.fileRef || await captureCameraFile("frame.jpg");
+        const det = await apiDetectFromFile(file, 1);
+        return formatDetectionResponse(det);
+      }
+
+      const file = await captureCameraFile("snapshot.jpg");
+      const res = await apiPhotoFromFile(file);
+      return formatPhotoResponse(res);
+    }
+
+    console.warn("Unsupported client action", action);
+    return "";
+  }
+
+  async function handleRunResult(result, context = {}) {
+    logRunDebug(result);
+    const messages = [];
+
+    if (result?.final_answer) {
+      messages.push(result.final_answer);
+    }
+
+    if (result?.client_action) {
+      const actionMessage = await executeClientAction(result.client_action, result, context);
+      if (actionMessage) messages.push(actionMessage);
+    }
+
+    if (!messages.length) {
+      if (Array.isArray(result?.errors) && result.errors.length) {
+        messages.push("Sorry, the backend could not complete the request.");
+      } else if (Array.isArray(result?.warnings) && result.warnings.length) {
+        messages.push("The request completed with a warning, but no answer was returned.");
+      } else {
+        messages.push("(Empty Answer)");
+      }
+    }
+
+    messages.forEach(appendAssistantResponse);
+  }
+
+  async function runLegacyMessagePipeline(message, fileRef) {
+    let aiText = "";
+
+    if (fileRef) {
+      const det = await apiDetectFromFile(fileRef, 1);
+      return formatDetectionResponse(det);
+    }
+
+    const intentInput = (message || "")
+      .trim()
+      .replace(/[.!?]+$/g, "");
+
+    const { intent, score, threshold, narration } = await apiIntent(intentInput);
+    const THR = typeof threshold === "number" ? threshold : 0.7;
+    const words = (message || "").split(/\s+/).filter(Boolean);
+    const wordCount = words.length;
+    const looksLikeCommand = wordCount <= 7 && !message.includes("?");
+
+    if (
+      ["open_camera", "close_camera", "take_photo", "object_detect"].includes(intent) &&
+      score >= THR &&
+      looksLikeCommand
+    ) {
+      if (intent === "open_camera") {
+        const msg = await openCamera();
+        aiText = narration || msg || "The camera is already open.";
+      } else if (intent === "close_camera") {
+        const msg = closeCamera();
+        aiText = narration || msg;
+      } else if (intent === "take_photo") {
+        const file = await captureCameraFile("snapshot.jpg");
+        const res = await apiPhotoFromFile(file);
+        aiText = formatPhotoResponse(res);
+      } else if (intent === "object_detect") {
+        if (mediaStream) {
+          const file = await captureCameraFile("frame.jpg");
+          const det = await apiDetectFromFile(file, 1);
+          aiText = formatDetectionResponse(det);
+        } else {
+          aiText = "For object detection, please upload an image or say 'open camera', 'Object detect'.";
+        }
+      }
+    } else if (intent === "chat" && score >= THR) {
+      if (webSearchEnabled) {
+        const res = await apiRag(message, true, true);
+        aiText = res.answer || "(Empty Answer)";
+        if (res.used_context && Array.isArray(res.sources) && res.sources.length) {
+          aiText += "\n\nResources:\n- " + res.sources.join("\n- ");
+        }
+      } else {
+        const res = await apiChat(message);
+        aiText = res.answer || "(Empty Answer)";
+      }
+    } else {
+      const res = await apiRag(message, webSearchEnabled, false);
+      aiText = res.answer || "(Empty Answer)";
+      if (res.used_context && Array.isArray(res.sources) && res.sources.length) {
+        aiText += "\n\nResources:\n- " + res.sources.join("\n- ");
+      }
+    }
+
+    return aiText;
+  }
+
   async function runMessagePipeline(message, fileRef) {
-		try {
-			showTypingIndicator();
-			isTyping = true;
+    try {
+      showTypingIndicator();
+      isTyping = true;
 
-			let aiText = "";
+      if (fileRef && !(message || "").trim()) {
+        const det = await apiDetectFromFile(fileRef, 1);
+        appendAssistantResponse(formatDetectionResponse(det));
+        return;
+      }
 
-			if (fileRef) {
-				// Kullanıcı dosya seçtiyse: doğrudan detect çalıştır
-				const det = await apiDetectFromFile(fileRef, 1);
-				aiText =
-					`${det.narration ? det.narration + "\n\n" : ""}object summary: ${det.summary}` +
-					(det.image_url ? `\n\n(İmage: ${det.image_url})` : "");
-			} else {
-				// Intent + skor ile yönlendirme
-        // Intent modeli için sonundaki . ! ? gibi noktalama işaretlerini temizle
-        const intentInput = (message || "")
-          .trim()
-          .replace(/[.!?]+$/g, ""); 
+      let result = null;
+      try {
+        result = await apiRun(message, buildRunMetadata());
+      } catch (runError) {
+        console.warn("/api/run failed; using legacy frontend fallback.", runError);
+        const aiText = await runLegacyMessagePipeline(message, fileRef);
+        appendAssistantResponse(aiText);
+        return;
+      }
 
-        const { intent, score, threshold, narration } = await apiIntent(intentInput);
-        const THR = typeof threshold === "number" ? threshold : 0.7;
-
-
-				if (
-					["open_camera", "close_camera", "take_photo", "object_detect"].includes(intent) &&
-					score >= THR
-				) {
-					if (intent === "open_camera") {
-						const msg =
-							typeof openCamera === "function"
-								? await openCamera()
-								: "Open camera function must be implemented.";
-						aiText = narration || msg;
-					} else if (intent === "close_camera") {
-						const msg =
-							typeof closeCamera === "function"
-								? closeCamera()
-								: "Close camera function must be implemented.";
-						aiText = narration || msg;
-					} else if (intent === "take_photo") {
-						if (typeof takePhotoBlob === "function") {
-							const blob = await takePhotoBlob();
-							const file = new File([blob], "snapshot.jpg", {
-								type: blob.type || "image/jpeg",
-							});
-							const res = await apiPhotoFromFile(file);
-							aiText = `Photo saved${
-								res.image_url ? ` and available at ${res.image_url}` : ""
-							}. I've also sent it to your phone.`;
-						} else {
-							aiText = "Camera functions must be implemented to take a photo.";
-						}
-					} else if (intent === "object_detect") {
-						// Kamera açıksa kare alıp gönder; değilse kullanıcıyı yönlendir
-						if (
-							typeof takePhotoBlob === "function" &&
-							typeof mediaStream !== "undefined" &&
-							mediaStream
-						) {
-							const blob = await takePhotoBlob();
-							const file = new File([blob], "frame.jpg", {
-								type: blob.type || "image/jpeg",
-							});
-							const det = await apiDetectFromFile(file, 1);
-							aiText =
-								`${det.narration ? det.narration + "\n\n" : ""}Object Summary: ${
-									det.summary
-								}` + (det.image_url ? `\n\n(İmage: ${det.image_url})` : "");
-						} else {
-							aiText =
-								"For object detection, please upload an image or say 'open camera', 'Object detect'.";
-						}
-					}
-				} else if (intent === "chat" && score >= THR) {
-					// WEB TOGGLE entegrasyonu:
-					// webSearchEnabled true ise: RAG gerektirmeyen durumda yalnız web chunk'ları kullan (web_only=true)
-					if (webSearchEnabled) {
-						const res = await apiRag(message, true, true); // use_internet=true, web_only=true
-						aiText = res.answer || "(Empty Answer)";
-						if (res.used_context && Array.isArray(res.sources) && res.sources.length) {
-							aiText += "\n\nResources:\n- " + res.sources.join("\n- ");
-						}
-					} else {
-						// web kapalı: klasik chat
-						const res = await apiChat(message);
-						aiText = res.answer || "(Empty Answer)";
-					}
-				} else {
-					// RAG gerektiren durum:
-					// webSearchEnabled true ise: backend "≥0.40 ise RAG+web, değilse yalnız web" kuralını uygular.
-					// webSearchEnabled false ise: klasik RAG (≥0.40 ise context, değilse fallback).
-					const res = await apiRag(message, webSearchEnabled, false); // use_internet=webSearchEnabled, web_only=false
-					aiText = res.answer || "(Empty Answer)";
-					if (res.used_context && Array.isArray(res.sources) && res.sources.length) {
-						aiText += "\n\nResources:\n- " + res.sources.join("\n- ");
-					}
-				}
-			}
-
-			// UI: assistant text
-			if (typeof addFormattedMessageToUI === "function") {
-				addFormattedMessageToUI("ai", aiText);
-			} else {
-				addMessageToUI("ai", aiText);
-			}
-			if (!chatHistory[currentChatId]) createNewChat();
-			chatHistory[currentChatId].messages.push({ role: "assistant", content: aiText });
-			saveChatHistory();
-		} catch (err) {
-			console.error(err);
-			const errText = "Sorry, an error occurred. Please try again.";
-			addMessageToUI("assistant", errText);
-			if (!chatHistory[currentChatId]) createNewChat();
-			chatHistory[currentChatId].messages.push({ role: "assistant", content: errText });
-			saveChatHistory();
-		} finally {
-			removeTypingIndicator();
-			isTyping = false;
-			// seçili dosyayı sıfırla (bir kez kullanıldı)
-			pendingFile = null;
-		}
-	}
+      await handleRunResult(result, { fileRef, message });
+    } catch (err) {
+      console.error(err);
+      appendAssistantResponse("Sorry, an error occurred. Please try again.");
+    } finally {
+      removeTypingIndicator();
+      isTyping = false;
+      pendingFile = null;
+    }
+  }
 
 
   // ---------- UI helpers ----------
@@ -927,7 +1076,7 @@ async function takePhotoBlob(mime = "image/jpeg", quality = 0.92) {
     const chat = chatHistory[currentChatId];
     let exportText = `# ${chat.title}\n\n`;
     chat.messages.forEach((message) => {
-      const role = message.role === "user" ? "You" : "NeoChat AI";
+      const role = message.role === "user" ? "You" : "Passenger-Bot";
       exportText += `## ${role}:\n${message.content}\n\n`;
     });
     const blob = new Blob([exportText], { type: "text/markdown" });
@@ -967,32 +1116,8 @@ async function takePhotoBlob(mime = "image/jpeg", quality = 0.92) {
     }
     if (!lastUser) { addFormattedMessageToUI("ai", "Yeniden üretmek için metin mesaj bulunamadı."); return; }
 
-    // Yeniden çağır
-    showTypingIndicator();
-    try {
-      const { intent } = await apiIntent(lastUser);
-      let aiText = "";
-      if (intent === "chat") {
-        if (webSearchEnabled) {
-          const res = await apiRag(lastUser, true, true);  // web_only
-          aiText = res.answer || "(boş cevap)";
-        } else {
-          const res = await apiChat(lastUser);
-          aiText = res.answer || "(boş cevap)";
-        }
-      } else {
-        const res = await apiRag(lastUser, webSearchEnabled, false);
-        aiText = res.answer || "(boş cevap)";
-      }
-
-      addFormattedMessageToUI("ai", aiText);
-      chat.messages.push({ role: "assistant", content: aiText });
-      saveChatHistory();
-    } catch (e) {
-      addFormattedMessageToUI("ai", `Üzgünüm, bir hata oluştu:\n\n${e}`);
-    } finally {
-      removeTypingIndicator();
-    }
+    // Yeniden çağır: ana mesaj akışı gibi /api/run kullanır.
+    await runMessagePipeline(lastUser, null);
   }
 
   function autoResizeTextarea() {

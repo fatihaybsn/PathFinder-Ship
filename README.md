@@ -47,6 +47,17 @@ Invoke-RestMethod http://127.0.0.1:8000/api/readiness
 
 The readiness check reports whether config is loaded and whether expected T5, NLU, YOLO, RAG corpus, Chroma, and SQLite paths exist. It does not load model files and does not return secret values.
 
+## Prompt 9 Manual Smoke Checks
+
+With the backend and frontend running:
+
+- Chat message -> `/api/run` returns `final_answer` and the UI shows it.
+- RAG-style question -> `/api/run` returns `final_answer` and the UI shows it.
+- Open camera command -> `/api/run` returns `client_action=open_camera` and the browser camera preview opens.
+- Close camera command -> `/api/run` returns `client_action=close_camera` and the browser camera preview closes.
+- Capture/detect command -> frontend captures or uses the uploaded image, then sends it to `/api/detect`.
+- `/api/run` failure -> the UI shows a safe error or uses the legacy endpoint fallback without dumping internal JSON.
+
 ## Path Rules
 
 Relative model, corpus, index, photo, and detect paths are resolved from `backend/`.
