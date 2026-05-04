@@ -2,6 +2,8 @@ import unittest
 
 from schemas.pipeline import (
     ClientAction,
+    DETECTION_STATUS_NO_OBJECTS,
+    DETECTION_STATUS_SUCCESS,
     DetectionResult,
     GenerationResult,
     IndexingResult,
@@ -9,6 +11,7 @@ from schemas.pipeline import (
     RetrievedChunk,
     RetrievalResult,
     RunResult,
+    detection_result_from_legacy,
     generation_result_from_text,
     to_serializable_dict,
 )
@@ -120,6 +123,28 @@ class PipelineSchemaTests(unittest.TestCase):
         self.assertTrue(serialized_action["requires_user_permission"])
         self.assertEqual(serialized_detection["status"], "not_run")
         self.assertEqual(serialized_detection["objects"], [])
+
+    def test_detection_result_from_legacy_uses_standard_statuses_and_metadata(self):
+        result = detection_result_from_legacy(
+            labels=["bottle"],
+            boxes=[[1, 2, 3, 4]],
+            scores=[0.77],
+            cls_ids=[39],
+            model_name="fake-yolo",
+        )
+
+        self.assertEqual(result.status, DETECTION_STATUS_SUCCESS)
+        self.assertEqual(result.objects[0].label, "bottle")
+        self.assertEqual(result.objects[0].confidence, 0.77)
+        self.assertEqual(result.objects[0].bbox, [1.0, 2.0, 3.0, 4.0])
+        self.assertEqual(result.objects[0].metadata["class_id"], 39)
+        self.assertEqual(result.objects[0].metadata["raw_score"], 0.77)
+
+    def test_detection_result_from_legacy_marks_no_objects(self):
+        result = detection_result_from_legacy(labels=[], boxes=[], scores=[], cls_ids=[])
+
+        self.assertEqual(result.status, DETECTION_STATUS_NO_OBJECTS)
+        self.assertEqual(result.objects, [])
 
     def test_indexing_result_serializes_upload_status(self):
         result = IndexingResult(

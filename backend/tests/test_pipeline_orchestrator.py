@@ -53,7 +53,18 @@ if not hasattr(sys.modules["ddgs"], "DDGS"):
 
 from fastapi.testclient import TestClient
 
-from schemas.pipeline import GenerationResult, IntentResult, RetrievedChunk, RetrievalResult, RunResult, to_serializable_dict
+from schemas.pipeline import (
+    DETECTION_STATUS_FAILED,
+    DETECTION_STATUS_SUCCESS,
+    DetectionObject,
+    DetectionResult,
+    GenerationResult,
+    IntentResult,
+    RetrievedChunk,
+    RetrievalResult,
+    RunResult,
+    to_serializable_dict,
+)
 from services.pipeline_orchestrator import PipelineOrchestrator
 
 
@@ -132,6 +143,20 @@ class FakeStructuredT5(FakeT5):
             latency_ms=1,
         )
 
+    def narrate_detection_structured(self, objects):
+        answer = f"structured-detection:{objects}"
+        return GenerationResult(
+            text=answer,
+            model_name="fake-t5",
+            runtime="onnxruntime",
+            device="cpu",
+            prompt_type="detection_narration",
+            input_chars=len(str(objects)),
+            output_chars=len(answer),
+            max_new_tokens=self.max_new_rag,
+            latency_ms=1,
+        )
+
 
 class FakeRAG:
     top_k = 2
@@ -170,6 +195,26 @@ class FakeYOLO:
     def detect_from_bgr(self, image_bgr):
         self.detect_called = True
         return [[1, 2, 3, 4]], ["bottle"], [0.77], [39]
+
+
+class FakeStructuredYOLO(FakeYOLO):
+    def detect_structured(self, image_bgr, image_source=None):
+        self.detect_called = True
+        return DetectionResult(
+            objects=[
+                DetectionObject(
+                    label="bottle",
+                    confidence=0.77,
+                    bbox=[1, 2, 3, 4],
+                    metadata={"class_id": 39, "raw_score": 0.77},
+                )
+            ],
+            image_source=image_source,
+            model_name="fake-yolo",
+            latency_ms=2,
+            status=DETECTION_STATUS_SUCCESS,
+            metadata={"image_width": 20, "image_height": 10},
+        )
 
 
 class PipelineOrchestratorTests(unittest.TestCase):
@@ -270,9 +315,24 @@ class PipelineOrchestratorTests(unittest.TestCase):
 
         self.assertEqual(result.status, "degraded")
         self.assertEqual(result.route.route, "detect")
-        self.assertEqual(result.detection.status, "not_run")
+        self.assertEqual(result.detection.status, DETECTION_STATUS_FAILED)
+        self.assertEqual(result.detection.error, "missing_image_for_detection")
         self.assertEqual(result.client_action.action, "capture_photo")
         self.assertTrue(result.warnings)
+
+    def test_object_detect_with_image_fills_detection_and_generation(self):
+        yolo = FakeStructuredYOLO()
+        pipeline = self.make_pipeline(nlu=FakeNLU("object_detect", 0.98), t5=FakeStructuredT5(), yolo=yolo)
+
+        result = pipeline.run("detect objects", image_bgr=object())
+
+        self.assertEqual(result.status, "completed")
+        self.assertEqual(result.route.route, "detect")
+        self.assertTrue(yolo.detect_called)
+        self.assertEqual(result.detection.status, DETECTION_STATUS_SUCCESS)
+        self.assertEqual(result.detection.objects[0].label, "bottle")
+        self.assertEqual(result.generation.prompt_type, "detection_narration")
+        self.assertEqual(result.final_answer, "structured-detection:1 bottle")
 
     def test_service_exception_returns_serializable_failed_result(self):
         pipeline = self.make_pipeline(nlu=FakeNLU("chat", 0.97), t5=FakeT5(should_raise_chat=True))
@@ -365,6 +425,26 @@ class RunEndpointTests(unittest.TestCase):
         self.assertEqual(body["score"], 0.91)
         self.assertIsNone(body["narration"])
         self.assertTrue(body["is_confident"])
+
+    def test_detect_endpoint_invalid_image_returns_structured_error(self):
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", DeprecationWarning)
+            import web.app as web_app
+
+        client = TestClient(web_app.app)
+        response = client.post(
+            "/api/detect",
+            files={"file": ("bad.txt", b"not an image", "text/plain")},
+            data={"draw": "0"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertEqual(body["labels"], [])
+        self.assertEqual(body["summary"], "no objects")
+        self.assertEqual(body["detection"]["status"], "invalid_image")
+        self.assertEqual(body["detection"]["error"], "unsupported_image_format")
+        self.assertEqual(body["error"], "unsupported_image_format")
 
 
 if __name__ == "__main__":

@@ -7,6 +7,10 @@ from typing import Any, Mapping
 
 from schemas.pipeline import (
     ClientAction,
+    DETECTION_STATUS_FAILED,
+    DETECTION_STATUS_MODEL_ERROR,
+    DETECTION_STATUS_NO_OBJECTS,
+    DETECTION_STATUS_SUCCESS,
     DetectionResult,
     GenerationResult,
     IntentResult,
@@ -33,6 +37,11 @@ def _metadata_bool(metadata: Mapping[str, Any], key: str, default: bool = False)
     if isinstance(value, str):
         return value.strip().lower() in {"1", "true", "yes", "y", "on"}
     return bool(value)
+
+
+def _detection_summary(detection: DetectionResult) -> str:
+    labels = [obj.label for obj in detection.objects]
+    return ", ".join(f"{count} {label}" for label, count in Counter(labels).items()) if labels else "no objects"
 
 
 class PipelineOrchestrator:
@@ -208,14 +217,16 @@ class PipelineOrchestrator:
         warnings: list[str],
     ) -> RunResult:
         if image_bgr is None:
-            warnings.append("Object detection requires an image from the client.")
+            warning = "missing_image_for_detection"
+            if warning not in warnings:
+                warnings.append(warning)
             return RunResult(
                 input_text=text,
                 final_answer="Please capture or upload an image for object detection.",
                 status="degraded",
                 intent=intent,
                 route=route,
-                detection=DetectionResult(status="not_run"),
+                detection=DetectionResult(status=DETECTION_STATUS_FAILED, error=warning),
                 client_action=ClientAction(
                     action="capture_photo",
                     reason="object detection requires an image",
@@ -225,36 +236,56 @@ class PipelineOrchestrator:
             )
 
         if self.yolo is None:
-            warnings.append("Detection service is not available.")
+            warning = "detection_service_unavailable"
+            if warning not in warnings:
+                warnings.append(warning)
             return RunResult(
                 input_text=text,
                 final_answer="Object detection is not available right now.",
                 status="degraded",
                 intent=intent,
                 route=route,
-                detection=DetectionResult(status="not_run"),
+                detection=DetectionResult(status=DETECTION_STATUS_MODEL_ERROR, error=warning),
                 warnings=warnings,
             )
 
-        started = time.perf_counter()
-        boxes, labels, scores, cls_ids = self.yolo.detect_from_bgr(image_bgr)
-        detection = detection_result_from_legacy(
-            labels,
-            boxes,
-            scores,
-            cls_ids,
-            model_name="yolo",
-            latency_ms=_elapsed_ms(started),
-        )
-        summary = ", ".join(f"{count} {label}" for label, count in Counter(labels).items()) if labels else "no objects"
+        if hasattr(self.yolo, "detect_structured"):
+            detection = self.yolo.detect_structured(image_bgr, image_source="pipeline")
+        else:
+            started = time.perf_counter()
+            boxes, labels, scores, cls_ids = self.yolo.detect_from_bgr(image_bgr)
+            detection = detection_result_from_legacy(
+                labels,
+                boxes,
+                scores,
+                cls_ids,
+                image_source="pipeline",
+                model_name="yolo",
+                latency_ms=_elapsed_ms(started),
+            )
+
+        summary = _detection_summary(detection)
+        generation: GenerationResult | None = None
+        answer = f"Object summary: {summary}"
+        if detection.status in {DETECTION_STATUS_SUCCESS, DETECTION_STATUS_NO_OBJECTS}:
+            if hasattr(self.t5, "narrate_detection_structured"):
+                generation = self.t5.narrate_detection_structured(summary)
+                answer = generation.text
+        else:
+            warning = detection.error or "detection_failed"
+            if warning not in warnings:
+                warnings.append(warning)
+            answer = "Object detection failed."
 
         return RunResult(
             input_text=text,
-            final_answer=f"Object summary: {summary}",
-            status="completed",
+            final_answer=answer,
+            status="completed" if detection.status in {DETECTION_STATUS_SUCCESS, DETECTION_STATUS_NO_OBJECTS} else "degraded",
             intent=intent,
             route=route,
             detection=detection,
+            generation=generation,
+            warnings=warnings,
         )
 
     def _run_chat(self, text: str, route: RouteDecision, intent: IntentResult) -> RunResult:

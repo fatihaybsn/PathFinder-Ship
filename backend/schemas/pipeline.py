@@ -5,6 +5,22 @@ from typing import Any, Mapping, Sequence
 from pydantic import BaseModel, Field
 
 
+DETECTION_STATUS_SUCCESS = "success"
+DETECTION_STATUS_NO_OBJECTS = "no_objects"
+DETECTION_STATUS_INVALID_IMAGE = "invalid_image"
+DETECTION_STATUS_MODEL_ERROR = "model_error"
+DETECTION_STATUS_FAILED = "failed"
+DETECTION_STATUS_NOT_RUN = "not_run"
+DETECTION_STATUSES = {
+    DETECTION_STATUS_SUCCESS,
+    DETECTION_STATUS_NO_OBJECTS,
+    DETECTION_STATUS_INVALID_IMAGE,
+    DETECTION_STATUS_MODEL_ERROR,
+    DETECTION_STATUS_FAILED,
+    DETECTION_STATUS_NOT_RUN,
+}
+
+
 class IntentResult(BaseModel):
     label: str
     confidence: float | None = None
@@ -286,6 +302,7 @@ def detection_result_from_legacy(
     latency_ms: int | None = None,
     error: str | None = None,
     metadata: dict[str, Any] | None = None,
+    status: str | None = None,
 ) -> DetectionResult:
     label_list = list(labels or [])
     box_list = list(boxes or [])
@@ -294,27 +311,33 @@ def detection_result_from_legacy(
 
     objects = []
     for index, label in enumerate(label_list):
-        object_metadata = None
+        object_metadata: dict[str, Any] = {}
         if index < len(cls_id_list):
-            object_metadata = {"class_id": cls_id_list[index]}
+            object_metadata["class_id"] = cls_id_list[index]
+        if index < len(score_list):
+            object_metadata["raw_score"] = score_list[index]
 
         objects.append(
             DetectionObject(
                 label=label,
                 confidence=score_list[index] if index < len(score_list) else None,
                 bbox=[float(value) for value in box_list[index]] if index < len(box_list) else None,
-                metadata=object_metadata,
+                metadata=object_metadata or None,
             )
         )
 
-    status = "error" if error else ("ok" if objects else "empty")
+    resolved_status = status
+    if resolved_status is None:
+        resolved_status = DETECTION_STATUS_MODEL_ERROR if error else (
+            DETECTION_STATUS_SUCCESS if objects else DETECTION_STATUS_NO_OBJECTS
+        )
 
     return DetectionResult(
         objects=objects,
         image_source=image_source,
         model_name=model_name,
         latency_ms=latency_ms,
-        status=status,
+        status=resolved_status,
         error=error,
         metadata=metadata,
     )

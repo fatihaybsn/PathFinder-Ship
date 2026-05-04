@@ -1,5 +1,12 @@
 from .pipeline import (
     ClientAction,
+    DETECTION_STATUS_FAILED,
+    DETECTION_STATUS_INVALID_IMAGE,
+    DETECTION_STATUS_MODEL_ERROR,
+    DETECTION_STATUS_NO_OBJECTS,
+    DETECTION_STATUS_NOT_RUN,
+    DETECTION_STATUS_SUCCESS,
+    DETECTION_STATUSES,
     DetectionObject,
     DetectionResult,
     GenerationResult,
@@ -18,6 +25,13 @@ from .pipeline import (
 
 __all__ = [
     "ClientAction",
+    "DETECTION_STATUS_FAILED",
+    "DETECTION_STATUS_INVALID_IMAGE",
+    "DETECTION_STATUS_MODEL_ERROR",
+    "DETECTION_STATUS_NO_OBJECTS",
+    "DETECTION_STATUS_NOT_RUN",
+    "DETECTION_STATUS_SUCCESS",
+    "DETECTION_STATUSES",
     "DetectionObject",
     "DetectionResult",
     "GenerationResult",
@@ -33,4 +47,3 @@ __all__ = [
     "retrieval_result_from_legacy",
     "to_serializable_dict",
 ]
-

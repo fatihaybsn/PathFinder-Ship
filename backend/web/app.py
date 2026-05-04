@@ -1,6 +1,7 @@
 # backend/web/app.py
 # --- Üstte FastAPI ve standart importlar ---
 import logging
+import time
 from fastapi import FastAPI, UploadFile, File, Form, BackgroundTasks
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -25,19 +26,98 @@ from services.document_indexing import UploadIndexingError, index_upload_file, u
 from services.t5 import T5Service
 from services.rag import RAGService
 from services.yolo import YOLOService
-from schemas.pipeline import RunResult, intent_result_from_prediction, to_serializable_dict
+from schemas.pipeline import (
+    DETECTION_STATUS_INVALID_IMAGE,
+    DETECTION_STATUS_MODEL_ERROR,
+    DetectionResult,
+    GenerationResult,
+    RunResult,
+    detection_result_from_legacy,
+    generation_result_from_text,
+    intent_result_from_prediction,
+    to_serializable_dict,
+)
 from utils.vision import draw_dets
 
 logger = logging.getLogger(__name__)
 
 # ---------- Helpers ----------
+def _elapsed_ms(start: float) -> int:
+    return int((time.perf_counter() - start) * 1000)
+
+
+IMAGE_ALLOWED_CONTENT_TYPES = {"image/jpeg", "image/png", "image/webp", "image/bmp"}
+IMAGE_ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
+
+
+def _upload_metadata(upload: UploadFile, size_bytes: int | None = None) -> dict[str, Any]:
+    metadata: dict[str, Any] = {
+        "filename": Path(upload.filename or "").name or None,
+        "content_type": upload.content_type,
+        "max_size_bytes": int(CFG.get("UPLOAD_MAX_BYTES", 10 * 1024 * 1024)),
+    }
+    if size_bytes is not None:
+        metadata["size_bytes"] = int(size_bytes)
+    return metadata
+
+
+def _invalid_image_result(
+    upload: UploadFile,
+    error: str,
+    *,
+    started: float,
+    size_bytes: int | None = None,
+) -> DetectionResult:
+    return DetectionResult(
+        objects=[],
+        image_source="upload",
+        model_name="yolo",
+        latency_ms=_elapsed_ms(started),
+        status=DETECTION_STATUS_INVALID_IMAGE,
+        error=error,
+        metadata=_upload_metadata(upload, size_bytes),
+    )
+
+
+async def read_image_upload(upload: UploadFile) -> tuple[np.ndarray | None, DetectionResult | None]:
+    """UploadFile -> validated BGR numpy image or structured detection error."""
+    started = time.perf_counter()
+    data = await upload.read()
+    size_bytes = len(data)
+    if size_bytes == 0:
+        return None, _invalid_image_result(upload, "image_empty", started=started, size_bytes=size_bytes)
+
+    max_bytes = int(CFG.get("UPLOAD_MAX_BYTES", 10 * 1024 * 1024))
+    if size_bytes > max_bytes:
+        return None, _invalid_image_result(upload, "image_too_large", started=started, size_bytes=size_bytes)
+
+    suffix = Path(upload.filename or "").suffix.lower()
+    content_type = (upload.content_type or "").split(";")[0].strip().lower()
+    if suffix not in IMAGE_ALLOWED_EXTENSIONS and content_type not in IMAGE_ALLOWED_CONTENT_TYPES:
+        return None, _invalid_image_result(
+            upload,
+            "unsupported_image_format",
+            started=started,
+            size_bytes=size_bytes,
+        )
+
+    arr = np.frombuffer(data, np.uint8)
+    img = cv2.imdecode(arr, cv2.IMREAD_COLOR)
+    if img is None:
+        return None, _invalid_image_result(upload, "image_decode_failed", started=started, size_bytes=size_bytes)
+    if img.size == 0 or img.shape[0] <= 0 or img.shape[1] <= 0:
+        return None, _invalid_image_result(upload, "image_empty", started=started, size_bytes=size_bytes)
+
+    return img, None
+
+
 def load_image_from_upload(upload: UploadFile) -> np.ndarray:
-    """UploadFile -> BGR numpy image"""
+    """Legacy sync helper kept for callers that already decoded uploads."""
     data = upload.file.read()
     arr = np.frombuffer(data, np.uint8)
     img = cv2.imdecode(arr, cv2.IMREAD_COLOR)
     if img is None:
-        raise ValueError("Görüntü okunamadı")
+        raise ValueError("Goruntu okunamadi")
     return img
 
 
@@ -108,8 +188,13 @@ class DetectResponse(BaseModel):
     labels: List[str]
     summary: str
     boxes: Optional[List[List[float]]] = None
+    scores: Optional[List[float]] = None
+    class_ids: Optional[List[int]] = None
     image_url: Optional[str] = None
     narration: Optional[str] = None
+    detection: Optional[dict] = None
+    generation: Optional[dict] = None
+    error: Optional[str] = None
 
 # ---------- App & Services ----------
 app = FastAPI(title="PathFinder-Ship Web API")
@@ -293,8 +378,6 @@ async def take_photo_api(background_tasks: BackgroundTasks, file: UploadFile = F
 
     return {"ok": True, "stored": _stored_path_for(target_path), "image_url": image_url}
 
-
-narration = None
 # ---------- Detect (YOLO) ----------
 @app.post("/api/detect", response_model=DetectResponse)
 async def detect_api(background_tasks: BackgroundTasks, file: UploadFile = File(...), draw: int = Form(1)):
@@ -303,17 +386,61 @@ async def detect_api(background_tasks: BackgroundTasks, file: UploadFile = File(
     YOLO çalışır, etiketleri ve kutuları döner.
     draw=1 ise çizilmiş görseli diske kaydeder ve URL döner.
     """
+    img_bgr, image_error = await read_image_upload(file)
+    generation: GenerationResult | None = None
     narration = None
-    img_bgr = load_image_from_upload(file)
+    image_url = None
 
-    # YOLO: kutular, etiket adları, skorlar, sınıf id'leri
-    boxes, labels, scores, cls_ids = YOLO.detect_from_bgr(img_bgr)
+    if image_error is not None:
+        detection = image_error
+    elif YOLO is None:
+        detection = DetectionResult(
+            objects=[],
+            image_source="upload",
+            model_name="yolo",
+            status=DETECTION_STATUS_MODEL_ERROR,
+            error="detection_service_unavailable",
+            metadata=_upload_metadata(file),
+        )
+    else:
+        if hasattr(YOLO, "detect_structured"):
+            detection = YOLO.detect_structured(img_bgr, image_source="upload")
+        else:
+            try:
+                boxes, labels, scores, cls_ids = YOLO.detect_from_bgr(img_bgr)
+                detection = detection_result_from_legacy(
+                    labels,
+                    boxes,
+                    scores,
+                    cls_ids,
+                    image_source="upload",
+                    model_name="yolo",
+                    metadata=_upload_metadata(file),
+                )
+            except Exception:
+                logger.exception("Legacy YOLO detection failed")
+                detection = DetectionResult(
+                    objects=[],
+                    image_source="upload",
+                    model_name="yolo",
+                    status=DETECTION_STATUS_MODEL_ERROR,
+                    error="yolo_inference_failed",
+                    metadata=_upload_metadata(file),
+                )
+
+    labels = [obj.label for obj in detection.objects]
+    boxes = [obj.bbox for obj in detection.objects if obj.bbox is not None]
+    scores = [float(obj.confidence) for obj in detection.objects if obj.confidence is not None]
+    cls_ids = [
+        int(obj.metadata["class_id"])
+        for obj in detection.objects
+        if obj.metadata and obj.metadata.get("class_id") is not None
+    ]
 
     # Özet ("2 person, 1 dog")
     summary = ", ".join([f"{c} {n}" for c, n in Counter(labels).items()]) if labels else "no objects"
 
-    image_url = None
-    if draw and len(boxes) > 0:
+    if img_bgr is not None and draw and len(boxes) > 0 and len(scores) == len(boxes) and len(cls_ids) == len(boxes):
         # draw_dets için: dets = [x1,y1,x2,y2, conf, cls] biçimi
         dets = np.column_stack([
             np.array(boxes, dtype=np.float32),   # (N,4)
@@ -327,14 +454,39 @@ async def detect_api(background_tasks: BackgroundTasks, file: UploadFile = File(
         ensure_dir(str(target_path))
         cv2.imwrite(str(target_path), drawn)
 
-        narration = T5.narrate_detection(summary)
+        if T5 is not None and hasattr(T5, "narrate_detection_structured"):
+            try:
+                generation = T5.narrate_detection_structured(summary)
+                narration = generation.text
+            except Exception:
+                logger.exception("Detection narration failed")
+                generation = generation_result_from_text(
+                    "",
+                    model_name=getattr(T5, "model_name", "t5"),
+                    runtime=getattr(T5, "runtime", "onnxruntime"),
+                    device=getattr(T5, "device", "cpu"),
+                    prompt_type="detection_narration",
+                    fallback_used=True,
+                    fallback_reason="detection_narration_failed",
+                    error="detection_narration_failed",
+                )
+        elif T5 is not None and hasattr(T5, "narrate_detection"):
+            narration = T5.narrate_detection(summary)
+            generation = generation_result_from_text(
+                narration,
+                model_name=getattr(T5, "model_name", "t5"),
+                runtime=getattr(T5, "runtime", "onnxruntime"),
+                device=getattr(T5, "device", "cpu"),
+                prompt_type="detection_narration",
+            )
+
         # telefona e-posta (arka planda)
         subject = f"PathFinder-Ship reported a photo"  # ör. "2 person, 1 dog"
         background_tasks.add_task(
             send_image_via_email,
             image_path=str(target_path),
             subject=subject,
-            body=f"{narration}\nDetail: {summary}" or f"Detail: {summary}"
+            body=f"{narration}\nDetail: {summary}" if narration else f"Detail: {summary}"
         )
 
         image_url = _static_url_for(target_path)
@@ -345,8 +497,13 @@ async def detect_api(background_tasks: BackgroundTasks, file: UploadFile = File(
         "labels": labels,
         "summary": summary,
         "boxes": boxes_list,
+        "scores": scores,
+        "class_ids": cls_ids,
         "image_url": image_url,
         "narration": narration,
+        "detection": to_serializable_dict(detection),
+        "generation": to_serializable_dict(generation) if generation is not None else None,
+        "error": detection.error,
     }
 
 

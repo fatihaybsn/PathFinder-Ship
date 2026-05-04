@@ -2,13 +2,23 @@
 from __future__ import annotations
 import logging
 import os, time
-from typing import List, Tuple
+from typing import Any, List, Tuple
 import numpy as np
 import cv2
 import onnxruntime as ort
+from schemas.pipeline import (
+    DETECTION_STATUS_INVALID_IMAGE,
+    DETECTION_STATUS_MODEL_ERROR,
+    DetectionResult,
+    detection_result_from_legacy,
+)
 from utils.vision import nms, draw_dets  # YOLO-NAS returns xyxy boxes
 
 logger = logging.getLogger(__name__)
+
+
+def _elapsed_ms(start: float) -> int:
+    return int((time.perf_counter() - start) * 1000)
 
 class YOLOService:
     """
@@ -28,6 +38,7 @@ class YOLOService:
     def __init__(self, cfg: dict):
         self.model_path  = cfg.get("YOLO_ONNX",   "assets/models/yolo_nas/yolo_nas_s_coco.onnx")
         self.labels_path = cfg.get("YOLO_LABELS", "assets/models/yolo_nas/labels.txt")
+        self.model_name = cfg.get("YOLO_MODEL_NAME") or os.path.basename(os.fspath(self.model_path))
         self.imgsz   = int(cfg.get("YOLO_SIZE", 640))
         self.conf_thr = float(cfg.get("YOLO_CONF", 0.25))
         self.iou_thr  = float(cfg.get("YOLO_IOU", 0.45))
@@ -51,6 +62,34 @@ class YOLOService:
             pass
         # fallback (unlikely to be correct for your model, but prevents crashes)
         return [f"cls_{i}" for i in range(1000)]
+
+    def _image_metadata(self, image_bgr: Any) -> dict[str, Any]:
+        metadata: dict[str, Any] = {
+            "model_input_size": self.imgsz,
+            "confidence_threshold": self.conf_thr,
+            "iou_threshold": self.iou_thr,
+            "bbox_format": "xyxy",
+        }
+        if isinstance(image_bgr, np.ndarray) and image_bgr.ndim >= 2:
+            height, width = image_bgr.shape[:2]
+            metadata["image_width"] = int(width)
+            metadata["image_height"] = int(height)
+        return metadata
+
+    def _validate_bgr_image(self, image_bgr: Any) -> str | None:
+        if image_bgr is None:
+            return "image_missing"
+        if not isinstance(image_bgr, np.ndarray):
+            return "image_not_ndarray"
+        if image_bgr.size == 0:
+            return "image_empty"
+        if image_bgr.ndim != 3:
+            return "image_invalid_shape"
+        if image_bgr.shape[0] <= 0 or image_bgr.shape[1] <= 0:
+            return "image_empty"
+        if image_bgr.shape[2] < 3:
+            return "image_invalid_channels"
+        return None
 
     def _letterbox(self, img_bgr: np.ndarray) -> Tuple[np.ndarray, float, Tuple[int, int]]:
         """
@@ -239,3 +278,49 @@ class YOLOService:
         # Etiket isimleri
         labels = [self.names[c] if 0 <= c < len(self.names) else str(int(c)) for c in cls_ids_np]
         return boxes, labels, scores, cls_ids
+
+    def detect_structured(self, image_bgr, image_source: str | None = None) -> DetectionResult:
+        """
+        Run YOLO and return the shared structured detection schema.
+
+        Latency covers BGR validation, preprocessing, ONNX inference,
+        postprocessing, and structured result construction.
+        """
+        started = time.perf_counter()
+        metadata = self._image_metadata(image_bgr)
+        validation_error = self._validate_bgr_image(image_bgr)
+        if validation_error:
+            return DetectionResult(
+                objects=[],
+                image_source=image_source,
+                model_name=self.model_name,
+                latency_ms=_elapsed_ms(started),
+                status=DETECTION_STATUS_INVALID_IMAGE,
+                error=validation_error,
+                metadata=metadata,
+            )
+
+        try:
+            boxes, labels, scores, cls_ids = self.detect_from_bgr(image_bgr)
+        except Exception:
+            logger.exception("YOLO structured detection failed")
+            return DetectionResult(
+                objects=[],
+                image_source=image_source,
+                model_name=self.model_name,
+                latency_ms=_elapsed_ms(started),
+                status=DETECTION_STATUS_MODEL_ERROR,
+                error="yolo_inference_failed",
+                metadata=metadata,
+            )
+
+        return detection_result_from_legacy(
+            labels,
+            boxes,
+            scores,
+            cls_ids,
+            image_source=image_source,
+            model_name=self.model_name,
+            latency_ms=_elapsed_ms(started),
+            metadata=metadata,
+        )
