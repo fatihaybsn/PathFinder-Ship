@@ -268,6 +268,37 @@ class PipelineOrchestratorTests(unittest.TestCase):
         self.assertEqual(result.generation.max_new_tokens, 64)
         self.assertFalse(result.generation.fallback_used)
 
+    def test_document_question_routes_to_rag_when_nlu_returns_chat(self):
+        pipeline = self.make_pipeline(nlu=FakeNLU("chat", 0.96), t5=FakeStructuredT5(), rag=FakeRAG())
+
+        result = pipeline.run("what is in the uploaded document?")
+
+        self.assertEqual(result.status, "completed")
+        self.assertEqual(result.route.route, "rag")
+        self.assertEqual(result.route.source_intent, "chat")
+        self.assertFalse(result.route.fallback_used)
+        self.assertIn("heuristic", result.route.reason)
+        self.assertIsNotNone(result.retrieval)
+        self.assertTrue(result.retrieval.used_context)
+        self.assertEqual(result.retrieval.chunks[0].source, "local:test.txt")
+        self.assertEqual(result.generation.prompt_type, "rag_answer")
+        self.assertEqual(result.final_answer, "structured-rag:what is in the uploaded document?:1")
+        self.assertIsInstance(result.errors, list)
+        self.assertIsInstance(result.warnings, list)
+        self.assertIsNotNone(result.duration_ms)
+
+    def test_low_confidence_document_question_routes_to_rag_fallback(self):
+        pipeline = self.make_pipeline(nlu=FakeNLU("chat", 0.2), t5=FakeStructuredT5(), rag=FakeRAG())
+
+        result = pipeline.run("according to the manual, what should passengers do?")
+
+        self.assertEqual(result.status, "degraded")
+        self.assertEqual(result.route.route, "rag")
+        self.assertTrue(result.route.fallback_used)
+        self.assertEqual(result.route.fallback_reason, "low_confidence_rag_heuristic")
+        self.assertTrue(result.retrieval.used_context)
+        self.assertEqual(result.generation.prompt_type, "rag_answer")
+
     def test_rag_route_model_only_structured_generation_is_marked_fallback(self):
         class EmptyRAG(FakeRAG):
             def retrieve_structured(self, question, use_internet=False, web_only=False):
@@ -387,6 +418,27 @@ class RunEndpointTests(unittest.TestCase):
         self.assertEqual(body["final_answer"], "ok")
         self.assertEqual(body["metadata"]["use_internet"], True)
 
+    def test_run_endpoint_uninitialized_pipeline_returns_structured_failure(self):
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", DeprecationWarning)
+            import web.app as web_app
+
+        previous_pipeline = web_app.PIPELINE
+        web_app.PIPELINE = None
+        try:
+            client = TestClient(web_app.app)
+            response = client.post("/api/run", json={"message": "hello", "metadata": {"use_internet": True}})
+        finally:
+            web_app.PIPELINE = previous_pipeline
+
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertEqual(body["status"], "failed")
+        self.assertEqual(body["errors"], ["pipeline is not initialized"])
+        self.assertEqual(body["metadata"]["use_internet"], True)
+        self.assertEqual(body["metadata"]["web_only"], False)
+        self.assertIsNotNone(body["duration_ms"])
+
     def test_intent_endpoint_returns_intent_without_t5_side_effect(self):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", DeprecationWarning)
@@ -445,6 +497,55 @@ class RunEndpointTests(unittest.TestCase):
         self.assertEqual(body["detection"]["status"], "invalid_image")
         self.assertEqual(body["detection"]["error"], "unsupported_image_format")
         self.assertEqual(body["error"], "unsupported_image_format")
+
+    def test_detect_endpoint_valid_image_returns_structured_detection(self):
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", DeprecationWarning)
+            import web.app as web_app
+
+        import cv2
+        import numpy as np
+
+        class EndpointYOLO:
+            def detect_structured(self, image_bgr, image_source=None):
+                return DetectionResult(
+                    objects=[
+                        DetectionObject(
+                            label="bottle",
+                            confidence=0.88,
+                            bbox=[1, 2, 3, 4],
+                            metadata={"class_id": 39, "raw_score": 0.88},
+                        )
+                    ],
+                    image_source=image_source,
+                    model_name="fake-yolo",
+                    latency_ms=1,
+                    status=DETECTION_STATUS_SUCCESS,
+                )
+
+        ok, encoded = cv2.imencode(".png", np.zeros((4, 4, 3), dtype=np.uint8))
+        self.assertTrue(ok)
+
+        previous_yolo = web_app.YOLO
+        web_app.YOLO = EndpointYOLO()
+        try:
+            client = TestClient(web_app.app)
+            response = client.post(
+                "/api/detect",
+                files={"file": ("frame.png", encoded.tobytes(), "image/png")},
+                data={"draw": "0"},
+            )
+        finally:
+            web_app.YOLO = previous_yolo
+
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertEqual(body["labels"], ["bottle"])
+        self.assertEqual(body["summary"], "1 bottle")
+        self.assertEqual(body["detection"]["status"], "success")
+        self.assertEqual(body["detection"]["objects"][0]["bbox"], [1.0, 2.0, 3.0, 4.0])
+        self.assertEqual(body["detection"]["objects"][0]["confidence"], 0.88)
+        self.assertIsNone(body["error"])
 
 
 if __name__ == "__main__":

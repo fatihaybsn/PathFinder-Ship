@@ -45,6 +45,27 @@ class RouteDecisionTests(unittest.TestCase):
         self.assertTrue(decision.fallback_used)
         self.assertEqual(decision.fallback_reason, "low_intent_confidence")
 
+    def test_low_confidence_document_question_tries_rag(self):
+        decision = decide_route(
+            "what is in the uploaded document?",
+            make_intent("chat", confidence=0.2),
+        )
+
+        self.assertEqual(decision.route, "rag")
+        self.assertTrue(decision.fallback_used)
+        self.assertEqual(decision.fallback_reason, "low_confidence_rag_heuristic")
+        self.assertIn("document", decision.reason)
+
+    def test_classifier_error_document_question_tries_rag(self):
+        decision = decide_route(
+            "according to the manual, what should passengers do?",
+            make_intent("chat", confidence=0.0, error="intent service failed"),
+        )
+
+        self.assertEqual(decision.route, "rag")
+        self.assertTrue(decision.fallback_used)
+        self.assertEqual(decision.fallback_reason, "classifier_error_rag_heuristic")
+
     def test_unknown_intent_falls_back_to_chat(self):
         decision = decide_route("do something", make_intent("unknown"))
 
@@ -78,6 +99,20 @@ class RouteDecisionTests(unittest.TestCase):
 
         self.assertEqual(decision.route, "chat")
         self.assertFalse(decision.fallback_used)
+
+    def test_chat_document_question_routes_to_rag(self):
+        decision = decide_route("what is in the uploaded document?", make_intent("chat"))
+
+        self.assertEqual(decision.route, "rag")
+        self.assertFalse(decision.fallback_used)
+        self.assertIn("heuristic", decision.reason)
+
+    def test_manual_question_routes_to_rag_even_when_classifier_says_chat(self):
+        decision = decide_route("according to the manual, what should passengers do?", make_intent("chat"))
+
+        self.assertEqual(decision.route, "rag")
+        self.assertFalse(decision.fallback_used)
+        self.assertIn("document or knowledge", decision.reason)
 
 
 if __name__ == "__main__":

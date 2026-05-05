@@ -37,6 +37,43 @@ DETECTION_LABELS = {"object_detect"}
 RAG_LABELS = {"rag"}
 CHAT_LABELS = {"chat"}
 UNKNOWN_LABELS = {"unknown", "none", "other", ""}
+RAG_HINT_TERMS = {
+    "article",
+    "corpus",
+    "doc",
+    "docs",
+    "document",
+    "documents",
+    "file",
+    "files",
+    "knowledge base",
+    "manual",
+    "pdf",
+    "report",
+    "source",
+    "sources",
+    "uploaded",
+    "upload",
+}
+RAG_HINT_PHRASES = (
+    "according to",
+    "based on",
+    "from the",
+    "in the document",
+    "in the file",
+    "in the manual",
+    "in the pdf",
+    "in the report",
+    "uploaded document",
+    "uploaded file",
+    "what does the document",
+    "what does the file",
+    "what does the manual",
+    "what does the pdf",
+    "what is in the document",
+    "what is in the file",
+    "what is in the uploaded",
+)
 
 
 def normalize_intent_label(label: str | None) -> str:
@@ -79,6 +116,66 @@ def _is_confident(intent: IntentResult, threshold: float) -> bool:
     return float(intent.confidence) >= threshold
 
 
+def _normalized_message(message: str) -> str:
+    return f" {(message or '').strip().lower().replace('-', ' ')} "
+
+
+def _has_term(text: str, term: str) -> bool:
+    return f" {term} " in text
+
+
+def looks_like_rag_query(message: str) -> bool:
+    """
+    Narrow text heuristic for document/knowledge questions.
+
+    The NLU model has no RAG class, so route decision needs a small,
+    explainable fallback without sending casual chat to retrieval.
+    """
+    text = _normalized_message(message)
+    if not text.strip():
+        return False
+
+    if any(phrase in text for phrase in RAG_HINT_PHRASES):
+        return True
+
+    has_hint = any(_has_term(text, term) for term in RAG_HINT_TERMS)
+    if not has_hint:
+        return False
+
+    question_starters = (
+        " what ",
+        " where ",
+        " when ",
+        " who ",
+        " why ",
+        " how ",
+        " which ",
+        " summarize ",
+        " explain ",
+        " tell me ",
+        " answer ",
+        " find ",
+        " search ",
+    )
+    return "?" in message or any(starter in text for starter in question_starters)
+
+
+def _rag_heuristic_decision(
+    *,
+    intent: IntentResult,
+    reason: str,
+    fallback_reason: str | None = None,
+) -> RouteDecision:
+    return RouteDecision(
+        route="rag",
+        reason=reason,
+        source_intent=intent.label,
+        confidence=intent.confidence,
+        fallback_used=fallback_reason is not None,
+        fallback_reason=fallback_reason,
+    )
+
+
 def _fallback(
     *,
     intent: IntentResult,
@@ -111,12 +208,18 @@ def decide_route(
     Bu katman karar verir; RAG/T5/YOLO/kamera/e-posta gibi yan etkili işleri
     çalıştırmaz.
     """
-    del message  # Future rules can inspect text; current rules are intent driven.
     metadata = metadata or {}
     label = normalize_intent_label(intent.label)
     threshold = _threshold_for(intent, metadata)
+    rag_heuristic = looks_like_rag_query(message)
 
     if intent.error:
+        if rag_heuristic:
+            return _rag_heuristic_decision(
+                intent=intent,
+                reason="classifier error but message looks like a document or knowledge query",
+                fallback_reason="classifier_error_rag_heuristic",
+            )
         return _fallback(
             intent=intent,
             reason="classifier error fallback",
@@ -124,6 +227,12 @@ def decide_route(
         )
 
     if not _is_confident(intent, threshold):
+        if rag_heuristic:
+            return _rag_heuristic_decision(
+                intent=intent,
+                reason="low-confidence intent but message looks like a document or knowledge query",
+                fallback_reason="low_confidence_rag_heuristic",
+            )
         return _fallback(
             intent=intent,
             reason="intent confidence below threshold",
@@ -182,6 +291,12 @@ def decide_route(
                 reason="metadata requested retrieval for chat intent",
                 source_intent=intent.label,
                 confidence=intent.confidence,
+            )
+
+        if rag_heuristic:
+            return _rag_heuristic_decision(
+                intent=intent,
+                reason="chat intent with document or knowledge query heuristic",
             )
 
         return RouteDecision(

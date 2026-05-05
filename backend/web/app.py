@@ -340,12 +340,19 @@ def rag_api(body: RagRequest):
 
 @app.post("/api/run", response_model=RunResult)
 def run_api(body: RunRequest):
+    started = time.perf_counter()
     if PIPELINE is None:
         logger.error("Pipeline is not initialized.")
+        metadata = body.metadata or {}
         return RunResult(
             input_text=body.message,
             status="failed",
             errors=["pipeline is not initialized"],
+            metadata={
+                "use_internet": bool(metadata.get("use_internet", False)),
+                "web_only": bool(metadata.get("web_only", False)),
+            },
+            duration_ms=_elapsed_ms(started),
         )
 
     return PIPELINE.run(body.message, metadata=body.metadata)
@@ -438,7 +445,7 @@ async def detect_api(background_tasks: BackgroundTasks, file: UploadFile = File(
     ]
 
     # Özet ("2 person, 1 dog")
-    summary = ", ".join([f"{c} {n}" for c, n in Counter(labels).items()]) if labels else "no objects"
+    summary = ", ".join([f"{n} {c}" for c, n in Counter(labels).items()]) if labels else "no objects"
 
     if img_bgr is not None and draw and len(boxes) > 0 and len(scores) == len(boxes) and len(cls_ids) == len(boxes):
         # draw_dets için: dets = [x1,y1,x2,y2, conf, cls] biçimi

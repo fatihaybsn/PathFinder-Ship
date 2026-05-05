@@ -46,7 +46,14 @@ def build_context_from_chunks(
     ayrıca üretilir.
     """
     raw = [{"chunk": c.text} for c in chunks]
-    return create_context(raw, max_tokens=max_tokens, question=question)
+    context = create_context(raw, max_tokens=max_tokens, question=question)
+    if context.strip():
+        return context
+
+    # If tokenizer-based trimming cannot produce context, keep a bounded
+    # evidence-preserving fallback instead of silently discarding retrieved chunks.
+    fallback = "\n\n".join(c.text.strip() for c in chunks if c.text and c.text.strip())
+    return fallback[: max(1, int(max_tokens)) * 4]
 
 
 def _map_local_chunks(

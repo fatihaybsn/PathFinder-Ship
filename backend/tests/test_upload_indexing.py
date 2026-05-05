@@ -5,7 +5,9 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
+from schemas.pipeline import GenerationResult, RetrievedChunk, RetrievalResult
 from services.document_indexing import UploadIndexingError, index_upload_file
+from services.pipeline_orchestrator import PipelineOrchestrator
 
 
 class FakeUploadFile:
@@ -128,6 +130,90 @@ class UploadIndexingTests(unittest.TestCase):
             self.assertTrue(result.indexed)
             self.assertTrue(matches)
             self.assertEqual(matches[0]["metadata"]["document_id"], result.document_id)
+
+    def test_uploaded_document_can_feed_pipeline_rag_result(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            in_memory_index = []
+
+            def fake_add(chunks, document_id):
+                in_memory_index[:] = chunks
+                return []
+
+            upload = FakeUploadFile(
+                "uploaded_manual.txt",
+                b"the uploaded manual says the emergency muster station is on deck seven",
+            )
+            with patch("services.document_indexing._add_chunks_to_index", side_effect=fake_add):
+                upload_result = run(index_upload_file(upload, make_cfg(tmp)))
+
+            class FakeNLU:
+                last_error = None
+
+                def predict(self, text):
+                    return "chat", 0.95
+
+            class FakeT5:
+                max_new_rag = 64
+
+                def chat_structured(self, text):
+                    raise AssertionError("uploaded document question should route to RAG")
+
+                def answer_structured(self, question, context):
+                    return GenerationResult(
+                        text="The muster station is on deck seven.",
+                        prompt_type="rag_answer",
+                        output_chars=37,
+                        latency_ms=1,
+                    )
+
+                def answer_model_only_with_instruction_structured(self, question, instruction=None):
+                    raise AssertionError("uploaded document query should use retrieved context")
+
+            class UploadedRAG:
+                top_k = 2
+                thr = 0.4
+                max_ctx_tokens = 512
+
+                def retrieve_structured(self, question, use_internet=False, web_only=False):
+                    chunk = in_memory_index[0]
+                    source = chunk["metadata"]["source"]
+                    return RetrievalResult(
+                        query=question,
+                        chunks=[
+                            RetrievedChunk(
+                                text=chunk["chunk"],
+                                source=f"local:{source}",
+                                score=0.91,
+                                rank=1,
+                                retrieval_type="local_hybrid",
+                                metadata=chunk["metadata"],
+                            )
+                        ],
+                        top_k=self.top_k,
+                        best_score=0.91,
+                        threshold=self.thr,
+                        used_context=True,
+                        retrieval_mode="local_only",
+                        latency_ms=1,
+                    )
+
+            pipeline = PipelineOrchestrator(
+                {"CLS_ROUTE_THRESHOLD": 0.6},
+                FakeNLU(),
+                FakeT5(),
+                UploadedRAG(),
+            )
+
+            result = pipeline.run("what is in the uploaded document?")
+
+            self.assertTrue(upload_result.indexed)
+            self.assertGreater(upload_result.indexed_chunk_count, 0)
+            self.assertEqual(result.route.route, "rag")
+            self.assertTrue(result.retrieval.used_context)
+            self.assertIn("uploaded_manual", result.retrieval.chunks[0].source)
+            self.assertEqual(result.retrieval.chunks[0].metadata["document_id"], upload_result.document_id)
+            self.assertEqual(result.generation.prompt_type, "rag_answer")
+            self.assertEqual(result.final_answer, "The muster station is on deck seven.")
 
 
 if __name__ == "__main__":
