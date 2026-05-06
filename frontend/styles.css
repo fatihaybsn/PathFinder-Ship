@@ -791,7 +791,7 @@ textarea::placeholder {
 }
 
 #web-toggle { opacity: 0.7; }
-#web-toggle.active i { color: var(--accent); }
+#web-toggle.active i { color: #2563eb; }
 
 #voice-toggle { opacity: 0.7; }
 #voice-toggle.active i { color: var(--accent); }
