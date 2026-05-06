@@ -738,7 +738,7 @@ body {
 
 .input-container {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   background: var(--bg-input);
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
@@ -780,7 +780,7 @@ textarea::placeholder {
   border-radius: var(--radius-sm);
   transition: all var(--transition-fast);
   flex-shrink: 0;
-  margin: var(--space-xs);
+  margin: 0 2px;
 }
 
 #file-upload-button:hover,
@@ -790,10 +790,10 @@ textarea::placeholder {
   background: var(--bg-hover);
 }
 
-#web-toggle { opacity: 0.7; margin: 0 2px; }
+#web-toggle { opacity: 0.7; }
 #web-toggle.active i { color: var(--accent); }
 
-#voice-toggle { opacity: 0.7; margin: 0 2px; }
+#voice-toggle { opacity: 0.7; }
 #voice-toggle.active i { color: var(--accent); }
 
 #voice-status {
