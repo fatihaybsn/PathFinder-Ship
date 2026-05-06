@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentChatId = null;
   let isTyping = false;
   let chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || {};
-  let currentTheme = localStorage.getItem("theme") || "light";
+  let currentTheme = localStorage.getItem("theme") || "dark";
   let typingSpeed = 2;
   let letterTimeout = null;
   let pendingFile = null;     // File objesi
@@ -54,39 +54,40 @@ document.addEventListener("DOMContentLoaded", () => {
   let videoEl = null;
 
   async function openCamera() {
-  if (mediaStream) return;
-  const area = document.getElementById("camera-area");
-  videoEl = document.getElementById("camera-preview");
-  try {
-    mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-    videoEl.srcObject = mediaStream;
-    area.style.display = "block";
-    return "I will open the camera for you now.";
-  } catch (e) {
-    mediaStream = null;
-    throw new Error("I can not open the camera: " + e.message);
+    if (mediaStream) return;
+    const area = document.getElementById("camera-area");
+    videoEl = document.getElementById("camera-preview");
+    try {
+      mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      videoEl.srcObject = mediaStream;
+      area.style.display = "";
+      area.removeAttribute("style");
+      return "I will open the camera for you now.";
+    } catch (e) {
+      mediaStream = null;
+      throw new Error("I can not open the camera: " + e.message);
+    }
   }
-}
 
-function closeCamera() {
-  if (mediaStream) {
-    mediaStream.getTracks().forEach(t => t.stop());
-    mediaStream = null;
+  function closeCamera() {
+    if (mediaStream) {
+      mediaStream.getTracks().forEach(t => t.stop());
+      mediaStream = null;
+    }
+    const area = document.getElementById("camera-area");
+    if (area) area.style.display = "none";
+    return "The camera was turned off.";
   }
-  const area = document.getElementById("camera-area");
-  if (area) area.style.display = "none";
-  return "The camera was turned off.";
-}
 
-async function takePhotoBlob(mime = "image/jpeg", quality = 0.92) {
-  if (!mediaStream || !videoEl) throw new Error("The camera is not on.");
-  const canvas = document.createElement("canvas");
-  canvas.width = videoEl.videoWidth || 640;
-  canvas.height = videoEl.videoHeight || 480;
-  const ctx = canvas.getContext("2d");
-  ctx.drawImage(videoEl, 0, 0);
-  return await new Promise(res => canvas.toBlob(res, mime, quality));
-}
+  async function takePhotoBlob(mime = "image/jpeg", quality = 0.92) {
+    if (!mediaStream || !videoEl) throw new Error("The camera is not on.");
+    const canvas = document.createElement("canvas");
+    canvas.width = videoEl.videoWidth || 640;
+    canvas.height = videoEl.videoHeight || 480;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(videoEl, 0, 0);
+    return await new Promise(res => canvas.toBlob(res, mime, quality));
+  }
 
   // ---------- Backend API helpers ----------
   async function parseJsonResponse(response, endpointName) {
@@ -322,10 +323,29 @@ async function takePhotoBlob(mime = "image/jpeg", quality = 0.92) {
   init();
 
   function init() {
-    // Theme
-    if (currentTheme === "dark") {
-      document.body.classList.add("dark-mode");
+    // Theme — dark is default (maritime theme)
+    if (currentTheme === "light") {
+      document.body.classList.add("light-mode");
+      toggleThemeButton.innerHTML = '<i class="fas fa-moon"></i><span>Dark Mode</span>';
+    } else {
       toggleThemeButton.innerHTML = '<i class="fas fa-sun"></i><span>Light Mode</span>';
+    }
+
+    // Mobile sidebar toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    if (mobileMenuBtn && sidebar) {
+      mobileMenuBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        if (sidebarOverlay) sidebarOverlay.classList.toggle('visible');
+      });
+      if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', () => {
+          sidebar.classList.remove('open');
+          sidebarOverlay.classList.remove('visible');
+        });
+      }
     }
 
     // Events
@@ -360,7 +380,7 @@ async function takePhotoBlob(mime = "image/jpeg", quality = 0.92) {
 
     suggestionChips.forEach((chip) => {
       chip.addEventListener("click", () => {
-        userInput.value = chip.textContent;
+        userInput.value = chip.dataset.prompt || chip.textContent;
         handleSendMessage();
       });
     });
@@ -519,6 +539,63 @@ async function takePhotoBlob(mime = "image/jpeg", quality = 0.92) {
     });
     if (Array.isArray(result.warnings) && result.warnings.length) {
       console.warn("pipeline warnings", result.warnings);
+    }
+    updateTelemetryBar(result);
+  }
+
+  function updateTelemetryBar(result) {
+    const bar = document.getElementById('telemetry-bar');
+    if (!bar || !result) return;
+    bar.innerHTML = '';
+    const badges = [];
+
+    // Status
+    if (result.status) {
+      const cls = result.status === 'completed' ? 'status-completed' :
+                  result.status === 'degraded' ? 'status-degraded' : 'status-failed';
+      const icon = result.status === 'completed' ? 'fa-check-circle' :
+                   result.status === 'degraded' ? 'fa-exclamation-triangle' : 'fa-times-circle';
+      badges.push(`<span class="telemetry-badge ${cls}"><i class="fas ${icon}"></i>${result.status}</span>`);
+    }
+
+    // Route
+    if (result.route?.route) {
+      const r = result.route.route;
+      const cls = r === 'chat' ? 'route-chat' : r === 'rag' ? 'route-rag' :
+                  r === 'detect' ? 'route-detect' : 'route-camera';
+      const icon = r === 'chat' ? 'fa-comment' : r === 'rag' ? 'fa-database' :
+                   r === 'detect' ? 'fa-crosshairs' : 'fa-video';
+      badges.push(`<span class="telemetry-badge ${cls}"><i class="fas ${icon}"></i>${r}</span>`);
+    }
+
+    // Intent confidence
+    if (result.intent?.label && result.intent?.confidence != null) {
+      const pct = Math.round(result.intent.confidence * 100);
+      badges.push(`<span class="telemetry-badge"><i class="fas fa-brain"></i>${result.intent.label} ${pct}%</span>`);
+    }
+
+    // Retrieval
+    if (result.retrieval?.used_context) {
+      const mode = result.retrieval.retrieval_mode || 'local';
+      badges.push(`<span class="telemetry-badge route-rag"><i class="fas fa-search"></i>retrieval: ${mode}</span>`);
+    }
+
+    // Generation model
+    if (result.generation?.model_name) {
+      const rt = result.generation.runtime || '';
+      badges.push(`<span class="telemetry-badge"><i class="fas fa-microchip"></i>${result.generation.model_name}${rt ? ' \u00b7 ' + rt : ''}</span>`);
+    }
+
+    // Duration
+    if (result.duration_ms != null) {
+      badges.push(`<span class="telemetry-badge"><i class="fas fa-clock"></i>${result.duration_ms}ms</span>`);
+    }
+
+    if (badges.length > 0) {
+      bar.innerHTML = badges.join('');
+      bar.classList.add('visible');
+    } else {
+      bar.classList.remove('visible');
     }
   }
 
@@ -744,10 +821,10 @@ async function takePhotoBlob(mime = "image/jpeg", quality = 0.92) {
     removeTypingIndicator();
     const messageDiv = document.createElement("div");
     messageDiv.className = `message ${sender}`;
-    const messageContent = document.createElement("div");
-    messageContent.className = "message-content";
 
     if (sender === "user") {
+      const messageContent = document.createElement("div");
+      messageContent.className = "message-content";
       messageContent.textContent = content;
       messageDiv.appendChild(messageContent);
       messagesContainer.appendChild(messageDiv);
@@ -755,6 +832,14 @@ async function takePhotoBlob(mime = "image/jpeg", quality = 0.92) {
       return;
     }
 
+    // AI avatar
+    const avatar = document.createElement('div');
+    avatar.className = 'message-avatar';
+    avatar.innerHTML = '<i class="fas fa-anchor"></i>';
+    messageDiv.appendChild(avatar);
+
+    const messageContent = document.createElement("div");
+    messageContent.className = "message-content";
     messageDiv.appendChild(messageContent);
     messagesContainer.appendChild(messageDiv);
 
@@ -769,6 +854,12 @@ async function takePhotoBlob(mime = "image/jpeg", quality = 0.92) {
   function addMessageToUI(sender, content) {
     const messageDiv = document.createElement("div");
     messageDiv.className = `message ${sender}`;
+    if (sender === 'ai') {
+      const avatar = document.createElement('div');
+      avatar.className = 'message-avatar';
+      avatar.innerHTML = '<i class="fas fa-anchor"></i>';
+      messageDiv.appendChild(avatar);
+    }
     const messageContent = document.createElement("div");
     messageContent.className = "message-content";
     messageContent.textContent = content;
@@ -875,11 +966,20 @@ async function takePhotoBlob(mime = "image/jpeg", quality = 0.92) {
     const typingDiv = document.createElement("div");
     typingDiv.className = "typing-indicator";
     typingDiv.id = "typing-indicator";
+    // Avatar
+    const avatar = document.createElement('div');
+    avatar.className = 'typing-avatar';
+    avatar.innerHTML = '<i class="fas fa-anchor"></i>';
+    typingDiv.appendChild(avatar);
+    // Dots wrapper
+    const dotsWrapper = document.createElement('div');
+    dotsWrapper.className = 'typing-dots';
     for (let i = 0; i < 3; i++) {
       const dot = document.createElement("div");
       dot.className = "typing-dot";
-      typingDiv.appendChild(dot);
+      dotsWrapper.appendChild(dot);
     }
+    typingDiv.appendChild(dotsWrapper);
     messagesContainer.appendChild(typingDiv);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
   }
@@ -896,24 +996,28 @@ async function takePhotoBlob(mime = "image/jpeg", quality = 0.92) {
     currentChatTitle.textContent = "New Conversation";
     messagesContainer.innerHTML = `
       <div class="intro-message">
-        <h1>Welcome to PathFinder-Ship</h1>
-        <p>Ask me anything. I'm powered by Passenger-Bot.</p>
+        <div class="intro-icon"><i class="fas fa-ship"></i></div>
+        <h1>Welcome to <span class="brand-accent">PathFinderShip</span></h1>
+        <p>Your local AI maritime assistant \u2014 ask questions, detect objects, upload documents, or control the camera.</p>
         <div class="suggestion-chips">
-          <button class="suggestion-chip">Tell me a story</button>
-          <button class="suggestion-chip">can you introduce yourself?</button>
-          <button class="suggestion-chip">Write a poem</button>
-          <button class="suggestion-chip">Open the camera</button>
+          <button class="suggestion-chip" data-prompt="Can you introduce yourself?"><i class="fas fa-comment" style="margin-right:6px;opacity:0.5"></i>Can you introduce yourself?</button>
+          <button class="suggestion-chip" data-prompt="Open the camera"><i class="fas fa-camera" style="margin-right:6px;opacity:0.5"></i>Open the camera</button>
+          <button class="suggestion-chip" data-prompt="Detect objects"><i class="fas fa-crosshairs" style="margin-right:6px;opacity:0.5"></i>Detect objects</button>
+          <button class="suggestion-chip" data-prompt="What can you do?"><i class="fas fa-search" style="margin-right:6px;opacity:0.5"></i>What can you do?</button>
         </div>
       </div>`;
     document.querySelectorAll(".suggestion-chip").forEach((chip) => {
       chip.addEventListener("click", () => {
-        userInput.value = chip.textContent;
+        userInput.value = chip.dataset.prompt || chip.textContent;
         handleSendMessage();
       });
     });
     saveChatHistory();
     updateChatHistorySidebar();
     pendingFile = null;
+    // Clear telemetry
+    const tbar = document.getElementById('telemetry-bar');
+    if (tbar) { tbar.innerHTML = ''; tbar.classList.remove('visible'); }
     const previewContainer = document.getElementById("pending-file-preview");
     if (previewContainer) { previewContainer.innerHTML = ""; previewContainer.style.display = "none"; }
   }
@@ -937,6 +1041,12 @@ async function takePhotoBlob(mime = "image/jpeg", quality = 0.92) {
   function addFormattedMessageToUI(sender, content) {
     const messageDiv = document.createElement("div");
     messageDiv.className = `message ${sender}`;
+    if (sender === 'ai') {
+      const avatar = document.createElement('div');
+      avatar.className = 'message-avatar';
+      avatar.innerHTML = '<i class="fas fa-anchor"></i>';
+      messageDiv.appendChild(avatar);
+    }
     const messageContent = document.createElement("div");
     messageContent.className = "message-content";
     const processedContent = processMarkdownContent(content);
@@ -1059,14 +1169,14 @@ async function takePhotoBlob(mime = "image/jpeg", quality = 0.92) {
   }
 
   function toggleTheme() {
-    if (currentTheme === "light") {
-      document.body.classList.add("dark-mode");
-      currentTheme = "dark";
-      toggleThemeButton.innerHTML = '<i class="fas fa-sun"></i><span>Light Mode</span>';
-    } else {
-      document.body.classList.remove("dark-mode");
+    if (currentTheme === "dark") {
+      document.body.classList.add("light-mode");
       currentTheme = "light";
       toggleThemeButton.innerHTML = '<i class="fas fa-moon"></i><span>Dark Mode</span>';
+    } else {
+      document.body.classList.remove("light-mode");
+      currentTheme = "dark";
+      toggleThemeButton.innerHTML = '<i class="fas fa-sun"></i><span>Light Mode</span>';
     }
     localStorage.setItem("theme", currentTheme);
   }
@@ -1076,7 +1186,7 @@ async function takePhotoBlob(mime = "image/jpeg", quality = 0.92) {
     const chat = chatHistory[currentChatId];
     let exportText = `# ${chat.title}\n\n`;
     chat.messages.forEach((message) => {
-      const role = message.role === "user" ? "You" : "Passenger-Bot";
+      const role = message.role === "user" ? "You" : "PathFinderShip";
       exportText += `## ${role}:\n${message.content}\n\n`;
     });
     const blob = new Blob([exportText], { type: "text/markdown" });
@@ -1099,7 +1209,7 @@ async function takePhotoBlob(mime = "image/jpeg", quality = 0.92) {
     const last = chat.messages[chat.messages.length - 1];
     if (last.role !== "assistant") return;
 
-    // UI’dan da sil
+    // UI'dan da sil
     const aiMsgs = document.querySelectorAll(".message.ai");
     if (aiMsgs.length > 0) aiMsgs[aiMsgs.length - 1].remove();
     chat.messages.pop();
@@ -1114,7 +1224,7 @@ async function takePhotoBlob(mime = "image/jpeg", quality = 0.92) {
         break;
       }
     }
-    if (!lastUser) { addFormattedMessageToUI("ai", "Yeniden üretmek için metin mesaj bulunamadı."); return; }
+    if (!lastUser) { addFormattedMessageToUI("ai", "Yeniden \u00fcretmek i\u00e7in metin mesaj bulunamad\u0131."); return; }
 
     // Yeniden çağır: ana mesaj akışı gibi /api/run kullanır.
     await runMessagePipeline(lastUser, null);

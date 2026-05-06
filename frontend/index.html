@@ -4,7 +4,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PathFinder-Ship</title>
+  <title>PathFinderShip — AI Maritime Assistant</title>
+  <meta name="description" content="PathFinderShip: Local AI-powered maritime assistant with object detection, RAG, and intelligent routing." />
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Icons & Code highlighting & Markdown -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -16,14 +22,26 @@
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
+
+  <!-- Mobile sidebar toggle -->
+  <button class="mobile-menu-btn" id="mobile-menu-btn" title="Open menu">
+    <i class="fas fa-bars"></i>
+  </button>
+
   <div class="container">
     <div class="app-container">
 
+      <!-- Mobile sidebar overlay -->
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
       <!-- Sidebar -->
-      <div class="sidebar">
+      <div class="sidebar" id="sidebar">
         <div class="logo">
-          <i class="fas fa-robot"></i>
-          <span>PathFinder-Ship</span>
+          <i class="fas fa-anchor"></i>
+          <div>
+            <span>PathFinderShip</span>
+            <span class="logo-subtitle">Local AI Maritime Assistant</span>
+          </div>
         </div>
 
         <button id="new-chat" class="new-chat-btn">
@@ -32,7 +50,7 @@
         </button>
 
         <div class="history-container">
-          <h3>Chat History</h3>
+          <h3>History</h3>
           <div id="chat-history"></div>
         </div>
 
@@ -42,9 +60,14 @@
             <span>Clear History</span>
           </button>
           <button id="toggle-theme">
-            <i class="fas fa-moon"></i>
-            <span>Dark Mode</span>
+            <i class="fas fa-sun"></i>
+            <span>Light Mode</span>
           </button>
+        </div>
+
+        <div class="sidebar-status">
+          <span class="status-dot"></span>
+          <span>Local inference · Ready</span>
         </div>
       </div>
 
@@ -69,22 +92,37 @@
           </div>
         </div>
 
-        <!-- Camera preview (messages DIŞINDA, kalıcı) -->
-        <div id="camera-area" style="display:none; padding:8px;">
-          <video id="camera-preview" autoplay muted playsinline
-                 style="max-width:240px; border-radius:8px; background:#000"></video>
+        <!-- Telemetry Bar -->
+        <div class="telemetry-bar" id="telemetry-bar"></div>
+
+        <!-- Camera preview (outside messages, persistent) -->
+        <div id="camera-area" style="display:none;">
+          <div class="camera-panel">
+            <div>
+              <div class="camera-video-wrapper">
+                <video id="camera-preview" autoplay muted playsinline></video>
+              </div>
+              <div class="camera-label">
+                <span class="live-dot"></span>
+                <span>Live Camera Feed</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Messages -->
         <div class="messages" id="messages">
           <div class="intro-message">
-            <h1>Welcome to PathFinder-Ship</h1>
-            <p>Ask me anything. I'm powered by your backend.</p>
+            <div class="intro-icon">
+              <i class="fas fa-ship"></i>
+            </div>
+            <h1>Welcome to <span class="brand-accent">PathFinderShip</span></h1>
+            <p>Your local AI maritime assistant — ask questions, detect objects, upload documents, or control the camera.</p>
             <div class="suggestion-chips">
-              <button class="suggestion-chip">Tell me a story</button>
-              <button class="suggestion-chip">Explain quantum computing</button>
-              <button class="suggestion-chip">Write a poem</button>
-              <button class="suggestion-chip">Help me learn JavaScript</button>
+              <button class="suggestion-chip"><i class="fas fa-comment" style="margin-right:6px;opacity:0.5"></i>Can you introduce yourself?</button>
+              <button class="suggestion-chip"><i class="fas fa-camera" style="margin-right:6px;opacity:0.5"></i>Open the camera</button>
+              <button class="suggestion-chip"><i class="fas fa-crosshairs" style="margin-right:6px;opacity:0.5"></i>Detect objects</button>
+              <button class="suggestion-chip"><i class="fas fa-search" style="margin-right:6px;opacity:0.5"></i>What can you do?</button>
             </div>
           </div>
         </div>
@@ -100,14 +138,15 @@
               <i class="fas fa-globe"></i>
             </button>
 
-                <!-- Voice Mode (English only) -->
-              <button id="voice-toggle" class="icon-btn" title="Voice Mode (English only)">🎙️ Voice</button>
-    <span id="voice-status" style="margin-left:.5rem; opacity:.6;"></span>
-
+            <!-- Voice Mode (English only) -->
+            <button id="voice-toggle" class="icon-btn" title="Voice Mode (English only)">
+              <i class="fas fa-microphone"></i>
+            </button>
+            <span id="voice-status" style="margin-left:.25rem;"></span>
 
             <input type="file" id="file-upload" style="display:none" />
 
-            <textarea id="user-input" placeholder="Type your message here." rows="1"></textarea>
+            <textarea id="user-input" placeholder="Ask PathFinderShip anything..." rows="1"></textarea>
 
             <button id="send-button" title="Send message">
               <i class="fas fa-paper-plane"></i>
@@ -118,7 +157,7 @@
           <div id="pending-file-preview"></div>
 
           <div class="disclaimer">
-            Passenger-Bot may produce inaccurate information. Messages are stored locally.
+            PathFinderShip runs locally. Responses may vary. Messages stored in your browser.
           </div>
         </div>
       </div>
