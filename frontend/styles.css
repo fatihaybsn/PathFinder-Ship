@@ -794,7 +794,7 @@ textarea::placeholder {
 #web-toggle.active i { color: #2563eb; }
 
 #voice-toggle { opacity: 0.7; }
-#voice-toggle.active i { color: var(--accent); }
+#voice-toggle.active i { color: #2563eb; }
 
 #voice-status {
   font-size: 11px;
