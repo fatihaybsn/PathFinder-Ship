@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentChatId = null;
   let isTyping = false;
   let chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || {};
-  let currentTheme = localStorage.getItem("theme") || "dark";
+  let currentTheme = localStorage.getItem("theme") || "light";
   let typingSpeed = 2;
   let letterTimeout = null;
   let pendingFile = null;     // File objesi
@@ -323,12 +323,12 @@ document.addEventListener("DOMContentLoaded", () => {
   init();
 
   function init() {
-    // Theme — dark is default (maritime theme)
-    if (currentTheme === "light") {
-      document.body.classList.add("light-mode");
-      toggleThemeButton.innerHTML = '<i class="fas fa-moon"></i><span>Dark Mode</span>';
-    } else {
+    // Theme — light is default
+    if (currentTheme === "dark") {
+      document.body.classList.add("dark-mode");
       toggleThemeButton.innerHTML = '<i class="fas fa-sun"></i><span>Light Mode</span>';
+    } else {
+      toggleThemeButton.innerHTML = '<i class="fas fa-moon"></i><span>Dark Mode</span>';
     }
 
     // Mobile sidebar toggle
@@ -1169,14 +1169,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function toggleTheme() {
-    if (currentTheme === "dark") {
-      document.body.classList.add("light-mode");
-      currentTheme = "light";
-      toggleThemeButton.innerHTML = '<i class="fas fa-moon"></i><span>Dark Mode</span>';
-    } else {
-      document.body.classList.remove("light-mode");
+    if (currentTheme === "light") {
+      document.body.classList.add("dark-mode");
       currentTheme = "dark";
       toggleThemeButton.innerHTML = '<i class="fas fa-sun"></i><span>Light Mode</span>';
+    } else {
+      document.body.classList.remove("dark-mode");
+      currentTheme = "light";
+      toggleThemeButton.innerHTML = '<i class="fas fa-moon"></i><span>Dark Mode</span>';
     }
     localStorage.setItem("theme", currentTheme);
   }
