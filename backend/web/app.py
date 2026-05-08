@@ -23,7 +23,8 @@ from utils.text import fallback_instruction
 from services.nlu_classifier import NLUClassifier
 from services.pipeline_orchestrator import PipelineOrchestrator
 from services.document_indexing import UploadIndexingError, index_upload_file, upload_error_response
-from services.t5 import T5Service
+from services.generation.base import BaseGenerationProvider
+from services.generation.factory import build_generation_provider
 from services.rag import RAGService
 from services.yolo import YOLOService
 from schemas.pipeline import (
@@ -214,7 +215,8 @@ app.add_middleware(
 
 # Servisleri tek sefer yükle (soğuk başlatma)
 NLU: Optional[NLUClassifier] = None
-T5: Optional[T5Service] = None
+GENERATION: Optional[BaseGenerationProvider] = None
+T5: Optional[BaseGenerationProvider] = None
 RAG: Optional[RAGService] = None
 YOLO: Optional[YOLOService] = None
 PIPELINE: Optional[PipelineOrchestrator] = None
@@ -222,15 +224,16 @@ PIPELINE: Optional[PipelineOrchestrator] = None
 
 @app.on_event("startup")
 def startup_event():
-    global NLU, T5, RAG, YOLO, PIPELINE
+    global NLU, GENERATION, T5, RAG, YOLO, PIPELINE
     report = readiness_report()
     if report["status"] != "ok":
         logger.warning("Startup readiness degraded; missing assets: %s", ", ".join(report["missing"]))
     NLU = NLUClassifier(CFG)
-    T5 = T5Service(CFG)
+    GENERATION = build_generation_provider(CFG)
+    T5 = GENERATION
     RAG = RAGService(CFG)
     YOLO = YOLOService(CFG)
-    PIPELINE = PipelineOrchestrator(CFG, NLU, T5, RAG, YOLO)
+    PIPELINE = PipelineOrchestrator(CFG, NLU, GENERATION, RAG, YOLO)
 
 
 @app.get("/api/health")
@@ -282,7 +285,7 @@ def intent_api(body: IntentRequest):
 # ---------- Chat ----------
 @app.post("/api/chat", response_model=ChatResponse)
 def chat_api(body: ChatRequest):
-    answer = T5.chat(body.message)  # T5'te chat(...) var
+    answer = GENERATION.chat(body.message)
     return {"answer": answer}
 
 
@@ -327,10 +330,10 @@ def rag_api(body: RagRequest):
 
     # Cevabı üret
     if used_ctx and contexts:
-        answer = T5.answer(body.question, contexts)
+        answer = GENERATION.answer(body.question, contexts)
     else:
         instr = fallback_instruction()
-        answer = T5.answer_model_only_with_instruction(body.question, instruction=instr)
+        answer = GENERATION.answer_model_only_with_instruction(body.question, instruction=instr)
         used_ctx = False
         sources = []
 
@@ -461,29 +464,29 @@ async def detect_api(background_tasks: BackgroundTasks, file: UploadFile = File(
         ensure_dir(str(target_path))
         cv2.imwrite(str(target_path), drawn)
 
-        if T5 is not None and hasattr(T5, "narrate_detection_structured"):
+        if GENERATION is not None and hasattr(GENERATION, "narrate_detection_structured"):
             try:
-                generation = T5.narrate_detection_structured(summary)
+                generation = GENERATION.narrate_detection_structured(summary)
                 narration = generation.text
             except Exception:
                 logger.exception("Detection narration failed")
                 generation = generation_result_from_text(
                     "",
-                    model_name=getattr(T5, "model_name", "t5"),
-                    runtime=getattr(T5, "runtime", "onnxruntime"),
-                    device=getattr(T5, "device", "cpu"),
+                    model_name=getattr(GENERATION, "model_name", "t5"),
+                    runtime=getattr(GENERATION, "runtime", "onnxruntime"),
+                    device=getattr(GENERATION, "device", "cpu"),
                     prompt_type="detection_narration",
                     fallback_used=True,
                     fallback_reason="detection_narration_failed",
                     error="detection_narration_failed",
                 )
-        elif T5 is not None and hasattr(T5, "narrate_detection"):
-            narration = T5.narrate_detection(summary)
+        elif GENERATION is not None and hasattr(GENERATION, "narrate_detection"):
+            narration = GENERATION.narrate_detection(summary)
             generation = generation_result_from_text(
                 narration,
-                model_name=getattr(T5, "model_name", "t5"),
-                runtime=getattr(T5, "runtime", "onnxruntime"),
-                device=getattr(T5, "device", "cpu"),
+                model_name=getattr(GENERATION, "model_name", "t5"),
+                runtime=getattr(GENERATION, "runtime", "onnxruntime"),
+                device=getattr(GENERATION, "device", "cpu"),
                 prompt_type="detection_narration",
             )
 

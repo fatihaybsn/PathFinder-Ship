@@ -166,6 +166,13 @@ def build_config() -> Dict[str, Any]:
     cfg["T5_MAX_NEW_TOKENS_CHAT"] = _get_int("T5_MAX_NEW_TOKENS_CHAT", 256)
     cfg["T5_MAX_NEW_TOKENS_RAG"] = _get_int("T5_MAX_NEW_TOKENS_RAG", 64)
 
+    cfg["GENERATION_PROVIDER"] = _get_str("GENERATION_PROVIDER", "local_t5")
+    cfg["GEMINI_API_KEY"] = _get_str("GEMINI_API_KEY", "")
+    cfg["GEMINI_MODEL"] = _get_str("GEMINI_MODEL", "gemini-2.5-flash")
+    cfg["GEMINI_TIMEOUT_SECONDS"] = _get_int("GEMINI_TIMEOUT_SECONDS", 30)
+    cfg["GEMINI_MAX_OUTPUT_TOKENS"] = _get_int("GEMINI_MAX_OUTPUT_TOKENS", 512)
+    cfg["GEMINI_TEMPERATURE"] = _get_float("GEMINI_TEMPERATURE", 0.2)
+
     cfg["YOLO_ONNX"] = _get_path(
         "YOLO_ONNX",
         BACKEND_ROOT / "assets" / "models" / "yolo_nas" / "yolo_nas_s_coco.onnx",
@@ -229,10 +236,14 @@ CFG = build_config()
 
 
 def readiness_report() -> Dict[str, Any]:
+    provider = CFG.get("GENERATION_PROVIDER", "local_t5")
+    
+    t5_model_ok = _path_exists(CFG.get("T5_ENCODER"), kind="file") and _path_exists(CFG.get("T5_DECODER"), kind="file")
+    t5_tokenizer_ok = _path_exists(CFG.get("T5_TOKENIZER_DIR"), kind="dir")
+    
     assets = {
-        "t5_model": _path_exists(CFG.get("T5_ENCODER"), kind="file")
-        and _path_exists(CFG.get("T5_DECODER"), kind="file"),
-        "t5_tokenizer": _path_exists(CFG.get("T5_TOKENIZER_DIR"), kind="dir"),
+        "t5_model": t5_model_ok,
+        "t5_tokenizer": t5_tokenizer_ok,
         "nlu_model": _path_exists(CFG.get("CLS_ONNX"), kind="file"),
         "nlu_tokenizer": _path_exists(CFG.get("CLS_TOKENIZER_DIR"), kind="dir"),
         "yolo_model": _path_exists(CFG.get("YOLO_ONNX"), kind="file"),
@@ -241,12 +252,30 @@ def readiness_report() -> Dict[str, Any]:
         "rag_index": _path_exists(CFG.get("CHROMA_PATH"), kind="dir"),
         "rag_sqlite": _path_exists(CFG.get("RAG_SQLITE_PATH"), kind="file"),
     }
-    missing = [name for name, ok in assets.items() if not ok]
+    
+    missing = []
+    for name, ok in assets.items():
+        if name in ("t5_model", "t5_tokenizer"):
+            # Only require local T5 assets if provider is local_t5
+            if provider == "local_t5" and not ok:
+                missing.append(name)
+        else:
+            if not ok:
+                missing.append(name)
+
+    gemini_key = CFG.get("GEMINI_API_KEY", "")
+    gemini_configured = bool(gemini_key)
+
+    if provider == "gemini" and not gemini_configured:
+        missing.append("gemini_api_key")
 
     return {
         "status": "ok" if not missing else "degraded",
         "config": "loaded",
         "assets": assets,
+        "generation_provider": provider,
+        "local_t5_ready": t5_model_ok and t5_tokenizer_ok,
+        "gemini_configured": gemini_configured,
         "features": {
             "email": bool(CFG.get("ENABLE_EMAIL", False)),
             "web_search": bool(CFG.get("ENABLE_WEB_SEARCH", False)),
@@ -254,3 +283,4 @@ def readiness_report() -> Dict[str, Any]:
         },
         "missing": missing,
     }
+

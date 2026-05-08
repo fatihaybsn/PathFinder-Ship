@@ -23,6 +23,7 @@ from schemas.pipeline import (
     retrieval_result_from_legacy,
 )
 from services.route_decision import CAMERA_ACTIONS, DEFAULT_INTENT_THRESHOLD, decide_route, normalize_intent_label
+from services.generation.base import BaseGenerationProvider
 from utils.text import fallback_instruction
 
 logger = logging.getLogger(__name__)
@@ -56,7 +57,7 @@ class PipelineOrchestrator:
         self,
         cfg: Mapping[str, Any],
         nlu: Any,
-        t5: Any,
+        t5: BaseGenerationProvider,
         rag: Any,
         yolo: Any | None = None,
     ) -> None:
