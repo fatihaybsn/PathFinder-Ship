@@ -516,6 +516,50 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
+  function extractSources(response) {
+    if (!response) return [];
+    let rawSources = [];
+
+    if (Array.isArray(response.sources)) {
+      rawSources = rawSources.concat(response.sources);
+    }
+
+    if (response.retrieval && Array.isArray(response.retrieval.sources)) {
+      rawSources = rawSources.concat(response.retrieval.sources);
+    }
+
+    if (response.retrieval && Array.isArray(response.retrieval.chunks)) {
+      response.retrieval.chunks.forEach(chunk => {
+        if (chunk.source) {
+          rawSources.push(chunk.source);
+        }
+        if (chunk.url) {
+          rawSources.push(chunk.url);
+        }
+      });
+    }
+
+    const uniqueSources = [];
+    const seen = new Set();
+    rawSources.forEach(src => {
+      if (!src) return;
+      const s = String(src).trim();
+      if (!s || s.toLowerCase() === "unknown" || s.toLowerCase() === "null") return;
+      if (!seen.has(s)) {
+        seen.add(s);
+        uniqueSources.push(s);
+      }
+    });
+
+    return uniqueSources.map(src => {
+      const isUrl = src.startsWith("http://") || src.startsWith("https://");
+      if (isUrl) {
+        return `[${src}](${src})`;
+      }
+      return src;
+    });
+  }
+
   function appendAssistantResponse(content) {
     const aiText = (content || "").trim() || "(Empty Answer)";
     if (typeof addFormattedMessageToUI === "function") {
@@ -698,7 +742,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const messages = [];
 
     if (result?.final_answer) {
-      messages.push(result.final_answer);
+      let answer = result.final_answer;
+      const sources = extractSources(result);
+      if (sources.length) {
+        answer += "\n\nResources:\n- " + sources.join("\n- ");
+      }
+      messages.push(answer);
     }
 
     if (result?.client_action) {
@@ -765,8 +814,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (webSearchEnabled) {
         const res = await apiRag(message, true, true);
         aiText = res.answer || "(Empty Answer)";
-        if (res.used_context && Array.isArray(res.sources) && res.sources.length) {
-          aiText += "\n\nResources:\n- " + res.sources.join("\n- ");
+        const sources = extractSources(res);
+        if (sources.length) {
+          aiText += "\n\nResources:\n- " + sources.join("\n- ");
         }
       } else {
         const res = await apiChat(message);
@@ -775,8 +825,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       const res = await apiRag(message, webSearchEnabled, false);
       aiText = res.answer || "(Empty Answer)";
-      if (res.used_context && Array.isArray(res.sources) && res.sources.length) {
-        aiText += "\n\nResources:\n- " + res.sources.join("\n- ");
+      const sources = extractSources(res);
+      if (sources.length) {
+        aiText += "\n\nResources:\n- " + sources.join("\n- ");
       }
     }
 

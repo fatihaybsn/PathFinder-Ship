@@ -302,6 +302,7 @@ class RAGService:
         return RetrievalResult(
             query=question,
             chunks=chunks,
+            sources=[c.source for c in chunks if c.source],
             top_k=self.top_k,
             best_score=top_score if retrieved else None,
             threshold=self.thr,

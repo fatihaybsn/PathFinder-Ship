@@ -54,6 +54,7 @@ class RetrievedChunk(BaseModel):
 class RetrievalResult(BaseModel):
     query: str
     chunks: list[RetrievedChunk] = Field(default_factory=list)
+    sources: list[str] = Field(default_factory=list)
     top_k: int | None = None
     best_score: float | None = None
     threshold: float | None = None
@@ -211,6 +212,7 @@ def retrieval_result_from_legacy(
     return RetrievalResult(
         query=query,
         chunks=chunks,
+        sources=source_list,
         top_k=top_k,
         best_score=best_score,
         threshold=threshold,
@@ -238,6 +240,7 @@ def retrieval_result_empty(
     return RetrievalResult(
         query=query,
         chunks=[],
+        sources=[],
         top_k=top_k,
         best_score=best_score,
         threshold=threshold,
