@@ -122,6 +122,15 @@ def build_config() -> Dict[str, Any]:
     cfg["API_PORT"] = _get_int("API_PORT", 8000)
     cfg["FRONTEND_ORIGIN"] = _get_str("FRONTEND_ORIGIN", "*")
 
+    cfg["DIAGENT_ENABLED"] = _get_bool("DIAGENT_ENABLED", False)
+    cfg["DIAGENT_API_URL"] = _get_str("DIAGENT_API_URL", "http://localhost:8000")
+    cfg["DIAGENT_AGENT_NAME"] = _get_str("DIAGENT_AGENT_NAME", "pathfindership")
+    cfg["DIAGENT_TIMEOUT_SECONDS"] = _get_float("DIAGENT_TIMEOUT_SECONDS", 5.0)
+    cfg["DIAGENT_FAIL_OPEN"] = _get_bool("DIAGENT_FAIL_OPEN", True)
+    cfg["DIAGENT_LOG_POLICY_SPANS"] = _get_bool("DIAGENT_LOG_POLICY_SPANS", True)
+    cfg["DIAGENT_MAX_CHUNK_CHARS"] = _get_int("DIAGENT_MAX_CHUNK_CHARS", 1200)
+    cfg["DIAGENT_MAX_RETRIEVAL_CHUNKS"] = _get_int("DIAGENT_MAX_RETRIEVAL_CHUNKS", 5)
+
     cfg["PHOTO_DIR"] = _get_path("PHOTO_DIR", DATA_ROOT / "web_out" / "photo")
     cfg["DETECT_DIR"] = _get_path("DETECT_DIR", DATA_ROOT / "web_out" / "detect")
     cfg["MAX_FILES_PER_DIR"] = _get_int("MAX_FILES_PER_DIR", 10)
@@ -235,6 +244,23 @@ def build_config() -> Dict[str, Any]:
 CFG = build_config()
 
 
+def _diagent_readiness() -> Dict[str, Any]:
+    try:
+        from services.observability.diagent_config import load_diagent_config
+        from services.observability.diagent_safe_client import is_diagent_sdk_available
+
+        diagent = load_diagent_config(CFG)
+        return diagent.to_readiness_dict(sdk_available=is_diagent_sdk_available())
+    except Exception as exc:
+        return {
+            "enabled": bool(CFG.get("DIAGENT_ENABLED", False)),
+            "api_url": CFG.get("DIAGENT_API_URL", "http://localhost:8000"),
+            "fail_open": bool(CFG.get("DIAGENT_FAIL_OPEN", True)),
+            "sdk_available": False,
+            "error": str(exc),
+        }
+
+
 def readiness_report() -> Dict[str, Any]:
     provider = CFG.get("GENERATION_PROVIDER", "local_t5")
     
@@ -281,6 +307,6 @@ def readiness_report() -> Dict[str, Any]:
             "web_search": bool(CFG.get("ENABLE_WEB_SEARCH", False)),
             "camera_actions": bool(CFG.get("ENABLE_CAMERA_ACTIONS", True)),
         },
+        "diagent": _diagent_readiness(),
         "missing": missing,
     }
-
