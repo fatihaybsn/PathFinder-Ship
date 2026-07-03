@@ -25,6 +25,8 @@ from services.pipeline_orchestrator import PipelineOrchestrator
 from services.document_indexing import UploadIndexingError, index_upload_file, upload_error_response
 from services.generation.base import BaseGenerationProvider
 from services.generation.factory import build_generation_provider
+from services.observability import DiagentSafeClient
+from services.observability.diagent_mapper import emit_run_result_telemetry
 from services.rag import RAGService
 from services.yolo import YOLOService
 from schemas.pipeline import (
@@ -41,10 +43,58 @@ from schemas.pipeline import (
 from utils.vision import draw_dets
 
 logger = logging.getLogger(__name__)
+DIAGENT_CLIENT_FACTORY = DiagentSafeClient.from_config
 
 # ---------- Helpers ----------
 def _elapsed_ms(start: float) -> int:
     return int((time.perf_counter() - start) * 1000)
+
+
+def _create_diagent_client() -> DiagentSafeClient:
+    try:
+        return DIAGENT_CLIENT_FACTORY(CFG)
+    except Exception:
+        logger.warning("Diagent client creation failed; telemetry disabled.", exc_info=True)
+        return DiagentSafeClient.from_config({"DIAGENT_ENABLED": False})
+
+
+def _diagent_finish_status(result: RunResult) -> str:
+    return "failed" if result.status == "failed" else "finished"
+
+
+def _diagent_error(result: RunResult) -> str | None:
+    if result.status != "failed":
+        return None
+    if result.errors:
+        return "; ".join(str(error) for error in result.errors)
+    return "pathfindership run failed"
+
+
+def _finish_diagent_run(
+    client: DiagentSafeClient,
+    run_id: str | None,
+    result: RunResult,
+    *,
+    request_metadata: dict[str, Any] | None = None,
+) -> None:
+    try:
+        emit_run_result_telemetry(
+            client,
+            run_id,
+            result,
+            config=client.config,
+            request_metadata=request_metadata,
+            app_config=CFG,
+        )
+    except Exception:
+        logger.warning("Diagent telemetry mapping failed.", exc_info=True)
+    finally:
+        client.finish_run(
+            run_id,
+            output=result.final_answer,
+            status=_diagent_finish_status(result),
+            error=_diagent_error(result),
+        )
 
 
 IMAGE_ALLOWED_CONTENT_TYPES = {"image/jpeg", "image/png", "image/webp", "image/bmp"}
@@ -344,21 +394,44 @@ def rag_api(body: RagRequest):
 @app.post("/api/run", response_model=RunResult)
 def run_api(body: RunRequest):
     started = time.perf_counter()
-    if PIPELINE is None:
-        logger.error("Pipeline is not initialized.")
-        metadata = body.metadata or {}
-        return RunResult(
-            input_text=body.message,
+    diagent_client = _create_diagent_client()
+    diagent_run_id = diagent_client.create_run(body.message)
+    try:
+        if PIPELINE is None:
+            logger.error("Pipeline is not initialized.")
+            metadata = body.metadata or {}
+            result = RunResult(
+                input_text=body.message,
+                status="failed",
+                errors=["pipeline is not initialized"],
+                metadata={
+                    "use_internet": bool(metadata.get("use_internet", False)),
+                    "web_only": bool(metadata.get("web_only", False)),
+                },
+                duration_ms=_elapsed_ms(started),
+            )
+        else:
+            result = PIPELINE.run(body.message, metadata=body.metadata)
+    except Exception as exc:
+        diagent_client.finish_run(
+            diagent_run_id,
             status="failed",
-            errors=["pipeline is not initialized"],
-            metadata={
-                "use_internet": bool(metadata.get("use_internet", False)),
-                "web_only": bool(metadata.get("web_only", False)),
-            },
-            duration_ms=_elapsed_ms(started),
+            error=f"{type(exc).__name__}: {exc}",
         )
+        diagent_client.close()
+        raise
 
-    return PIPELINE.run(body.message, metadata=body.metadata)
+    try:
+        _finish_diagent_run(
+            diagent_client,
+            diagent_run_id,
+            result,
+            request_metadata=body.metadata,
+        )
+    finally:
+        diagent_client.close()
+
+    return result
 
 
 @app.post("/api/photo")

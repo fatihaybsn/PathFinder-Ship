@@ -1,10 +1,18 @@
 import unittest
 from unittest.mock import patch
 
-from schemas.pipeline import GenerationResult, RetrievedChunk, RetrievalResult
+from schemas.pipeline import (
+    GenerationResult,
+    IntentResult,
+    RetrievedChunk,
+    RetrievalResult,
+    RouteDecision,
+    RunResult,
+)
 from services.observability.diagent_config import DiagentConfig
 from services.observability.diagent_mapper import (
     clean_empty_fields,
+    emit_run_result_telemetry,
     prepare_generation_metadata,
     sanitize_retrieval_chunks,
     truncate_text,
@@ -168,7 +176,12 @@ class DiagentMapperTests(unittest.TestCase):
                     score=0.91,
                     rank=1,
                     retrieval_type="local_hybrid",
-                    metadata={"url": "https://example.test/manual", "empty": ""},
+                    metadata={
+                        "url": "https://example.test/manual",
+                        "empty": "",
+                        "api_key": "secret",
+                        "image_base64": "not-for-telemetry",
+                    },
                 ),
                 RetrievedChunk(text="second", source="local:second.txt"),
             ],
@@ -184,6 +197,8 @@ class DiagentMapperTests(unittest.TestCase):
         self.assertEqual(chunks[0]["url"], "https://example.test/manual")
         self.assertEqual(chunks[0]["score"], 0.91)
         self.assertNotIn("empty", chunks[0]["metadata"])
+        self.assertNotIn("api_key", chunks[0]["metadata"])
+        self.assertNotIn("image_base64", chunks[0]["metadata"])
 
     def test_generation_metadata_marks_api_vs_local_and_keeps_false_values(self):
         api_generation = GenerationResult(
@@ -210,12 +225,85 @@ class DiagentMapperTests(unittest.TestCase):
         api_metadata = prepare_generation_metadata(api_generation)
         local_metadata = prepare_generation_metadata(local_generation)
 
+        self.assertEqual(api_metadata["provider"], "gemini")
         self.assertEqual(api_metadata["provider_family"], "api")
         self.assertEqual(api_metadata["total_tokens"], 15)
         self.assertFalse(api_metadata["empty_output"])
         self.assertFalse(api_metadata["fallback_used"])
+        self.assertEqual(local_metadata["provider"], "local_t5")
         self.assertEqual(local_metadata["provider_family"], "local")
         self.assertEqual(local_metadata["total_tokens"], 6)
+
+    def test_emit_run_result_telemetry_logs_empty_retrieval_as_empty_chunk_list(self):
+        class RecordingClient:
+            def __init__(self):
+                self.config = DiagentConfig(
+                    enabled=True,
+                    max_chunk_chars=8,
+                    max_retrieval_chunks=1,
+                )
+                self.spans = []
+                self.retrievals = []
+                self.tool_calls = []
+
+            def log_span(self, run_id, **kwargs):
+                self.spans.append((run_id, kwargs))
+
+            def log_retrieval(self, run_id, **kwargs):
+                self.retrievals.append((run_id, kwargs))
+
+            def log_tool_call(self, run_id, **kwargs):
+                self.tool_calls.append((run_id, kwargs))
+
+        result = RunResult(
+            input_text="what is in the uploaded document?",
+            final_answer="I don't know.",
+            status="degraded",
+            intent=IntentResult(label="chat", confidence=0.95, threshold=0.6, is_confident=True),
+            route=RouteDecision(route="rag", reason="document query", source_intent="chat"),
+            retrieval=RetrievalResult(
+                query="what is in the uploaded document?",
+                chunks=[],
+                top_k=4,
+                best_score=0.1,
+                used_context=False,
+                retrieval_mode="empty",
+                fallback_used=True,
+                fallback_reason="empty_retrieval",
+            ),
+            metadata={"use_internet": True, "web_only": False},
+        )
+        client = RecordingClient()
+
+        emit_run_result_telemetry(
+            client,
+            "run-1",
+            result,
+            config=client.config,
+            request_metadata={"request_id": "req-1", "use_internet": True},
+            app_config={
+                "ENABLE_WEB_SEARCH": True,
+                "GENERATION_PROVIDER": "local_t5",
+                "RAG_WEB_MIN_STRENGTH": 0.75,
+            },
+        )
+
+        self.assertEqual(len(client.retrievals), 1)
+        self.assertEqual(client.retrievals[0][1]["retrieved_chunks"], [])
+        self.assertEqual(client.retrievals[0][1]["top_k"], 4)
+
+        route_span = next(
+            payload
+            for _, payload in client.spans
+            if payload["name"] == "pathfindership.route_decision"
+        )
+        self.assertTrue(route_span["payload"]["retrieval_executed"])
+        self.assertFalse(route_span["payload"]["web_search_executed"])
+        self.assertEqual(route_span["payload"]["sources_count"], 0)
+        self.assertEqual(route_span["payload"]["best_score"], 0.1)
+        self.assertEqual(route_span["payload"]["local_retrieval_score"], 0.1)
+        self.assertEqual(route_span["payload"]["web_fallback_threshold"], 0.75)
+        self.assertTrue(route_span["payload"]["use_internet"])
 
     def test_clean_empty_fields_keeps_zero_and_false(self):
         cleaned = clean_empty_fields(

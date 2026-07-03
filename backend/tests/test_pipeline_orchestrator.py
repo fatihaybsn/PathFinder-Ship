@@ -54,6 +54,7 @@ if not hasattr(sys.modules["ddgs"], "DDGS"):
 from fastapi.testclient import TestClient
 
 from schemas.pipeline import (
+    ClientAction,
     DETECTION_STATUS_FAILED,
     DETECTION_STATUS_SUCCESS,
     DetectionObject,
@@ -62,9 +63,11 @@ from schemas.pipeline import (
     IntentResult,
     RetrievedChunk,
     RetrievalResult,
+    RouteDecision,
     RunResult,
     to_serializable_dict,
 )
+from services.observability.diagent_config import DiagentConfig
 from services.pipeline_orchestrator import PipelineOrchestrator
 
 
@@ -390,6 +393,39 @@ class PipelineOrchestratorTests(unittest.TestCase):
 
 
 class RunEndpointTests(unittest.TestCase):
+    class RecordingDiagentClient:
+        def __init__(self):
+            self.config = DiagentConfig(
+                enabled=True,
+                max_chunk_chars=10,
+                max_retrieval_chunks=1,
+            )
+            self.created = []
+            self.spans = []
+            self.retrievals = []
+            self.tool_calls = []
+            self.finished = []
+            self.closed = False
+
+        def create_run(self, input_text="", *, agent_name=None):
+            self.created.append({"input_text": input_text, "agent_name": agent_name})
+            return "run-123"
+
+        def log_span(self, run_id, **kwargs):
+            self.spans.append((run_id, kwargs))
+
+        def log_retrieval(self, run_id, **kwargs):
+            self.retrievals.append((run_id, kwargs))
+
+        def log_tool_call(self, run_id, **kwargs):
+            self.tool_calls.append((run_id, kwargs))
+
+        def finish_run(self, run_id, **kwargs):
+            self.finished.append((run_id, kwargs))
+
+        def close(self):
+            self.closed = True
+
     def test_run_endpoint_returns_pipeline_result(self):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", DeprecationWarning)
@@ -417,6 +453,157 @@ class RunEndpointTests(unittest.TestCase):
         self.assertEqual(body["input_text"], "hello")
         self.assertEqual(body["final_answer"], "ok")
         self.assertEqual(body["metadata"]["use_internet"], True)
+
+    def test_run_endpoint_emits_diagent_telemetry_with_fake_client(self):
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", DeprecationWarning)
+            import web.app as web_app
+
+        class FakePipeline:
+            def run(self, input_text, metadata=None, image_bgr=None):
+                return RunResult(
+                    input_text=input_text,
+                    final_answer="telemetry ok",
+                    status="completed",
+                    intent=IntentResult(
+                        label="rag",
+                        confidence=0.93,
+                        threshold=0.6,
+                        is_confident=True,
+                        latency_ms=3,
+                    ),
+                    route=RouteDecision(
+                        route="rag",
+                        reason="confident rag intent",
+                        source_intent="rag",
+                        confidence=0.93,
+                    ),
+                    retrieval=RetrievalResult(
+                        query=input_text,
+                        chunks=[
+                            RetrievedChunk(
+                                text="0123456789abcdef",
+                                source="https://example.test/manual",
+                                score=0.88,
+                                rank=1,
+                                retrieval_type="web",
+                                metadata={"url": "https://example.test/manual"},
+                            ),
+                            RetrievedChunk(text="second chunk", source="local:manual.txt"),
+                        ],
+                        sources=["https://example.test/manual"],
+                        top_k=2,
+                        best_score=0.88,
+                        used_context=True,
+                        retrieval_mode="hybrid_local_web",
+                    ),
+                    generation=GenerationResult(
+                        text="telemetry ok",
+                        model_name="gemini-2.5-flash",
+                        runtime="gemini_api",
+                        device="remote",
+                        prompt_type="rag_answer",
+                        input_tokens=12,
+                        output_tokens=4,
+                        latency_ms=17,
+                    ),
+                    detection=DetectionResult(
+                        objects=[
+                            DetectionObject(label="bottle", confidence=0.91),
+                        ],
+                        image_source="pipeline",
+                        model_name="fake-yolo",
+                        latency_ms=5,
+                        status=DETECTION_STATUS_SUCCESS,
+                    ),
+                    client_action=ClientAction(
+                        action="capture_photo",
+                        reason="frontend capture requested",
+                        requires_user_permission=True,
+                    ),
+                    metadata={"use_internet": bool((metadata or {}).get("use_internet")), "web_only": False},
+                )
+
+        fake_client = self.RecordingDiagentClient()
+        previous_pipeline = web_app.PIPELINE
+        previous_factory = web_app.DIAGENT_CLIENT_FACTORY
+        web_app.PIPELINE = FakePipeline()
+        web_app.DIAGENT_CLIENT_FACTORY = lambda cfg: fake_client
+        try:
+            client = TestClient(web_app.app)
+            response = client.post(
+                "/api/run",
+                json={
+                    "message": "manual question",
+                    "metadata": {"use_internet": True, "request_id": "req-1"},
+                },
+            )
+        finally:
+            web_app.PIPELINE = previous_pipeline
+            web_app.DIAGENT_CLIENT_FACTORY = previous_factory
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(fake_client.created[0]["input_text"], "manual question")
+        self.assertTrue(fake_client.closed)
+
+        span_names = [span["name"] for _, span in fake_client.spans]
+        self.assertIn("pathfindership.intent", span_names)
+        self.assertIn("pathfindership.route_decision", span_names)
+        self.assertIn("pathfindership.generation", span_names)
+        self.assertIn("pathfindership.client_action", span_names)
+
+        route_span = next(
+            span for _, span in fake_client.spans if span["name"] == "pathfindership.route_decision"
+        )
+        self.assertTrue(route_span["payload"]["retrieval_executed"])
+        self.assertTrue(route_span["payload"]["web_search_executed"])
+        self.assertEqual(route_span["payload"]["sources_count"], 1)
+        self.assertEqual(route_span["payload"]["best_score"], 0.88)
+        self.assertTrue(route_span["payload"]["use_internet"])
+        self.assertEqual(route_span["payload"]["request_id"], "req-1")
+
+        self.assertEqual(len(fake_client.retrievals), 1)
+        retrieved_chunks = fake_client.retrievals[0][1]["retrieved_chunks"]
+        self.assertEqual(len(retrieved_chunks), 1)
+        self.assertEqual(retrieved_chunks[0]["text"], "0123456...")
+        self.assertEqual(retrieved_chunks[0]["source"], "https://example.test/manual")
+
+        generation_span = next(
+            span for _, span in fake_client.spans if span["name"] == "pathfindership.generation"
+        )
+        self.assertEqual(generation_span["payload"]["provider"], "gemini")
+        self.assertEqual(generation_span["payload"]["runtime"], "gemini_api")
+
+        self.assertEqual(fake_client.tool_calls[0][1]["tool_name"], "pathfindership.yolo.detect")
+        self.assertEqual(fake_client.tool_calls[0][1]["status"], "success")
+        self.assertEqual(fake_client.finished[0][1]["status"], "finished")
+        self.assertEqual(fake_client.finished[0][1]["output"], "telemetry ok")
+
+    def test_run_endpoint_finishes_diagent_run_on_pipeline_exception(self):
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", DeprecationWarning)
+            import web.app as web_app
+
+        class ExplodingPipeline:
+            def run(self, input_text, metadata=None, image_bgr=None):
+                raise RuntimeError("boom")
+
+        fake_client = self.RecordingDiagentClient()
+        previous_pipeline = web_app.PIPELINE
+        previous_factory = web_app.DIAGENT_CLIENT_FACTORY
+        web_app.PIPELINE = ExplodingPipeline()
+        web_app.DIAGENT_CLIENT_FACTORY = lambda cfg: fake_client
+        try:
+            client = TestClient(web_app.app, raise_server_exceptions=False)
+            response = client.post("/api/run", json={"message": "hello"})
+        finally:
+            web_app.PIPELINE = previous_pipeline
+            web_app.DIAGENT_CLIENT_FACTORY = previous_factory
+
+        self.assertEqual(response.status_code, 500)
+        self.assertEqual(fake_client.finished[0][1]["status"], "failed")
+        self.assertIn("RuntimeError: boom", fake_client.finished[0][1]["error"])
+        self.assertTrue(fake_client.closed)
 
     def test_run_endpoint_uninitialized_pipeline_returns_structured_failure(self):
         with warnings.catch_warnings():
