@@ -2,6 +2,10 @@ import unittest
 from unittest.mock import patch
 
 from schemas.pipeline import (
+    ClientAction,
+    DETECTION_STATUS_SUCCESS,
+    DetectionObject,
+    DetectionResult,
     GenerationResult,
     IntentResult,
     RetrievedChunk,
@@ -13,6 +17,8 @@ from services.observability.diagent_config import DiagentConfig
 from services.observability.diagent_mapper import (
     clean_empty_fields,
     emit_run_result_telemetry,
+    map_client_action_span,
+    map_detection_tool,
     prepare_generation_metadata,
     sanitize_retrieval_chunks,
     truncate_text,
@@ -233,6 +239,76 @@ class DiagentMapperTests(unittest.TestCase):
         self.assertEqual(local_metadata["provider"], "local_t5")
         self.assertEqual(local_metadata["provider_family"], "local")
         self.assertEqual(local_metadata["total_tokens"], 6)
+
+    def test_client_action_span_lifts_correlation_fields_and_sanitizes_payload(self):
+        result = RunResult(
+            input_text="detect objects",
+            status="degraded",
+            client_action=ClientAction(
+                action="capture_photo",
+                reason="object detection requires an image",
+                requires_user_permission=True,
+                payload={
+                    "correlation_id": "corr-123",
+                    "originating_action": "capture_photo",
+                    "originating_route": "detect",
+                    "image_base64": "not-for-telemetry",
+                },
+            ),
+        )
+
+        span = map_client_action_span(result)
+
+        self.assertIsNotNone(span)
+        payload = span["payload"]
+        self.assertEqual(payload["correlation_id"], "corr-123")
+        self.assertEqual(payload["originating_action"], "capture_photo")
+        self.assertEqual(payload["originating_route"], "detect")
+        self.assertNotIn("image_base64", payload["payload"])
+
+    def test_detection_tool_includes_correlation_and_sanitized_detection_summary(self):
+        result = RunResult(
+            input_text="PathFinderShip detection request",
+            status="completed",
+            detection=DetectionResult(
+                objects=[
+                    DetectionObject(
+                        label="bottle",
+                        confidence=0.88,
+                        bbox=[1, 2, 3, 4],
+                        metadata={"class_id": 39},
+                    )
+                ],
+                image_source="upload",
+                model_name="fake-yolo",
+                latency_ms=12,
+                status=DETECTION_STATUS_SUCCESS,
+                metadata={
+                    "confidence_threshold": 0.25,
+                    "iou_threshold": 0.45,
+                    "image_width": 640,
+                    "image_height": 480,
+                    "image_base64": "not-for-telemetry",
+                    "raw_image": "not-for-telemetry",
+                },
+            ),
+            metadata={"correlation_id": "corr-123"},
+        )
+
+        tool_call = map_detection_tool(result)
+
+        self.assertIsNotNone(tool_call)
+        self.assertEqual(tool_call["tool_name"], "pathfindership.yolo.detect")
+        self.assertEqual(tool_call["status"], "success")
+        args = tool_call["args"]
+        self.assertEqual(args["correlation_id"], "corr-123")
+        self.assertEqual(args["detection_count"], 1)
+        self.assertEqual(args["labels"], ["bottle"])
+        self.assertEqual(args["max_confidence"], 0.88)
+        self.assertEqual(args["confidence_threshold"], 0.25)
+        self.assertEqual(args["detections"][0]["bbox"], [1.0, 2.0, 3.0, 4.0])
+        self.assertNotIn("image_base64", args["image_metadata"])
+        self.assertNotIn("raw_image", args["image_metadata"])
 
     def test_emit_run_result_telemetry_logs_empty_retrieval_as_empty_chunk_list(self):
         class RecordingClient:

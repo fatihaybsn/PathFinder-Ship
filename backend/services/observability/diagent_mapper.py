@@ -11,6 +11,7 @@ from uuid import UUID
 
 EMPTY_VALUES = (None, "", [], {})
 REQUEST_METADATA_KEYS = {
+    "correlation_id",
     "request_id",
     "conversation_id",
     "generation_provider",
@@ -409,7 +410,10 @@ def map_generation_span(run_result: Any) -> dict[str, Any] | None:
     if not isinstance(generation, Mapping):
         return None
 
+    run_metadata = data.get("metadata") if isinstance(data.get("metadata"), Mapping) else {}
     payload = prepare_generation_metadata(generation)
+    if run_metadata.get("correlation_id"):
+        payload["correlation_id"] = run_metadata.get("correlation_id")
     return {
         "span_type": "llm_call",
         "name": "pathfindership.generation",
@@ -426,13 +430,20 @@ def map_client_action_span(run_result: Any) -> dict[str, Any] | None:
     if not isinstance(client_action, Mapping):
         return None
 
+    action_payload = sanitize_metadata(client_action.get("payload"))
+    if not isinstance(action_payload, Mapping):
+        action_payload = {}
+
     payload = clean_empty_fields(
         {
             "action": client_action.get("action") or client_action.get("type"),
             "reason": client_action.get("reason"),
             "requires_frontend": True,
             "requires_user_permission": client_action.get("requires_user_permission"),
-            "payload": sanitize_metadata(client_action.get("payload")),
+            "correlation_id": action_payload.get("correlation_id"),
+            "originating_action": action_payload.get("originating_action"),
+            "originating_route": action_payload.get("originating_route"),
+            "payload": action_payload,
         }
     )
     return {
@@ -450,6 +461,11 @@ def map_detection_tool(run_result: Any) -> dict[str, Any] | None:
     if not isinstance(detection, Mapping):
         return None
 
+    run_metadata = data.get("metadata") if isinstance(data.get("metadata"), Mapping) else {}
+    detection_metadata = (
+        detection.get("metadata") if isinstance(detection.get("metadata"), Mapping) else {}
+    )
+    correlation_id = run_metadata.get("correlation_id") or detection_metadata.get("correlation_id")
     objects = detection.get("objects") if isinstance(detection.get("objects"), list) else []
     labels = [
         obj.get("label")
@@ -463,14 +479,45 @@ def map_detection_tool(run_result: Any) -> dict[str, Any] | None:
     ]
     status = str(detection.get("status") or "")
     is_success = status in {"success", "no_objects"}
+    object_summaries: list[dict[str, Any]] = []
+    for obj in objects[:20]:
+        if not isinstance(obj, Mapping):
+            continue
+        obj_metadata = obj.get("metadata") if isinstance(obj.get("metadata"), Mapping) else {}
+        object_summaries.append(
+            clean_empty_fields(
+                {
+                    "label": obj.get("label"),
+                    "confidence": obj.get("confidence"),
+                    "bbox": obj.get("bbox"),
+                    "class_id": obj_metadata.get("class_id"),
+                }
+            )
+        )
+
+    sanitized_detection_metadata = sanitize_metadata(detection_metadata)
     args = clean_empty_fields(
         {
+            "correlation_id": correlation_id,
             "status": status,
-            "labels": labels,
+            "labels": labels[:20],
             "detection_count": len(objects),
             "max_confidence": max(confidences) if confidences else None,
             "image_source": detection.get("image_source"),
+            "model": detection.get("model_name"),
             "model_name": detection.get("model_name"),
+            "confidence_threshold": (
+                sanitized_detection_metadata.get("confidence_threshold")
+                if isinstance(sanitized_detection_metadata, Mapping)
+                else None
+            ),
+            "iou_threshold": (
+                sanitized_detection_metadata.get("iou_threshold")
+                if isinstance(sanitized_detection_metadata, Mapping)
+                else None
+            ),
+            "image_metadata": sanitized_detection_metadata,
+            "detections": object_summaries,
         }
     )
     return {

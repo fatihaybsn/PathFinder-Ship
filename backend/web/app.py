@@ -7,9 +7,10 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Mapping, Optional
 from collections import Counter
 from pathlib import Path
+from uuid import uuid4
 import cv2, numpy as np
 
 # 1) .env'yi yükleyen yer ÖNCE gelsin
@@ -26,7 +27,7 @@ from services.document_indexing import UploadIndexingError, index_upload_file, u
 from services.generation.base import BaseGenerationProvider
 from services.generation.factory import build_generation_provider
 from services.observability import DiagentSafeClient
-from services.observability.diagent_mapper import emit_run_result_telemetry
+from services.observability.diagent_mapper import emit_run_result_telemetry, sanitize_metadata
 from services.rag import RAGService
 from services.yolo import YOLOService
 from schemas.pipeline import (
@@ -97,6 +98,131 @@ def _finish_diagent_run(
         )
 
 
+CORRELATION_SOURCE_KEYS = ("correlation_id", "request_id", "conversation_id", "trace_id")
+
+
+def _normalize_correlation_id(value: Any) -> str | None:
+    if value is None:
+        return None
+    text = str(value).strip()
+    if not text:
+        return None
+    return text[:128]
+
+
+def _correlation_from_metadata(metadata: Mapping[str, Any] | None) -> str | None:
+    if not isinstance(metadata, Mapping):
+        return None
+    for key in CORRELATION_SOURCE_KEYS:
+        correlation_id = _normalize_correlation_id(metadata.get(key))
+        if correlation_id:
+            return correlation_id
+    return None
+
+
+def _new_correlation_id() -> str:
+    return str(uuid4())
+
+
+def _ensure_client_action_correlation(
+    result: RunResult,
+    *,
+    request_metadata: Mapping[str, Any] | None = None,
+) -> None:
+    client_action = result.client_action
+    if client_action is None or client_action.action != "capture_photo":
+        return
+
+    payload = dict(client_action.payload or {})
+    payload["correlation_id"] = (
+        _normalize_correlation_id(payload.get("correlation_id"))
+        or _correlation_from_metadata(request_metadata)
+        or _correlation_from_metadata(result.metadata)
+        or _new_correlation_id()
+    )
+    payload.setdefault("originating_action", client_action.action)
+    if result.route is not None:
+        payload.setdefault("originating_route", result.route.route)
+    client_action.payload = payload
+
+
+def _detection_run_output(summary: str, narration: str | None, detection: DetectionResult) -> str:
+    if narration:
+        return narration
+    if detection.error:
+        return f"Object detection completed with error: {detection.error}"
+    return f"Object summary: {summary}"
+
+
+def _finish_detection_diagent_run(
+    client: DiagentSafeClient,
+    run_id: str | None,
+    *,
+    detection: DetectionResult,
+    generation: GenerationResult | None,
+    summary: str,
+    narration: str | None,
+    correlation_id: str,
+    correlation_id_provided: bool,
+    image_metadata: Mapping[str, Any],
+    email_scheduled: bool,
+) -> None:
+    if not run_id:
+        return
+
+    request_payload = sanitize_metadata(
+        {
+            "endpoint": "/api/detect",
+            "correlation_id": correlation_id,
+            "correlation_id_provided": correlation_id_provided,
+            "origin": "frontend_snapshot",
+            "image_received": bool(image_metadata.get("size_bytes", 0)),
+            "image_decoded": detection.status != DETECTION_STATUS_INVALID_IMAGE,
+            "image_metadata": image_metadata,
+            "email_scheduled": email_scheduled,
+        }
+    )
+
+    try:
+        client.log_span(
+            run_id,
+            span_type="system",
+            name="pathfindership.detect.request",
+            payload=request_payload,
+        )
+
+        telemetry_result = RunResult(
+            input_text="PathFinderShip detection request",
+            final_answer=_detection_run_output(summary, narration, detection),
+            status="degraded" if detection.error else "completed",
+            detection=detection,
+            generation=generation,
+            metadata={
+                "endpoint": "/api/detect",
+                "correlation_id": correlation_id,
+                "correlation_id_provided": correlation_id_provided,
+                "origin": "frontend_snapshot",
+                "image_metadata": sanitize_metadata(image_metadata),
+                "email_scheduled": email_scheduled,
+            },
+        )
+        emit_run_result_telemetry(
+            client,
+            run_id,
+            telemetry_result,
+            config=client.config,
+            app_config=CFG,
+        )
+    except Exception:
+        logger.warning("Diagent detection telemetry mapping failed.", exc_info=True)
+    finally:
+        client.finish_run(
+            run_id,
+            output=_detection_run_output(summary, narration, detection),
+            status="finished",
+        )
+
+
 IMAGE_ALLOWED_CONTENT_TYPES = {"image/jpeg", "image/png", "image/webp", "image/bmp"}
 IMAGE_ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
 
@@ -130,17 +256,18 @@ def _invalid_image_result(
     )
 
 
-async def read_image_upload(upload: UploadFile) -> tuple[np.ndarray | None, DetectionResult | None]:
+async def read_image_upload(upload: UploadFile) -> tuple[np.ndarray | None, DetectionResult | None, dict[str, Any]]:
     """UploadFile -> validated BGR numpy image or structured detection error."""
     started = time.perf_counter()
     data = await upload.read()
     size_bytes = len(data)
+    metadata = _upload_metadata(upload, size_bytes)
     if size_bytes == 0:
-        return None, _invalid_image_result(upload, "image_empty", started=started, size_bytes=size_bytes)
+        return None, _invalid_image_result(upload, "image_empty", started=started, size_bytes=size_bytes), metadata
 
     max_bytes = int(CFG.get("UPLOAD_MAX_BYTES", 10 * 1024 * 1024))
     if size_bytes > max_bytes:
-        return None, _invalid_image_result(upload, "image_too_large", started=started, size_bytes=size_bytes)
+        return None, _invalid_image_result(upload, "image_too_large", started=started, size_bytes=size_bytes), metadata
 
     suffix = Path(upload.filename or "").suffix.lower()
     content_type = (upload.content_type or "").split(";")[0].strip().lower()
@@ -150,16 +277,16 @@ async def read_image_upload(upload: UploadFile) -> tuple[np.ndarray | None, Dete
             "unsupported_image_format",
             started=started,
             size_bytes=size_bytes,
-        )
+        ), metadata
 
     arr = np.frombuffer(data, np.uint8)
     img = cv2.imdecode(arr, cv2.IMREAD_COLOR)
     if img is None:
-        return None, _invalid_image_result(upload, "image_decode_failed", started=started, size_bytes=size_bytes)
+        return None, _invalid_image_result(upload, "image_decode_failed", started=started, size_bytes=size_bytes), metadata
     if img.size == 0 or img.shape[0] <= 0 or img.shape[1] <= 0:
-        return None, _invalid_image_result(upload, "image_empty", started=started, size_bytes=size_bytes)
+        return None, _invalid_image_result(upload, "image_empty", started=started, size_bytes=size_bytes), metadata
 
-    return img, None
+    return img, None, metadata
 
 
 def load_image_from_upload(upload: UploadFile) -> np.ndarray:
@@ -421,6 +548,8 @@ def run_api(body: RunRequest):
         diagent_client.close()
         raise
 
+    _ensure_client_action_correlation(result, request_metadata=body.metadata)
+
     try:
         _finish_diagent_run(
             diagent_client,
@@ -463,131 +592,169 @@ async def take_photo_api(background_tasks: BackgroundTasks, file: UploadFile = F
 
 # ---------- Detect (YOLO) ----------
 @app.post("/api/detect", response_model=DetectResponse)
-async def detect_api(background_tasks: BackgroundTasks, file: UploadFile = File(...), draw: int = Form(1)):
+async def detect_api(
+    background_tasks: BackgroundTasks,
+    file: UploadFile = File(...),
+    draw: int = Form(1),
+    correlation_id: str | None = Form(None),
+):
     """
     Tarayıcıdan gönderilen bir görüntü (image/jpeg/png) bekler.
     YOLO çalışır, etiketleri ve kutuları döner.
     draw=1 ise çizilmiş görseli diske kaydeder ve URL döner.
     """
-    img_bgr, image_error = await read_image_upload(file)
-    generation: GenerationResult | None = None
-    narration = None
-    image_url = None
+    provided_correlation_id = _normalize_correlation_id(correlation_id)
+    telemetry_correlation_id = provided_correlation_id or _new_correlation_id()
+    diagent_client = _create_diagent_client()
+    diagent_run_id = diagent_client.create_run(
+        f"YOLO detection follow-up for correlation_id={telemetry_correlation_id}"
+    )
 
-    if image_error is not None:
-        detection = image_error
-    elif YOLO is None:
-        detection = DetectionResult(
-            objects=[],
-            image_source="upload",
-            model_name="yolo",
-            status=DETECTION_STATUS_MODEL_ERROR,
-            error="detection_service_unavailable",
-            metadata=_upload_metadata(file),
-        )
-    else:
-        if hasattr(YOLO, "detect_structured"):
-            detection = YOLO.detect_structured(img_bgr, image_source="upload")
+    try:
+        img_bgr, image_error, image_metadata = await read_image_upload(file)
+        generation: GenerationResult | None = None
+        narration = None
+        image_url = None
+        email_scheduled = False
+
+        if image_error is not None:
+            detection = image_error
+        elif YOLO is None:
+            detection = DetectionResult(
+                objects=[],
+                image_source="upload",
+                model_name="yolo",
+                status=DETECTION_STATUS_MODEL_ERROR,
+                error="detection_service_unavailable",
+                metadata=image_metadata,
+            )
         else:
-            try:
-                boxes, labels, scores, cls_ids = YOLO.detect_from_bgr(img_bgr)
-                detection = detection_result_from_legacy(
-                    labels,
-                    boxes,
-                    scores,
-                    cls_ids,
-                    image_source="upload",
-                    model_name="yolo",
-                    metadata=_upload_metadata(file),
-                )
-            except Exception:
-                logger.exception("Legacy YOLO detection failed")
-                detection = DetectionResult(
-                    objects=[],
-                    image_source="upload",
-                    model_name="yolo",
-                    status=DETECTION_STATUS_MODEL_ERROR,
-                    error="yolo_inference_failed",
-                    metadata=_upload_metadata(file),
-                )
+            if hasattr(YOLO, "detect_structured"):
+                detection = YOLO.detect_structured(img_bgr, image_source="upload")
+            else:
+                try:
+                    boxes, labels, scores, cls_ids = YOLO.detect_from_bgr(img_bgr)
+                    detection = detection_result_from_legacy(
+                        labels,
+                        boxes,
+                        scores,
+                        cls_ids,
+                        image_source="upload",
+                        model_name="yolo",
+                        metadata=image_metadata,
+                    )
+                except Exception:
+                    logger.exception("Legacy YOLO detection failed")
+                    detection = DetectionResult(
+                        objects=[],
+                        image_source="upload",
+                        model_name="yolo",
+                        status=DETECTION_STATUS_MODEL_ERROR,
+                        error="yolo_inference_failed",
+                        metadata=image_metadata,
+                    )
 
-    labels = [obj.label for obj in detection.objects]
-    boxes = [obj.bbox for obj in detection.objects if obj.bbox is not None]
-    scores = [float(obj.confidence) for obj in detection.objects if obj.confidence is not None]
-    cls_ids = [
-        int(obj.metadata["class_id"])
-        for obj in detection.objects
-        if obj.metadata and obj.metadata.get("class_id") is not None
-    ]
+        labels = [obj.label for obj in detection.objects]
+        boxes = [obj.bbox for obj in detection.objects if obj.bbox is not None]
+        scores = [float(obj.confidence) for obj in detection.objects if obj.confidence is not None]
+        cls_ids = [
+            int(obj.metadata["class_id"])
+            for obj in detection.objects
+            if obj.metadata and obj.metadata.get("class_id") is not None
+        ]
 
-    # Özet ("2 person, 1 dog")
-    summary = ", ".join([f"{n} {c}" for c, n in Counter(labels).items()]) if labels else "no objects"
+        # Özet ("2 person, 1 dog")
+        summary = ", ".join([f"{n} {c}" for c, n in Counter(labels).items()]) if labels else "no objects"
 
-    if img_bgr is not None and draw and len(boxes) > 0 and len(scores) == len(boxes) and len(cls_ids) == len(boxes):
-        # draw_dets için: dets = [x1,y1,x2,y2, conf, cls] biçimi
-        dets = np.column_stack([
-            np.array(boxes, dtype=np.float32),   # (N,4)
-            np.array(scores, dtype=np.float32),  # (N,)
-            np.array(cls_ids, dtype=np.float32)  # (N,)
-        ])
-        drawn = draw_dets(img_bgr.copy(), dets, YOLO.names)
+        if img_bgr is not None and draw and len(boxes) > 0 and len(scores) == len(boxes) and len(cls_ids) == len(boxes):
+            # draw_dets için: dets = [x1,y1,x2,y2, conf, cls] biçimi
+            dets = np.column_stack([
+                np.array(boxes, dtype=np.float32),   # (N,4)
+                np.array(scores, dtype=np.float32),  # (N,)
+                np.array(cls_ids, dtype=np.float32)  # (N,)
+            ])
+            drawn = draw_dets(img_bgr.copy(), dets, YOLO.names)
 
-        # YENİ BLOK (ring buffer + mail)
-        target_path = save_with_ring_buffer(DETECT_DIR, filename_prefix="detect", ext="jpg", max_count=MAX_FILES_PER_DIR)
-        ensure_dir(str(target_path))
-        cv2.imwrite(str(target_path), drawn)
+            # YENİ BLOK (ring buffer + mail)
+            target_path = save_with_ring_buffer(DETECT_DIR, filename_prefix="detect", ext="jpg", max_count=MAX_FILES_PER_DIR)
+            ensure_dir(str(target_path))
+            cv2.imwrite(str(target_path), drawn)
 
-        if GENERATION is not None and hasattr(GENERATION, "narrate_detection_structured"):
-            try:
-                generation = GENERATION.narrate_detection_structured(summary)
-                narration = generation.text
-            except Exception:
-                logger.exception("Detection narration failed")
+            if GENERATION is not None and hasattr(GENERATION, "narrate_detection_structured"):
+                try:
+                    generation = GENERATION.narrate_detection_structured(summary)
+                    narration = generation.text
+                except Exception:
+                    logger.exception("Detection narration failed")
+                    generation = generation_result_from_text(
+                        "",
+                        model_name=getattr(GENERATION, "model_name", "t5"),
+                        runtime=getattr(GENERATION, "runtime", "onnxruntime"),
+                        device=getattr(GENERATION, "device", "cpu"),
+                        prompt_type="detection_narration",
+                        fallback_used=True,
+                        fallback_reason="detection_narration_failed",
+                        error="detection_narration_failed",
+                    )
+            elif GENERATION is not None and hasattr(GENERATION, "narrate_detection"):
+                narration = GENERATION.narrate_detection(summary)
                 generation = generation_result_from_text(
-                    "",
+                    narration,
                     model_name=getattr(GENERATION, "model_name", "t5"),
                     runtime=getattr(GENERATION, "runtime", "onnxruntime"),
                     device=getattr(GENERATION, "device", "cpu"),
                     prompt_type="detection_narration",
-                    fallback_used=True,
-                    fallback_reason="detection_narration_failed",
-                    error="detection_narration_failed",
                 )
-        elif GENERATION is not None and hasattr(GENERATION, "narrate_detection"):
-            narration = GENERATION.narrate_detection(summary)
-            generation = generation_result_from_text(
-                narration,
-                model_name=getattr(GENERATION, "model_name", "t5"),
-                runtime=getattr(GENERATION, "runtime", "onnxruntime"),
-                device=getattr(GENERATION, "device", "cpu"),
-                prompt_type="detection_narration",
+
+            # telefona e-posta (arka planda)
+            subject = f"PathFinder-Ship reported a photo"  # ör. "2 person, 1 dog"
+            background_tasks.add_task(
+                send_image_via_email,
+                image_path=str(target_path),
+                subject=subject,
+                body=f"{narration}\nDetail: {summary}" if narration else f"Detail: {summary}"
             )
+            email_scheduled = True
 
-        # telefona e-posta (arka planda)
-        subject = f"PathFinder-Ship reported a photo"  # ör. "2 person, 1 dog"
-        background_tasks.add_task(
-            send_image_via_email,
-            image_path=str(target_path),
-            subject=subject,
-            body=f"{narration}\nDetail: {summary}" if narration else f"Detail: {summary}"
+            image_url = _static_url_for(target_path)
+
+        # Kutuları istemciye göndermek için listele
+        boxes_list = [[float(x1), float(y1), float(x2), float(y2)] for (x1, y1, x2, y2) in boxes] if boxes else []
+        response_body = {
+            "labels": labels,
+            "summary": summary,
+            "boxes": boxes_list,
+            "scores": scores,
+            "class_ids": cls_ids,
+            "image_url": image_url,
+            "narration": narration,
+            "detection": to_serializable_dict(detection),
+            "generation": to_serializable_dict(generation) if generation is not None else None,
+            "error": detection.error,
+        }
+    except Exception as exc:
+        diagent_client.finish_run(
+            diagent_run_id,
+            status="failed",
+            error=f"{type(exc).__name__}: {exc}",
         )
-
-        image_url = _static_url_for(target_path)
-
-    # Kutuları istemciye göndermek için listele
-    boxes_list = [[float(x1), float(y1), float(x2), float(y2)] for (x1, y1, x2, y2) in boxes] if boxes else []
-    return {
-        "labels": labels,
-        "summary": summary,
-        "boxes": boxes_list,
-        "scores": scores,
-        "class_ids": cls_ids,
-        "image_url": image_url,
-        "narration": narration,
-        "detection": to_serializable_dict(detection),
-        "generation": to_serializable_dict(generation) if generation is not None else None,
-        "error": detection.error,
-    }
+        raise
+    else:
+        _finish_detection_diagent_run(
+            diagent_client,
+            diagent_run_id,
+            detection=detection,
+            generation=generation,
+            summary=summary,
+            narration=narration,
+            correlation_id=telemetry_correlation_id,
+            correlation_id_provided=provided_correlation_id is not None,
+            image_metadata=image_metadata,
+            email_scheduled=email_scheduled,
+        )
+        return response_body
+    finally:
+        diagent_client.close()
 
 
 # (Opsiyonel) Belgeleri yükleyip indeksleme için bir uç nokta:

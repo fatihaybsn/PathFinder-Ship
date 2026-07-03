@@ -136,10 +136,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }).then(r => r.json());
   }
 
-  function apiDetectFromFile(file, draw=1) {
+  function apiDetectFromFile(file, draw=1, correlationId=null) {
     const fd = new FormData();
     fd.append("file", file);
     fd.append("draw", String(draw));
+    if (correlationId) {
+      fd.append("correlation_id", correlationId);
+    }
     return fetch(`${BACKEND_BASE}/api/detect`, {
       method: "POST",
       body: fd
@@ -709,6 +712,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function executeClientAction(clientAction, result, context = {}) {
     const action = typeof clientAction === "string" ? clientAction : clientAction?.action;
     if (!action || action === "none") return "";
+    const correlationId = clientAction?.payload?.correlation_id || result?.metadata?.correlation_id || null;
 
     if (action === "open_camera") {
       const msg = await openCamera();
@@ -724,7 +728,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const shouldDetect = shouldDetectAfterCapture(result);
       if (shouldDetect) {
         const file = context.fileRef || await captureCameraFile("frame.jpg");
-        const det = await apiDetectFromFile(file, 1);
+        const det = await apiDetectFromFile(file, 1, correlationId);
         return formatDetectionResponse(det);
       }
 

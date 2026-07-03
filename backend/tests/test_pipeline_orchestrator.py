@@ -1,7 +1,9 @@
 import sys
+import tempfile
 import types
 import unittest
 import warnings
+from pathlib import Path
 from unittest.mock import MagicMock
 
 for _mod_name in (
@@ -579,6 +581,64 @@ class RunEndpointTests(unittest.TestCase):
         self.assertEqual(fake_client.finished[0][1]["status"], "finished")
         self.assertEqual(fake_client.finished[0][1]["output"], "telemetry ok")
 
+    def test_run_endpoint_adds_correlation_id_for_capture_photo_action(self):
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", DeprecationWarning)
+            import web.app as web_app
+
+        class FakePipeline:
+            def run(self, input_text, metadata=None, image_bgr=None):
+                return RunResult(
+                    input_text=input_text,
+                    final_answer="Please capture or upload an image for object detection.",
+                    status="degraded",
+                    route=RouteDecision(
+                        route="detect",
+                        reason="object detection requires an image from the client",
+                        requires_client_action=True,
+                        client_action="capture_photo",
+                        fallback_used=True,
+                        fallback_reason="missing_image_for_detection",
+                    ),
+                    detection=DetectionResult(
+                        status=DETECTION_STATUS_FAILED,
+                        error="missing_image_for_detection",
+                    ),
+                    client_action=ClientAction(
+                        action="capture_photo",
+                        reason="object detection requires an image",
+                        requires_user_permission=True,
+                    ),
+                    warnings=["missing_image_for_detection"],
+                )
+
+        fake_client = self.RecordingDiagentClient()
+        previous_pipeline = web_app.PIPELINE
+        previous_factory = web_app.DIAGENT_CLIENT_FACTORY
+        web_app.PIPELINE = FakePipeline()
+        web_app.DIAGENT_CLIENT_FACTORY = lambda cfg: fake_client
+        try:
+            client = TestClient(web_app.app)
+            response = client.post(
+                "/api/run",
+                json={"message": "detect objects", "metadata": {"request_id": "req-42"}},
+            )
+        finally:
+            web_app.PIPELINE = previous_pipeline
+            web_app.DIAGENT_CLIENT_FACTORY = previous_factory
+
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertEqual(body["client_action"]["payload"]["correlation_id"], "req-42")
+        self.assertEqual(body["client_action"]["payload"]["originating_action"], "capture_photo")
+        self.assertEqual(body["client_action"]["payload"]["originating_route"], "detect")
+
+        client_action_span = next(
+            span for _, span in fake_client.spans if span["name"] == "pathfindership.client_action"
+        )
+        self.assertEqual(client_action_span["payload"]["correlation_id"], "req-42")
+        self.assertEqual(client_action_span["payload"]["originating_route"], "detect")
+
     def test_run_endpoint_finishes_diagent_run_on_pipeline_exception(self):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", DeprecationWarning)
@@ -733,6 +793,194 @@ class RunEndpointTests(unittest.TestCase):
         self.assertEqual(body["detection"]["objects"][0]["bbox"], [1.0, 2.0, 3.0, 4.0])
         self.assertEqual(body["detection"]["objects"][0]["confidence"], 0.88)
         self.assertIsNone(body["error"])
+
+    def test_detect_endpoint_emits_diagent_follow_up_telemetry_with_correlation_id(self):
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", DeprecationWarning)
+            import web.app as web_app
+
+        import cv2
+        import numpy as np
+
+        class EndpointYOLO:
+            names = ["bottle"]
+
+            def detect_structured(self, image_bgr, image_source=None):
+                return DetectionResult(
+                    objects=[
+                        DetectionObject(
+                            label="bottle",
+                            confidence=0.88,
+                            bbox=[1, 2, 3, 4],
+                            metadata={"class_id": 0, "raw_score": 0.88},
+                        )
+                    ],
+                    image_source=image_source,
+                    model_name="fake-yolo",
+                    latency_ms=7,
+                    status=DETECTION_STATUS_SUCCESS,
+                    metadata={
+                        "confidence_threshold": 0.4,
+                        "iou_threshold": 0.5,
+                        "image_width": 4,
+                        "image_height": 4,
+                    },
+                )
+
+        class EndpointGeneration:
+            model_name = "fake-t5"
+            runtime = "onnxruntime"
+            device = "cpu"
+
+            def narrate_detection_structured(self, summary):
+                return GenerationResult(
+                    text=f"narrated {summary}",
+                    model_name=self.model_name,
+                    runtime=self.runtime,
+                    device=self.device,
+                    prompt_type="detection_narration",
+                    input_chars=len(summary),
+                    output_chars=len(f"narrated {summary}"),
+                    latency_ms=9,
+                )
+
+        ok, encoded = cv2.imencode(".png", np.zeros((4, 4, 3), dtype=np.uint8))
+        self.assertTrue(ok)
+
+        fake_client = self.RecordingDiagentClient()
+        previous_yolo = web_app.YOLO
+        previous_generation = web_app.GENERATION
+        previous_factory = web_app.DIAGENT_CLIENT_FACTORY
+        previous_save = web_app.save_with_ring_buffer
+        web_app.YOLO = EndpointYOLO()
+        web_app.GENERATION = EndpointGeneration()
+        web_app.DIAGENT_CLIENT_FACTORY = lambda cfg: fake_client
+        with tempfile.TemporaryDirectory() as temp_dir:
+            web_app.save_with_ring_buffer = lambda *args, **kwargs: Path(temp_dir) / "detect.jpg"
+            try:
+                client = TestClient(web_app.app)
+                response = client.post(
+                    "/api/detect",
+                    files={"file": ("frame.png", encoded.tobytes(), "image/png")},
+                    data={"draw": "1", "correlation_id": "corr-123"},
+                )
+            finally:
+                web_app.YOLO = previous_yolo
+                web_app.GENERATION = previous_generation
+                web_app.DIAGENT_CLIENT_FACTORY = previous_factory
+                web_app.save_with_ring_buffer = previous_save
+
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertEqual(body["labels"], ["bottle"])
+        self.assertEqual(body["narration"], "narrated 1 bottle")
+        self.assertEqual(fake_client.created[0]["input_text"], "YOLO detection follow-up for correlation_id=corr-123")
+        self.assertTrue(fake_client.closed)
+
+        request_span = next(
+            span for _, span in fake_client.spans if span["name"] == "pathfindership.detect.request"
+        )
+        self.assertEqual(request_span["payload"]["correlation_id"], "corr-123")
+        self.assertEqual(request_span["payload"]["endpoint"], "/api/detect")
+        self.assertEqual(request_span["payload"]["origin"], "frontend_snapshot")
+        self.assertEqual(request_span["payload"]["image_metadata"]["filename"], "frame.png")
+        self.assertEqual(request_span["payload"]["image_metadata"]["size_bytes"], len(encoded.tobytes()))
+
+        generation_span = next(
+            span for _, span in fake_client.spans if span["name"] == "pathfindership.generation"
+        )
+        self.assertEqual(generation_span["payload"]["prompt_type"], "detection_narration")
+        self.assertEqual(generation_span["payload"]["correlation_id"], "corr-123")
+
+        self.assertEqual(fake_client.tool_calls[0][1]["tool_name"], "pathfindership.yolo.detect")
+        self.assertEqual(fake_client.tool_calls[0][1]["status"], "success")
+        tool_args = fake_client.tool_calls[0][1]["args"]
+        self.assertEqual(tool_args["correlation_id"], "corr-123")
+        self.assertEqual(tool_args["labels"], ["bottle"])
+        self.assertEqual(tool_args["detection_count"], 1)
+        self.assertEqual(tool_args["confidence_threshold"], 0.4)
+        self.assertEqual(fake_client.finished[0][1]["status"], "finished")
+
+    def test_detect_endpoint_without_correlation_id_still_succeeds_when_diagent_disabled(self):
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", DeprecationWarning)
+            import web.app as web_app
+
+        import cv2
+        import numpy as np
+
+        class EndpointYOLO:
+            def detect_structured(self, image_bgr, image_source=None):
+                return DetectionResult(
+                    objects=[],
+                    image_source=image_source,
+                    model_name="fake-yolo",
+                    latency_ms=1,
+                    status="no_objects",
+                )
+
+        ok, encoded = cv2.imencode(".png", np.zeros((4, 4, 3), dtype=np.uint8))
+        self.assertTrue(ok)
+
+        previous_yolo = web_app.YOLO
+        previous_factory = web_app.DIAGENT_CLIENT_FACTORY
+        web_app.YOLO = EndpointYOLO()
+        web_app.DIAGENT_CLIENT_FACTORY = lambda cfg: web_app.DiagentSafeClient(DiagentConfig(enabled=False))
+        try:
+            client = TestClient(web_app.app)
+            response = client.post(
+                "/api/detect",
+                files={"file": ("frame.png", encoded.tobytes(), "image/png")},
+                data={"draw": "0"},
+            )
+        finally:
+            web_app.YOLO = previous_yolo
+            web_app.DIAGENT_CLIENT_FACTORY = previous_factory
+
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertEqual(body["summary"], "no objects")
+        self.assertEqual(body["detection"]["status"], "no_objects")
+
+    def test_detect_endpoint_logs_yolo_error_tool_call_without_changing_response_behavior(self):
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", DeprecationWarning)
+            import web.app as web_app
+
+        import cv2
+        import numpy as np
+
+        class ExplodingLegacyYOLO:
+            def detect_from_bgr(self, image_bgr):
+                raise RuntimeError("boom")
+
+        ok, encoded = cv2.imencode(".png", np.zeros((4, 4, 3), dtype=np.uint8))
+        self.assertTrue(ok)
+
+        fake_client = self.RecordingDiagentClient()
+        previous_yolo = web_app.YOLO
+        previous_factory = web_app.DIAGENT_CLIENT_FACTORY
+        web_app.YOLO = ExplodingLegacyYOLO()
+        web_app.DIAGENT_CLIENT_FACTORY = lambda cfg: fake_client
+        try:
+            client = TestClient(web_app.app)
+            response = client.post(
+                "/api/detect",
+                files={"file": ("frame.png", encoded.tobytes(), "image/png")},
+                data={"draw": "0", "correlation_id": "corr-error"},
+            )
+        finally:
+            web_app.YOLO = previous_yolo
+            web_app.DIAGENT_CLIENT_FACTORY = previous_factory
+
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertEqual(body["error"], "yolo_inference_failed")
+        self.assertEqual(body["detection"]["status"], "model_error")
+        self.assertEqual(fake_client.tool_calls[0][1]["tool_name"], "pathfindership.yolo.detect")
+        self.assertEqual(fake_client.tool_calls[0][1]["status"], "error")
+        self.assertEqual(fake_client.tool_calls[0][1]["args"]["correlation_id"], "corr-error")
+        self.assertEqual(fake_client.finished[0][1]["status"], "finished")
 
 
 if __name__ == "__main__":
