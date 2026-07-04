@@ -338,23 +338,37 @@ def _evaluate_missing_web_fallback(
     else:
         evidence["local_retrieval_score"] = local_score
 
-    threshold = _first_float(
-        derived.get("web_fallback_threshold"),
-        config.get("RAG_WEB_MIN_STRENGTH"),
+    local_threshold = _first_float(
+        derived.get("local_retrieval_threshold"),
+        retrieval.get("threshold") if retrieval else None,
+        config.get("RAG_SCORE_THRESHOLD"),
     )
-    if threshold is None:
-        missing.append("web_fallback_threshold")
+    if local_threshold is None:
+        missing.append("local_retrieval_threshold")
     else:
-        evidence["web_fallback_threshold"] = threshold
+        evidence["local_retrieval_threshold"] = local_threshold
 
-    web_executed = _first_bool(
-        derived.get("web_search_executed"),
-        _web_search_executed(retrieval),
+    web_attempted = _explicit_bool(
+        "web_search_attempted",
+        derived,
+        retrieval,
     )
-    if web_executed is None:
-        missing.append("web_search_executed")
+    if web_attempted is None:
+        missing.append("web_search_attempted")
     else:
-        evidence["web_search_executed"] = web_executed
+        evidence["web_search_attempted"] = web_attempted
+        web_status = _first_present(
+            derived.get("web_search_status"),
+            retrieval.get("web_search_status") if retrieval else None,
+        )
+        web_candidate_count = _first_present(
+            derived.get("web_candidate_count"),
+            retrieval.get("web_candidate_count") if retrieval else None,
+        )
+        if web_status is not None:
+            evidence["web_search_status"] = web_status
+        if web_candidate_count is not None:
+            evidence["web_candidate_count"] = web_candidate_count
 
     if missing:
         checks["missing_web_fallback"] = {
@@ -369,22 +383,22 @@ def _evaluate_missing_web_fallback(
     if not web_search_required:
         checks["missing_web_fallback"] = "skipped_web_search_not_requested"
         return
-    if local_score >= threshold:
+    if local_score >= local_threshold:
         checks["missing_web_fallback"] = "passed_local_score_not_weak"
         return
-    if web_executed:
-        checks["missing_web_fallback"] = "passed_web_executed"
+    if web_attempted:
+        checks["missing_web_fallback"] = "passed_web_search_attempted"
         return
 
     add_violation(
         PolicyViolation(
             code="missing_web_fallback",
             severity="warning",
-            message="Local retrieval was weak and web fallback evidence indicates web search did not run.",
+            message="Local retrieval was weak and explicit evidence indicates web search was not attempted.",
             expected={
                 "web_search_enabled": True,
                 "web_search_required": True,
-                "web_search_executed": True,
+                "web_search_attempted": True,
             },
             actual=evidence,
             evidence={
@@ -463,22 +477,6 @@ def _sources_count(retrieval: Mapping[str, Any] | None, derived: Mapping[str, An
     return len(seen)
 
 
-def _web_search_executed(retrieval: Mapping[str, Any] | None) -> bool | None:
-    if retrieval is None:
-        return None
-    mode = str(retrieval.get("retrieval_mode") or retrieval.get("mode") or "").lower()
-    if "web" in mode:
-        return True
-    for chunk in _retrieval_chunks(retrieval):
-        chunk_data = _as_mapping(chunk)
-        metadata = _as_mapping(chunk_data.get("metadata"))
-        retrieval_type = str(chunk_data.get("retrieval_type") or metadata.get("retrieval_type") or "").lower()
-        source = str(chunk_data.get("source") or chunk_data.get("url") or metadata.get("url") or "")
-        if "web" in retrieval_type or source.startswith(("http://", "https://")):
-            return True
-    return False
-
-
 def _has_text(value: Any) -> bool:
     return bool(str(value or "").strip())
 
@@ -507,6 +505,21 @@ def _first_bool(*values: Any) -> bool | None:
                 return False
             continue
         return bool(value)
+    return None
+
+
+def _explicit_bool(key: str, *sources: Mapping[str, Any] | None) -> bool | None:
+    for source in sources:
+        if not source or key not in source:
+            continue
+        return _first_bool(source.get(key))
+    return None
+
+
+def _first_present(*values: Any) -> Any:
+    for value in values:
+        if value is not None:
+            return value
     return None
 
 

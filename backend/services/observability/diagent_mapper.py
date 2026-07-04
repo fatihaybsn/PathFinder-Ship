@@ -310,24 +310,6 @@ def _sources_count(retrieval: Mapping[str, Any] | None) -> int:
     return len(seen)
 
 
-def _web_search_executed(retrieval: Mapping[str, Any] | None) -> bool:
-    if not isinstance(retrieval, Mapping):
-        return False
-    mode = str(retrieval.get("retrieval_mode") or retrieval.get("mode") or "").lower()
-    if "web" in mode:
-        return True
-    for chunk in _retrieval_chunks(retrieval):
-        chunk_data = safe_serialize(chunk)
-        if not isinstance(chunk_data, Mapping):
-            continue
-        metadata = chunk_data.get("metadata") if isinstance(chunk_data.get("metadata"), Mapping) else {}
-        retrieval_type = str(chunk_data.get("retrieval_type") or metadata.get("retrieval_type") or "").lower()
-        source = str(chunk_data.get("source") or chunk_data.get("url") or metadata.get("url") or "")
-        if "web" in retrieval_type or source.startswith(("http://", "https://")):
-            return True
-    return False
-
-
 def map_route_span(
     run_result: Any,
     *,
@@ -357,6 +339,10 @@ def map_route_span(
         ]
         best_score = max(scores) if scores else None
 
+    local_retrieval_threshold = retrieval.get("threshold") if retrieval else None
+    if local_retrieval_threshold is None and app_config:
+        local_retrieval_threshold = app_config.get("RAG_SCORE_THRESHOLD")
+
     payload = {
         "route": route.get("route"),
         "reason": route.get("reason"),
@@ -369,11 +355,15 @@ def map_route_span(
         "client_action_required": route.get("requires_client_action"),
         "client_action": route.get("client_action"),
         "retrieval_executed": retrieval is not None,
-        "web_search_executed": _web_search_executed(retrieval),
+        "web_search_attempted": retrieval.get("web_search_attempted") if retrieval else None,
+        "web_search_status": retrieval.get("web_search_status") if retrieval else None,
+        "web_candidate_count": retrieval.get("web_candidate_count") if retrieval else None,
+        "web_error_type": retrieval.get("web_error_type") if retrieval else None,
         "sources_count": _sources_count(retrieval),
         "best_score": best_score,
         "local_retrieval_score": best_score,
-        "web_fallback_threshold": (app_config or {}).get("RAG_WEB_MIN_STRENGTH"),
+        "local_retrieval_threshold": local_retrieval_threshold,
+        "web_strength_threshold": (app_config or {}).get("RAG_WEB_MIN_STRENGTH"),
         **request_payload,
     }
     return {
@@ -455,6 +445,45 @@ def map_client_action_span(run_result: Any) -> dict[str, Any] | None:
         "span_type": "system",
         "name": "pathfindership.client_action",
         "payload": payload,
+    }
+
+
+def map_web_search_tool(
+    run_result: Any,
+    *,
+    request_metadata: Mapping[str, Any] | None = None,
+) -> dict[str, Any] | None:
+    data = safe_serialize(run_result)
+    if not isinstance(data, Mapping):
+        return None
+    retrieval = data.get("retrieval")
+    if not isinstance(retrieval, Mapping):
+        return None
+    if retrieval.get("web_search_attempted") is not True:
+        return None
+
+    run_metadata = data.get("metadata") if isinstance(data.get("metadata"), Mapping) else {}
+    request_payload = prepare_request_metadata(request_metadata, run_metadata=run_metadata)
+    web_status = str(retrieval.get("web_search_status") or "success").lower()
+    tool_status = "error" if web_status == "error" else "success"
+    error_type = retrieval.get("web_error_type")
+    args = clean_empty_fields(
+        {
+            "status": web_status,
+            "web_candidate_count": retrieval.get("web_candidate_count"),
+            "retrieval_mode": retrieval.get("retrieval_mode"),
+            "use_internet": request_payload.get("use_internet"),
+            "web_only": request_payload.get("web_only"),
+            "correlation_id": request_payload.get("correlation_id"),
+            "request_id": request_payload.get("request_id"),
+            "error_type": error_type if tool_status == "error" else None,
+        }
+    )
+    return {
+        "tool_name": "pathfindership.web_search",
+        "args": args,
+        "status": tool_status,
+        "error": str(error_type) if tool_status == "error" and error_type else None,
     }
 
 
@@ -598,8 +627,13 @@ def emit_run_result_telemetry(
         if span:
             client.log_span(run_id, **span)
 
-    detection_tool = map_detection_tool(run_result)
     actual_tools: list[str] = []
+    web_search_tool = map_web_search_tool(run_result, request_metadata=request_metadata)
+    if web_search_tool:
+        actual_tools.append(str(web_search_tool["tool_name"]))
+        client.log_tool_call(run_id, **web_search_tool)
+
+    detection_tool = map_detection_tool(run_result)
     if detection_tool:
         actual_tools.append(str(detection_tool["tool_name"]))
         client.log_tool_call(run_id, **detection_tool)

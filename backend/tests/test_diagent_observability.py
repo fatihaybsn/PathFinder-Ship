@@ -19,6 +19,7 @@ from services.observability.diagent_mapper import (
     emit_run_result_telemetry,
     map_client_action_span,
     map_detection_tool,
+    map_web_search_tool,
     prepare_generation_metadata,
     sanitize_retrieval_chunks,
     truncate_text,
@@ -310,6 +311,66 @@ class DiagentMapperTests(unittest.TestCase):
         self.assertNotIn("image_base64", args["image_metadata"])
         self.assertNotIn("raw_image", args["image_metadata"])
 
+    def test_web_search_tool_uses_explicit_retrieval_evidence_without_query_body(self):
+        result = RunResult(
+            input_text="private user query should not be sent",
+            status="completed",
+            retrieval=RetrievalResult(
+                query="private user query should not be sent",
+                chunks=[RetrievedChunk(text="local evidence", source="local:manual.txt")],
+                best_score=0.2,
+                threshold=0.4,
+                used_context=True,
+                retrieval_mode="local_only",
+                web_search_attempted=True,
+                web_search_status="success",
+                web_candidate_count=2,
+            ),
+            metadata={"correlation_id": "corr-1", "use_internet": True, "web_only": False},
+        )
+
+        tool_call = map_web_search_tool(result, request_metadata={"request_id": "req-1"})
+
+        self.assertIsNotNone(tool_call)
+        self.assertEqual(tool_call["tool_name"], "pathfindership.web_search")
+        self.assertEqual(tool_call["status"], "success")
+        self.assertIsNone(tool_call["error"])
+        args = tool_call["args"]
+        self.assertEqual(args["status"], "success")
+        self.assertEqual(args["web_candidate_count"], 2)
+        self.assertEqual(args["retrieval_mode"], "local_only")
+        self.assertEqual(args["correlation_id"], "corr-1")
+        self.assertEqual(args["request_id"], "req-1")
+        self.assertNotIn("query", args)
+        self.assertNotIn("chunks", args)
+
+    def test_web_search_tool_reports_safe_error_type(self):
+        result = RunResult(
+            input_text="web query",
+            status="degraded",
+            retrieval=RetrievalResult(
+                query="web query",
+                chunks=[],
+                best_score=0.1,
+                threshold=0.4,
+                used_context=False,
+                retrieval_mode="empty",
+                web_search_attempted=True,
+                web_search_status="error",
+                web_candidate_count=0,
+                web_error_type="TimeoutError",
+            ),
+            metadata={"use_internet": True},
+        )
+
+        tool_call = map_web_search_tool(result)
+
+        self.assertIsNotNone(tool_call)
+        self.assertEqual(tool_call["tool_name"], "pathfindership.web_search")
+        self.assertEqual(tool_call["status"], "error")
+        self.assertEqual(tool_call["error"], "TimeoutError")
+        self.assertEqual(tool_call["args"]["error_type"], "TimeoutError")
+
     def test_emit_run_result_telemetry_logs_empty_retrieval_as_empty_chunk_list(self):
         class RecordingClient:
             def __init__(self):
@@ -342,10 +403,12 @@ class DiagentMapperTests(unittest.TestCase):
                 chunks=[],
                 top_k=4,
                 best_score=0.1,
+                threshold=0.4,
                 used_context=False,
                 retrieval_mode="empty",
                 fallback_used=True,
                 fallback_reason="empty_retrieval",
+                web_search_attempted=False,
             ),
             metadata={"use_internet": True, "web_only": False},
         )
@@ -360,6 +423,7 @@ class DiagentMapperTests(unittest.TestCase):
             app_config={
                 "ENABLE_WEB_SEARCH": True,
                 "GENERATION_PROVIDER": "local_t5",
+                "RAG_SCORE_THRESHOLD": 0.4,
                 "RAG_WEB_MIN_STRENGTH": 0.75,
             },
         )
@@ -374,12 +438,97 @@ class DiagentMapperTests(unittest.TestCase):
             if payload["name"] == "pathfindership.route_decision"
         )
         self.assertTrue(route_span["payload"]["retrieval_executed"])
-        self.assertFalse(route_span["payload"]["web_search_executed"])
+        self.assertFalse(route_span["payload"]["web_search_attempted"])
         self.assertEqual(route_span["payload"]["sources_count"], 0)
         self.assertEqual(route_span["payload"]["best_score"], 0.1)
         self.assertEqual(route_span["payload"]["local_retrieval_score"], 0.1)
-        self.assertEqual(route_span["payload"]["web_fallback_threshold"], 0.75)
+        self.assertEqual(route_span["payload"]["local_retrieval_threshold"], 0.4)
+        self.assertEqual(route_span["payload"]["web_strength_threshold"], 0.75)
         self.assertTrue(route_span["payload"]["use_internet"])
+        self.assertEqual(client.tool_calls, [])
+
+    def test_emit_run_result_telemetry_logs_web_tool_when_final_web_chunks_are_filtered(self):
+        class RecordingClient:
+            def __init__(self):
+                self.config = DiagentConfig(enabled=True)
+                self.spans = []
+                self.retrievals = []
+                self.tool_calls = []
+
+            def log_span(self, run_id, **kwargs):
+                self.spans.append((run_id, kwargs))
+
+            def log_retrieval(self, run_id, **kwargs):
+                self.retrievals.append((run_id, kwargs))
+
+            def log_tool_call(self, run_id, **kwargs):
+                self.tool_calls.append((run_id, kwargs))
+
+        result = RunResult(
+            input_text="search the manual and web",
+            final_answer="local answer",
+            status="completed",
+            intent=IntentResult(label="rag", confidence=0.95),
+            route=RouteDecision(route="rag", reason="confident rag intent"),
+            retrieval=RetrievalResult(
+                query="search the manual and web",
+                chunks=[
+                    RetrievedChunk(
+                        text="weak local evidence",
+                        source="local:manual.txt",
+                        score=0.2,
+                        rank=1,
+                        retrieval_type="local_hybrid",
+                    )
+                ],
+                sources=["local:manual.txt"],
+                top_k=4,
+                best_score=0.2,
+                threshold=0.4,
+                used_context=True,
+                retrieval_mode="local_only",
+                web_search_attempted=True,
+                web_search_status="success",
+                web_candidate_count=2,
+            ),
+            metadata={"use_internet": True, "web_only": False},
+        )
+        client = RecordingClient()
+
+        emit_run_result_telemetry(
+            client,
+            "run-1",
+            result,
+            config=client.config,
+            request_metadata={"request_id": "req-1", "use_internet": True},
+            app_config={
+                "ENABLE_WEB_SEARCH": True,
+                "RAG_SCORE_THRESHOLD": 0.4,
+                "RAG_WEB_MIN_STRENGTH": 0.75,
+            },
+        )
+
+        route_span = next(
+            span for _, span in client.spans if span["name"] == "pathfindership.route_decision"
+        )
+        self.assertTrue(route_span["payload"]["web_search_attempted"])
+        self.assertEqual(route_span["payload"]["web_search_status"], "success")
+        self.assertEqual(route_span["payload"]["web_candidate_count"], 2)
+        self.assertNotIn("web_search_executed", route_span["payload"])
+
+        web_tool = next(call for _, call in client.tool_calls if call["tool_name"] == "pathfindership.web_search")
+        self.assertEqual(web_tool["status"], "success")
+        self.assertEqual(web_tool["args"]["web_candidate_count"], 2)
+        self.assertEqual(web_tool["args"]["retrieval_mode"], "local_only")
+
+        policy_span = next(
+            span for _, span in client.spans if span["name"] == "pathfindership.policy_check"
+        )
+        self.assertEqual(policy_span["payload"]["status"], "passed")
+        self.assertNotIn(
+            "missing_web_fallback",
+            [violation["code"] for violation in policy_span["payload"]["violations"]],
+        )
 
     def test_emit_run_result_telemetry_logs_policy_check_span(self):
         class RecordingClient:

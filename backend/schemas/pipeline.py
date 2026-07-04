@@ -64,6 +64,10 @@ class RetrievalResult(BaseModel):
     fallback_reason: str | None = None
     latency_ms: int | None = None
     error: str | None = None
+    web_search_attempted: bool = False
+    web_search_status: str | None = None
+    web_candidate_count: int = 0
+    web_error_type: str | None = None
 
 
 class IndexingResult(BaseModel):

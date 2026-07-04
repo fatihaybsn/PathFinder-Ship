@@ -496,8 +496,12 @@ class RunEndpointTests(unittest.TestCase):
                         sources=["https://example.test/manual"],
                         top_k=2,
                         best_score=0.88,
+                        threshold=0.4,
                         used_context=True,
                         retrieval_mode="hybrid_local_web",
+                        web_search_attempted=True,
+                        web_search_status="success",
+                        web_candidate_count=1,
                     ),
                     generation=GenerationResult(
                         text="telemetry ok",
@@ -558,7 +562,9 @@ class RunEndpointTests(unittest.TestCase):
             span for _, span in fake_client.spans if span["name"] == "pathfindership.route_decision"
         )
         self.assertTrue(route_span["payload"]["retrieval_executed"])
-        self.assertTrue(route_span["payload"]["web_search_executed"])
+        self.assertTrue(route_span["payload"]["web_search_attempted"])
+        self.assertEqual(route_span["payload"]["web_search_status"], "success")
+        self.assertEqual(route_span["payload"]["web_candidate_count"], 1)
         self.assertEqual(route_span["payload"]["sources_count"], 1)
         self.assertEqual(route_span["payload"]["best_score"], 0.88)
         self.assertTrue(route_span["payload"]["use_internet"])
@@ -576,8 +582,11 @@ class RunEndpointTests(unittest.TestCase):
         self.assertEqual(generation_span["payload"]["provider"], "gemini")
         self.assertEqual(generation_span["payload"]["runtime"], "gemini_api")
 
-        self.assertEqual(fake_client.tool_calls[0][1]["tool_name"], "pathfindership.yolo.detect")
+        self.assertEqual(fake_client.tool_calls[0][1]["tool_name"], "pathfindership.web_search")
         self.assertEqual(fake_client.tool_calls[0][1]["status"], "success")
+        self.assertEqual(fake_client.tool_calls[0][1]["args"]["web_candidate_count"], 1)
+        self.assertEqual(fake_client.tool_calls[1][1]["tool_name"], "pathfindership.yolo.detect")
+        self.assertEqual(fake_client.tool_calls[1][1]["status"], "success")
         self.assertEqual(fake_client.finished[0][1]["status"], "finished")
         self.assertEqual(fake_client.finished[0][1]["output"], "telemetry ok")
 

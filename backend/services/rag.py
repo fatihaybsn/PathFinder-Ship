@@ -1,7 +1,7 @@
 # app/services/rag.py
 from __future__ import annotations
 import time
-from typing import List, Tuple, Dict, Any, Optional
+from typing import List, Dict, Any
 
 # Backend (defterden taşıdığın kodların modüler hali)
 # Aşağıdaki importlar, app/services/rag_backend/ altına koyduğun dosyalardan gelmelidir.
@@ -124,10 +124,12 @@ class RAGService:
         top_score = float(max((r.get("score", 0.0) for r in retrieved), default=0.0))
         sources_local = [f"local:{r.get('file_name','unknown')}" for r in retrieved]
 
+        should_attempt_web = bool((use_internet or web_only) and question.strip())
+
         # 2) Web chunk'ları (gerekirse)
         web_chunks = []
         sources_web = []
-        if use_internet and question.strip():
+        if should_attempt_web:
             try:
                 web_chunks = process_web_results(question) or []
                 sources_web = [c.get('source','') for c in web_chunks if c.get('source')]
@@ -140,7 +142,7 @@ class RAGService:
             return [create_context(items, max_tokens=self.max_ctx_tokens, question=question)] if items else []
 
         # 4) Karar ağacı
-        if not use_internet:
+        if not should_attempt_web:
             # Web kapalı: klasik RAG
             if top_score >= self.thr:
                 return ctx_from(retrieved), top_score, sources_local
@@ -150,8 +152,8 @@ class RAGService:
         # --- YENİ: skor-bazlı web kapısı ---
         local_ok = bool(retrieved) and (top_score is not None) and (top_score >= self.thr)
 
-        ws = _web_strength(web_chunks) if (use_internet and web_chunks) else 0.0
-        eligible_web = web_chunks if (use_internet and ws >= RAG_WEB_MIN_STRENGTH) else []
+        ws = _web_strength(web_chunks) if web_chunks else 0.0
+        eligible_web = web_chunks if (ws >= RAG_WEB_MIN_STRENGTH) else []
 
         if web_only:
             # "web_only" istense bile zayıf web'i zorlamıyoruz
@@ -232,21 +234,33 @@ class RAGService:
         retrieved = hybrid_search(question, top_k=self.top_k)
         top_score = float(max((r.get("score", 0.0) for r in retrieved), default=0.0))
 
+        should_attempt_web = bool((use_internet or web_only) and question.strip())
+        web_search_attempted = False
+        web_search_status: str | None = None
+        web_candidate_count = 0
+        web_error_type: str | None = None
+
         # 2) Web chunk'ları (gerekirse)
         raw_web: List[Dict[str, Any]] = []
-        if use_internet and question.strip():
+        if should_attempt_web:
+            web_search_attempted = True
             try:
                 raw_web = process_web_results(question) or []
-            except Exception:
+                web_search_status = "success"
+                web_candidate_count = len(raw_web)
+            except Exception as exc:
+                web_search_status = "error"
+                web_error_type = type(exc).__name__
                 raw_web = []
+                web_candidate_count = 0
 
         # 3) Skor kapısı
         local_ok = bool(retrieved) and (top_score >= self.thr)
-        ws = _web_strength(raw_web) if (use_internet and raw_web) else 0.0
-        eligible_web = raw_web if (use_internet and ws >= RAG_WEB_MIN_STRENGTH) else []
+        ws = _web_strength(raw_web) if raw_web else 0.0
+        eligible_web = raw_web if (ws >= RAG_WEB_MIN_STRENGTH) else []
 
         # 4) Karar ağacı — chunk mapping ve mode belirleme
-        if not use_internet:
+        if not should_attempt_web:
             if local_ok:
                 chunks = _map_local_chunks(retrieved)
                 mode = "local_only"
@@ -311,4 +325,8 @@ class RAGService:
             fallback_used=fallback_used,
             fallback_reason=fallback_reason,
             latency_ms=elapsed,
+            web_search_attempted=web_search_attempted,
+            web_search_status=web_search_status,
+            web_candidate_count=web_candidate_count,
+            web_error_type=web_error_type,
         )

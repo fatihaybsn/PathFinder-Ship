@@ -123,8 +123,10 @@ class DiagentPolicyCheckTests(unittest.TestCase):
                 ],
                 sources=["local:manual.txt"],
                 best_score=0.2,
+                threshold=0.4,
                 used_context=True,
                 retrieval_mode="local_only",
+                web_search_attempted=False,
             ),
         )
 
@@ -134,28 +136,102 @@ class DiagentPolicyCheckTests(unittest.TestCase):
                 "web_enabled": True,
                 "web_search_required": True,
                 "local_retrieval_score": 0.2,
-                "web_fallback_threshold": 0.75,
-                "web_search_executed": False,
+                "local_retrieval_threshold": 0.4,
             },
         )
 
         self.assertIn("missing_web_fallback", violation_codes(result))
 
-    def test_missing_web_fallback_skips_when_evidence_is_missing(self):
+    def test_missing_web_fallback_uses_local_threshold_not_web_strength_threshold(self):
         run = RunResult(
             input_text="search the manual and web",
-            final_answer="I don't know.",
-            status="degraded",
+            final_answer="local answer",
+            status="completed",
             intent=IntentResult(label="rag", confidence=0.91),
             route=RouteDecision(route="rag"),
             retrieval=RetrievalResult(
                 query="search the manual and web",
-                chunks=[RetrievedChunk(text="weak local evidence", source="local:manual.txt")],
+                chunks=[RetrievedChunk(text="local evidence", source="local:manual.txt")],
                 sources=["local:manual.txt"],
+                best_score=0.5,
+                threshold=0.4,
                 used_context=True,
                 retrieval_mode="local_only",
+                web_search_attempted=False,
             ),
         )
+
+        result = evaluate_policy(
+            run,
+            derived_metadata={
+                "web_enabled": True,
+                "web_search_required": True,
+                "local_retrieval_score": 0.5,
+                "local_retrieval_threshold": 0.4,
+                "web_strength_threshold": 0.75,
+            },
+        )
+
+        self.assertNotIn("missing_web_fallback", violation_codes(result))
+        self.assertEqual(result.checks["missing_web_fallback"], "passed_local_score_not_weak")
+
+    def test_missing_web_fallback_passes_when_web_attempted_without_final_web_chunk(self):
+        run = RunResult(
+            input_text="search the manual and web",
+            final_answer="local answer",
+            status="completed",
+            intent=IntentResult(label="rag", confidence=0.91),
+            route=RouteDecision(route="rag"),
+            retrieval=RetrievalResult(
+                query="search the manual and web",
+                chunks=[
+                    RetrievedChunk(
+                        text="weak local evidence",
+                        source="local:manual.txt",
+                        score=0.2,
+                        rank=1,
+                        retrieval_type="local_hybrid",
+                    )
+                ],
+                sources=["local:manual.txt"],
+                best_score=0.2,
+                threshold=0.4,
+                used_context=True,
+                retrieval_mode="local_only",
+                web_search_attempted=True,
+                web_search_status="success",
+                web_candidate_count=2,
+            ),
+        )
+
+        result = evaluate_policy(
+            run,
+            derived_metadata={
+                "web_enabled": True,
+                "web_search_required": True,
+                "local_retrieval_score": 0.2,
+                "local_retrieval_threshold": 0.4,
+            },
+        )
+
+        self.assertNotIn("missing_web_fallback", violation_codes(result))
+        self.assertEqual(result.checks["missing_web_fallback"], "passed_web_search_attempted")
+
+    def test_missing_web_fallback_skips_when_evidence_is_missing(self):
+        run = {
+            "input_text": "search the manual and web",
+            "final_answer": "I don't know.",
+            "status": "degraded",
+            "intent": {"label": "rag", "confidence": 0.91},
+            "route": {"route": "rag"},
+            "retrieval": {
+                "query": "search the manual and web",
+                "chunks": [{"text": "weak local evidence", "source": "local:manual.txt"}],
+                "sources": ["local:manual.txt"],
+                "used_context": True,
+                "retrieval_mode": "local_only",
+            },
+        }
 
         result = evaluate_policy(run, derived_metadata={"web_enabled": True})
 

@@ -199,7 +199,97 @@ class EmptyRetrievalTests(unittest.TestCase):
 
 
 # ---------------------------------------------------------------------------
-# 3. PipelineOrchestrator structured RAG (mock-based, no ML imports)
+# 3. Web search evidence
+# ---------------------------------------------------------------------------
+
+class WebSearchEvidenceTests(unittest.TestCase):
+    def test_structured_retrieval_records_no_attempt_when_web_not_requested(self):
+        from services.rag import RAGService
+
+        with (
+            patch("services.rag.hybrid_search", return_value=[
+                {"chunk": "local evidence", "score": 0.8, "file_name": "manual.txt"},
+            ]),
+            patch("services.rag.process_web_results") as web_search,
+        ):
+            result = RAGService(
+                {"RAG_SCORE_THRESHOLD": 0.4, "RAG_TOP_K": 2, "RAG_MAX_CTX_TOKENS": 512}
+            ).retrieve_structured("manual question", use_internet=False, web_only=False)
+
+        web_search.assert_not_called()
+        self.assertFalse(result.web_search_attempted)
+        self.assertIsNone(result.web_search_status)
+        self.assertEqual(result.web_candidate_count, 0)
+        self.assertEqual(result.retrieval_mode, "local_only")
+
+    def test_web_only_true_attempts_web_even_when_use_internet_is_false(self):
+        from services.rag import RAGService
+
+        weak_web_candidates = [
+            {"chunk": "weak web 1", "source": "https://example.test/a", "title": "A", "score": 0.1},
+            {"chunk": "weak web 2", "source": "https://example.test/b", "title": "B", "score": 0.1},
+        ]
+        with (
+            patch("services.rag.hybrid_search", return_value=[
+                {"chunk": "local evidence", "score": 0.8, "file_name": "manual.txt"},
+            ]),
+            patch("services.rag.process_web_results", return_value=weak_web_candidates) as web_search,
+        ):
+            result = RAGService(
+                {"RAG_SCORE_THRESHOLD": 0.4, "RAG_TOP_K": 2, "RAG_MAX_CTX_TOKENS": 512}
+            ).retrieve_structured("manual question", use_internet=False, web_only=True)
+
+        web_search.assert_called_once_with("manual question")
+        self.assertTrue(result.web_search_attempted)
+        self.assertEqual(result.web_search_status, "success")
+        self.assertEqual(result.web_candidate_count, 2)
+        self.assertEqual(result.retrieval_mode, "local_only")
+        self.assertTrue(all(chunk.retrieval_type != "web" for chunk in result.chunks))
+
+    def test_web_candidate_count_is_pre_strength_gate_candidate_chunk_count(self):
+        from services.rag import RAGService
+
+        web_candidates = [
+            {"chunk": "web evidence 1", "source": "https://example.test/a", "title": "A", "score": 1.0},
+            {"chunk": "web evidence 2", "source": "https://example.test/b", "title": "B", "score": 1.0},
+            {"chunk": "web evidence 3", "source": "https://example.test/c", "title": "C", "score": 1.0},
+        ]
+        with (
+            patch("services.rag.hybrid_search", return_value=[]),
+            patch("services.rag.process_web_results", return_value=web_candidates),
+        ):
+            result = RAGService(
+                {"RAG_SCORE_THRESHOLD": 0.4, "RAG_TOP_K": 2, "RAG_MAX_CTX_TOKENS": 512}
+            ).retrieve_structured("current event", use_internet=True, web_only=False)
+
+        self.assertTrue(result.web_search_attempted)
+        self.assertEqual(result.web_search_status, "success")
+        self.assertEqual(result.web_candidate_count, 3)
+        self.assertEqual(result.retrieval_mode, "web_only")
+        self.assertEqual(len(result.chunks), 3)
+        self.assertTrue(all(chunk.retrieval_type == "web" for chunk in result.chunks))
+
+    def test_web_search_error_keeps_fail_open_retrieval_result(self):
+        from services.rag import RAGService
+
+        with (
+            patch("services.rag.hybrid_search", return_value=[]),
+            patch("services.rag.process_web_results", side_effect=TimeoutError("network timeout")),
+        ):
+            result = RAGService(
+                {"RAG_SCORE_THRESHOLD": 0.4, "RAG_TOP_K": 2, "RAG_MAX_CTX_TOKENS": 512}
+            ).retrieve_structured("current event", use_internet=True, web_only=False)
+
+        self.assertTrue(result.web_search_attempted)
+        self.assertEqual(result.web_search_status, "error")
+        self.assertEqual(result.web_candidate_count, 0)
+        self.assertEqual(result.web_error_type, "TimeoutError")
+        self.assertEqual(result.retrieval_mode, "empty")
+        self.assertTrue(result.fallback_used)
+
+
+# ---------------------------------------------------------------------------
+# 4. PipelineOrchestrator structured RAG (mock-based, no ML imports)
 # ---------------------------------------------------------------------------
 
 class PipelineStructuredRAGTests(unittest.TestCase):
@@ -361,7 +451,7 @@ class PipelineStructuredRAGTests(unittest.TestCase):
 
 
 # ---------------------------------------------------------------------------
-# 4. retrieval_result_from_legacy still works
+# 5. retrieval_result_from_legacy still works
 # ---------------------------------------------------------------------------
 
 class LegacyHelperTests(unittest.TestCase):
