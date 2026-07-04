@@ -4,7 +4,7 @@ import types
 import unittest
 import warnings
 from pathlib import Path
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 for _mod_name in (
     "tokenizers",
@@ -663,6 +663,43 @@ class RunEndpointTests(unittest.TestCase):
         self.assertEqual(response.status_code, 500)
         self.assertEqual(fake_client.finished[0][1]["status"], "failed")
         self.assertIn("RuntimeError: boom", fake_client.finished[0][1]["error"])
+        self.assertTrue(fake_client.closed)
+
+    def test_run_endpoint_response_survives_policy_evaluator_exception(self):
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", DeprecationWarning)
+            import web.app as web_app
+
+        class FakePipeline:
+            def run(self, input_text, metadata=None, image_bgr=None):
+                return RunResult(
+                    input_text=input_text,
+                    final_answer="ok",
+                    status="completed",
+                    intent=IntentResult(label="chat", confidence=0.95),
+                    route=RouteDecision(route="chat"),
+                    generation=GenerationResult(text="ok", prompt_type="chat"),
+                )
+
+        fake_client = self.RecordingDiagentClient()
+        previous_pipeline = web_app.PIPELINE
+        previous_factory = web_app.DIAGENT_CLIENT_FACTORY
+        web_app.PIPELINE = FakePipeline()
+        web_app.DIAGENT_CLIENT_FACTORY = lambda cfg: fake_client
+        try:
+            client = TestClient(web_app.app)
+            with patch(
+                "services.observability.diagent_mapper.evaluate_policy",
+                side_effect=RuntimeError("policy boom"),
+            ):
+                response = client.post("/api/run", json={"message": "hello"})
+        finally:
+            web_app.PIPELINE = previous_pipeline
+            web_app.DIAGENT_CLIENT_FACTORY = previous_factory
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["final_answer"], "ok")
+        self.assertEqual(fake_client.finished[0][1]["status"], "finished")
         self.assertTrue(fake_client.closed)
 
     def test_run_endpoint_uninitialized_pipeline_returns_structured_failure(self):

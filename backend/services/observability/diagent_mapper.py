@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 from collections.abc import Mapping, Sequence
 from dataclasses import asdict, is_dataclass
 from datetime import date, datetime
@@ -8,6 +9,10 @@ from pathlib import Path
 from typing import Any
 from uuid import UUID
 
+from services.observability.policy_checks import evaluate_policy
+
+
+logger = logging.getLogger(__name__)
 
 EMPTY_VALUES = (None, "", [], {})
 REQUEST_METADATA_KEYS = {
@@ -529,6 +534,26 @@ def map_detection_tool(run_result: Any) -> dict[str, Any] | None:
     }
 
 
+def map_policy_check_span(
+    run_result: Any,
+    *,
+    derived_metadata: Mapping[str, Any] | None = None,
+    app_config: Mapping[str, Any] | None = None,
+    actual_tools: Sequence[str] | None = None,
+) -> dict[str, Any] | None:
+    policy_result = evaluate_policy(
+        run_result,
+        derived_metadata=derived_metadata,
+        app_config=app_config,
+        actual_tools=actual_tools,
+    )
+    return {
+        "span_type": "system",
+        "name": "pathfindership.policy_check",
+        "payload": policy_result.model_dump(mode="json"),
+    }
+
+
 def emit_run_result_telemetry(
     client: Any,
     run_id: str | None,
@@ -545,13 +570,15 @@ def emit_run_result_telemetry(
     max_chunks = int(getattr(config, "max_retrieval_chunks", 5))
     max_chunk_chars = int(getattr(config, "max_chunk_chars", 1200))
 
+    route_span = map_route_span(
+        run_result,
+        request_metadata=request_metadata,
+        app_config=app_config,
+    )
+
     for span in (
         map_intent_span(run_result),
-        map_route_span(
-            run_result,
-            request_metadata=request_metadata,
-            app_config=app_config,
-        ),
+        route_span,
     ):
         if span:
             client.log_span(run_id, **span)
@@ -572,5 +599,20 @@ def emit_run_result_telemetry(
             client.log_span(run_id, **span)
 
     detection_tool = map_detection_tool(run_result)
+    actual_tools: list[str] = []
     if detection_tool:
+        actual_tools.append(str(detection_tool["tool_name"]))
         client.log_tool_call(run_id, **detection_tool)
+
+    if bool(getattr(config, "log_policy_spans", True)):
+        try:
+            policy_span = map_policy_check_span(
+                run_result,
+                derived_metadata=route_span.get("payload") if route_span else {},
+                app_config=app_config,
+                actual_tools=actual_tools,
+            )
+            if policy_span:
+                client.log_span(run_id, **policy_span)
+        except Exception:
+            logger.warning("Diagent policy check mapping failed.", exc_info=True)

@@ -381,6 +381,83 @@ class DiagentMapperTests(unittest.TestCase):
         self.assertEqual(route_span["payload"]["web_fallback_threshold"], 0.75)
         self.assertTrue(route_span["payload"]["use_internet"])
 
+    def test_emit_run_result_telemetry_logs_policy_check_span(self):
+        class RecordingClient:
+            def __init__(self):
+                self.config = DiagentConfig(enabled=True)
+                self.spans = []
+                self.retrievals = []
+                self.tool_calls = []
+
+            def log_span(self, run_id, **kwargs):
+                self.spans.append((run_id, kwargs))
+
+            def log_retrieval(self, run_id, **kwargs):
+                self.retrievals.append((run_id, kwargs))
+
+            def log_tool_call(self, run_id, **kwargs):
+                self.tool_calls.append((run_id, kwargs))
+
+        result = RunResult(
+            input_text="what is in the uploaded document?",
+            final_answer="I don't know.",
+            status="degraded",
+            intent=IntentResult(label="rag", confidence=0.95, threshold=0.6, is_confident=True),
+            route=RouteDecision(route="rag", reason="confident rag intent", source_intent="rag"),
+        )
+        client = RecordingClient()
+
+        emit_run_result_telemetry(
+            client,
+            "run-1",
+            result,
+            config=client.config,
+            app_config={"ENABLE_WEB_SEARCH": True, "RAG_WEB_MIN_STRENGTH": 0.75},
+        )
+
+        policy_span = next(
+            span for _, span in client.spans if span["name"] == "pathfindership.policy_check"
+        )
+        payload = policy_span["payload"]
+        self.assertEqual(payload["status"], "failed")
+        self.assertEqual(payload["violation_count"], 1)
+        self.assertEqual(payload["violations"][0]["code"], "rag_route_without_retrieval")
+        self.assertEqual(
+            payload["diagnosis_visibility"],
+            "span_recorded_not_loaded_by_current_diagent_diagnostician",
+        )
+
+    def test_emit_run_result_telemetry_skips_policy_span_when_disabled_by_config(self):
+        class RecordingClient:
+            def __init__(self):
+                self.config = DiagentConfig(enabled=True, log_policy_spans=False)
+                self.spans = []
+
+            def log_span(self, run_id, **kwargs):
+                self.spans.append((run_id, kwargs))
+
+            def log_retrieval(self, run_id, **kwargs):
+                raise AssertionError("retrieval should not be logged for this result")
+
+            def log_tool_call(self, run_id, **kwargs):
+                raise AssertionError("tool call should not be logged for this result")
+
+        client = RecordingClient()
+        result = RunResult(
+            input_text="hello",
+            final_answer="hi",
+            status="completed",
+            intent=IntentResult(label="chat", confidence=0.95),
+            route=RouteDecision(route="chat"),
+        )
+
+        emit_run_result_telemetry(client, "run-1", result, config=client.config)
+
+        self.assertNotIn(
+            "pathfindership.policy_check",
+            [span["name"] for _, span in client.spans],
+        )
+
     def test_clean_empty_fields_keeps_zero_and_false(self):
         cleaned = clean_empty_fields(
             {

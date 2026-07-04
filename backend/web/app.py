@@ -165,6 +165,7 @@ def _finish_detection_diagent_run(
     correlation_id: str,
     correlation_id_provided: bool,
     image_metadata: Mapping[str, Any],
+    yolo_attempted: bool,
     email_scheduled: bool,
 ) -> None:
     if not run_id:
@@ -178,6 +179,7 @@ def _finish_detection_diagent_run(
             "origin": "frontend_snapshot",
             "image_received": bool(image_metadata.get("size_bytes", 0)),
             "image_decoded": detection.status != DETECTION_STATUS_INVALID_IMAGE,
+            "yolo_attempted": yolo_attempted,
             "image_metadata": image_metadata,
             "email_scheduled": email_scheduled,
         }
@@ -202,6 +204,9 @@ def _finish_detection_diagent_run(
                 "correlation_id": correlation_id,
                 "correlation_id_provided": correlation_id_provided,
                 "origin": "frontend_snapshot",
+                "image_received": bool(image_metadata.get("size_bytes", 0)),
+                "image_decoded": detection.status != DETECTION_STATUS_INVALID_IMAGE,
+                "yolo_attempted": yolo_attempted,
                 "image_metadata": sanitize_metadata(image_metadata),
                 "email_scheduled": email_scheduled,
             },
@@ -616,6 +621,7 @@ async def detect_api(
         narration = None
         image_url = None
         email_scheduled = False
+        yolo_attempted = False
 
         if image_error is not None:
             detection = image_error
@@ -629,6 +635,7 @@ async def detect_api(
                 metadata=image_metadata,
             )
         else:
+            yolo_attempted = True
             if hasattr(YOLO, "detect_structured"):
                 detection = YOLO.detect_structured(img_bgr, image_source="upload")
             else:
@@ -750,6 +757,7 @@ async def detect_api(
             correlation_id=telemetry_correlation_id,
             correlation_id_provided=provided_correlation_id is not None,
             image_metadata=image_metadata,
+            yolo_attempted=yolo_attempted,
             email_scheduled=email_scheduled,
         )
         return response_body
