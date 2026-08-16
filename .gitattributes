@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Evidence hashes must remain reproducible across Windows/Linux checkouts.
+docs/model-evidence/retraining-v2/** -text

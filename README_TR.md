@@ -17,6 +17,7 @@ Sistemde “hazır cevap” mantığı yoktur; üretilen tüm yanıtlar, modelin
 ## İçindekiler
 
 - [Öne Çıkan Özellikler](#öne-çıkan-özellikler)
+- [Model Fine-Tuning Kanıtları](#model-fine-tuning-kanıtları)
 - [Mimari Genel Bakış](#mimari-genel-bakış)
 - [Proje Yapısı](#proje-yapısı)
 - [Kurulum](#kurulum)
@@ -86,6 +87,31 @@ Sistemde “hazır cevap” mantığı yoktur; üretilen tüm yanıtlar, modelin
   - Sesli mod (tarayıcı STT + TTS, İngilizce).
 
 Tüm çekirdek modeller ONNX INT8 formatında ve **CPU üzerinde**, ONNX Runtime ile lokal olarak çalışır.
+
+## Model Fine-Tuning Kanıtları
+
+Bu projedeki dil ve intent modelleri **rastgele ağırlıklardan sıfırdan eğitilmedi**. Pretrained checkpoint'ler, toplanıp düzenlenen proje verileriyle fine-tune edildi: `google/flan-t5-large`, çok görevli Chat + RAG düzeninde LoRA ile; MiniLM ise beş sınıflı intent yönlendirmesi için eğitildi. Yalnızca kazanan model değil, altı farklı Flan-T5 eğitim denemesi ve başarısız/ara sonuçlar da karşılaştırmada tutuldu.
+
+Tüm Flan-T5 adapter'ları aynı dondurulmuş test setlerinde değerlendirildi: **300 Chat örneği** (`chat_reference_v1`) ve **160 RAG örneği** (`rag_project_v1`). `1.2x Chat` ve `2x RAG` ifadeleri **görev-loss ağırlıklarını** belirtir; model boyutunun büyütüldüğü veya verinin kopyalandığı anlamına gelmez.
+
+| Deney | Bilinçli eğitim değişikliği | Chat token-F1 | RAG token-F1 | RAG EM | Karar |
+|---|---|---:|---:|---:|---|
+| LoRA q/v — `kötü` | Yalnız q/v LoRA, r=16, alpha=32 | 0.3942 | 0.8127 | 0.7063 | Reddedildi: Chat zayıf |
+| RAG-loss-weight 2.0 — step 1320 | RAG ağırlığı 2.0; Chat 1.0 | 0.3778 | 0.5864 | 0.4625 | Ağırlıklandırma genellemeyi iyileştirmedi |
+| Chat-loss-weight 1.2 — step 1485 | Chat ağırlığı 1.2; RAG 1.0 | 0.4695 | 0.6719 | 0.5563 | Ara checkpoint |
+| Chat-loss-weight 1.2 — step 1980 | Aynı ağırlık, daha fazla step | 0.4684 | 0.6587 | 0.5438 | Step 1485'e göre küçük gerileme |
+| My Class — First Try | İlk özel trainer/loss denemesi | 0.4937 | 0.8421 | 0.7438 | İkinci en iyi |
+| **My Class — Second Try** | Chat ağırlığı 1.7, göreve özel smoothing, kısmi R-Drop | **0.5216** | **0.8894** | **0.7938** | **Seçilen final; üç metriğin tamamında en iyi** |
+
+![Flan-T5 Large LoRA yeniden eğitim karşılaştırması](docs/model-evidence/retraining-v2/figures/flan_retraining_v2_dashboard.png)
+
+Daha uzun süren 1.2x Chat eğitimi küçük bir gerileme gösterirken özel Second Try üç görev metriğinde de öne çıktı. Yapay bir birleşik skor üretilmedi. Referans örtüşmesine dayalı bu metrikler yalnızca belirtilen proje test setleri için geçerlidir ve insan değerlendirmesinin yerine geçmez.
+
+Mevcut **MiniLM INT8 ONNX** sonucu da kanıt paketinde korundu. Model, dondurulmuş ve dengeli 1.000 örneklik proje stres setinde `1.0000` accuracy, macro-F1 ve weighted-F1 elde etti. 10-bin ECE değeri `0.1813` olduğundan, bu sette sınıf tahminleri kusursuz olsa da olasılık kalibrasyonu kusursuz değildir.
+
+İncelenebilirlik için repoda [ayrıntılı sonuç kartı](docs/model-evidence/retraining-v2/RESULT_CARD.md), [makine tarafından okunabilir metrikler](docs/model-evidence/retraining-v2/metrics/flan_retraining_results.json), [düzenlenebilir CSV](docs/model-evidence/retraining-v2/metrics/flan_retraining_results.csv), [kanıt kaynağı açıklaması](docs/model-evidence/retraining-v2/PROVENANCE.md), görseller ve [SHA-256 artifact manifesti](docs/model-evidence/retraining-v2/artifact_manifest.json) bulunur.
+
+> **Kapsam notu:** YOLO-NAS bu projede pretrained görüntü modeli entegrasyonu ve ONNX deployment bileşeni olarak kullanılır; repo özel YOLO-NAS eğitimi yapıldığı iddiasında bulunmaz.
 
 
 ## Mimari Genel Bakış
