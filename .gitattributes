@@ -1,0 +1,5 @@
+docs/model-development/results/retraining-v2/**/*.md text eol=lf
+docs/model-development/results/retraining-v2/**/*.json text eol=lf
+docs/model-development/results/retraining-v2/**/*.csv text eol=lf
+docs/model-development/results/retraining-v2/**/*.png binary
+docs/model-development/results/retraining-v2/**/*.xlsx binary
