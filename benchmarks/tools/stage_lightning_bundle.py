@@ -148,7 +148,9 @@ def main() -> None:
 
     artifacts = []
     for path in sorted(output_dir.rglob("*")):
-        if not path.is_file() or path == marker:
+        # Jupyter mutates execution_count/metadata as soon as a notebook runs,
+        # so notebooks cannot have a stable post-open SHA-256 value.
+        if not path.is_file() or path == marker or path.suffix.lower() == ".ipynb":
             continue
         artifacts.append(
             {
