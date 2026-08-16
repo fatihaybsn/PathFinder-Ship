@@ -46,35 +46,28 @@ Salt okunur yerel arşiv denetiminde:
 - eğitim/değerlendirme amaçlı 34 notebook,
 - 4 Trainer state ve 52 SHA-256 kopya grubu bulundu.
 
-### Tarihsel sonuçlar
+### Yeniden eğitim değerlendirmesi v2
 
-| Deney | Değişiklik | Tarihsel sonuç | Sınırlama |
-|---|---|---:|---|
-| MiniLM-L6 | 5 intent, 4 epoch, LR 2e-5 | 600 örnekte accuracy 1.000; macro-F1 1.000 | Eski train/validation/test bölümlerinde tekrar ve kesişimler bulundu; temiz ana sonuç olarak kullanılmayacak. |
-| Erken Flan-T5 Base | Chat + dört bit command, early stopping | epoch 13'te en iyi val loss 0.7815; epoch 16'da durdu | Eski 20 örnekli command testinin paydası hatalıydı. |
-| Large LoRA q/v (`kötü`) | Yalnız q/v hedefleri, r=16, alpha=32 | Trainer best eval loss 1.8437; ayrı full eval loss 32.1334 | Reddedilen deney; eksik adapter config kod ve tensor yapısından yeniden kurulmuş olarak işaretlendi. |
-| Large LoRA 2x RAG | Yedi LoRA hedefi, RAG ağırlığı 2.0 | best eval loss 0.9845; tarihsel loss iyileşmesi yaklaşık %14–20 | Bazı eski promptlarda çift tag sorunu var. |
-| Large LoRA 1.2x Chat, step 1485 | Yedi LoRA hedefi, Chat ağırlığı 1.2; ara checkpoint | epoch 2.25'te best eval loss 0.9588 | Yalnızca seçilen son checkpoint'i değil, gelişimi göstermek için tutuluyor. |
-| Large LoRA 1.2x Chat | Chat ağırlığı 1.2 | step 1980 eval loss 0.9585; RAG EM 0.742/F1 0.8609 | Eski validation bölümünde az sayıda tekrar sızıntısı var. |
-| My Class First Try | İlk özel loss/trainer denemesi | güvenilir bağımsız tarihsel test skoru bulunamadı | Kaydedilen adapter diğer denemelerle aynı sabit testte ölçülecek. |
-| My Class Second Try | Chat 1.7, görev bazlı smoothing, kısmi R-Drop | eval loss 1.0937; hızlı RAG EM 0.805/F1 0.9148 | Eski chat testi `max_time=1.2s` nedeniyle çıktıları ciddi biçimde kesti. |
+Güncellenen altı Flan-T5 Large LoRA adapter'ı aynı 300 örnekli Chat ve 160 örnekli proje RAG setlerinde değerlendirildi. Özgün klasör adlarındaki `1.2x Chat` ve `2x RAG`, **görev bazlı loss ağırlıklarını** ifade eder; model ölçekleme veya veri çoğaltma anlamına gelmez.
 
-### Focused Evidence v1
+| Deney | Bilinçli eğitim değişikliği | Chat token-F1 | RAG token-F1 | RAG EM | Karar |
+|---|---|---:|---:|---:|---|
+| LoRA q/v — `kötü` | Yalnız q/v LoRA, r=16, alpha=32 | 0.3942 | 0.8127 | 0.7063 | Reddedildi: Chat zayıf kaldı |
+| RAG-loss-weight 2.0 — step 1320 | RAG loss ağırlığı 2.0; Chat 1.0 | 0.3778 | 0.5864 | 0.4625 | Ağırlıklandırma ortak test sonucunu iyileştirmedi |
+| Chat-loss-weight 1.2 — step 1485 | Chat loss ağırlığı 1.2; RAG 1.0 | 0.4695 | 0.6719 | 0.5563 | Ara checkpoint |
+| Chat-loss-weight 1.2 — step 1980 | Aynı ağırlık, daha fazla optimizasyon adımı | 0.4684 | 0.6587 | 0.5438 | Step 1485'e göre küçük gerileme |
+| My Class — First Try | İlk özel trainer/loss denemesi | 0.4937 | 0.8421 | 0.7438 | Güçlü ikinci aday |
+| **My Class — Second Try** | Chat 1.7, görev smoothing, kısmi R-Drop | **0.5216** | **0.8894** | **0.7938** | **Seçilen final; raporlanan bütün metriklerde en iyi** |
 
-İlk yayın koşusu, model geliştirme zincirini kanıtlayan proje modellerine bilinçli olarak odaklanır:
+![PathFinderShip yeniden eğitim değerlendirmesi v2](docs/model-development/results/retraining-v2/figures/flan_retraining_v2_dashboard.png)
 
-- dengeli 1.000 intent örneği,
-- altı Flan-T5 Large LoRA denemesinin tamamında ortak 300 sabit proje Chat örneği,
-- aynı altı denemede ortak 160 sabit cevaplanabilir/cevaplanamaz proje RAG örneği,
-- final model için 25 Chat + 25 RAG olmak üzere 50 sabit PyTorch/INT8-ONNX parite örneği.
+Sonuçlar kötü ve ara denemelerin neden korunması gerektiğini gösteriyor: RAG ağırlığı `2.0` fayda sağlamadı, Chat ağırlığı `1.2` Chat sonucunu iyileştirdi ve aynı deneyi step 1485'ten 1980'e uzatmak küçük bir gerileme oluşturdu. En dengeli sonuç özel Second Try ayarından geldi. Görevler arasında birleşik skor üretilmedi; değerler genel “başarı yüzdesi” gibi değil, metrik adlarıyla raporlandı.
 
-YOLO/COCO, IFEval, haricî RAGBench, eski Small/Base modeller ve beam-search karşılaştırması bu ilk koşunun dışındadır. Üretilen tabloda reddedilen `kötü`, ara checkpoint'ler, iki `1.2x` sürümü, First Try ve final aday birlikte gösterilir. Chat ve RAG için en iyi sonuçlar ayrı ayrı öne çıkarılır; birleşik bir skor üretilmez.
+### MiniLM intent sonucu
 
-316.486 benzersiz eğitim girdisi imzası kullanılarak test verisi çakışmaları elenecektir. Yeni sonuçlar; ham tahminler, JSON metrikler, `%95` güven aralıkları, ortam bilgisi, SHA-256 manifesti, grafikler ve hata kayıtlarıyla birlikte yayınlanacaktır.
+Değiştirilmeyen MiniLM-L6 INT8 ONNX modeli, sabit ve dengeli 1.000 örnekli intent setinde accuracy, macro-F1 ve weighted-F1 için `1.0000`; ECE için `0.1813` aldı. Kusursuz etiket skoru yalnızca bu proje stress seti için geçerlidir; ECE güven skorlarının kusursuz kalibre olmadığını gösterir.
 
-Belgeler: [benchmark protokolü](BENCHMARK_PLAN.md), [deney günlüğü](docs/model-development/EXPERIMENTS.md), [dataset kartı](docs/model-development/DATASET_CARD.md), [artifact envanteri](docs/model-development/evidence/ARTIFACT_INVENTORY.md) ve [veri sızıntısı denetimi](docs/model-development/evidence/TRAINING_DATA_AUDIT.md).
-
-> Lightning AI sonuçları dönüp hash ve şema doğrulamasından geçene kadar yeni Focused Evidence v1 sayıları README'ye eklenmeyecektir.
+[V2 sonuç kartı](docs/model-development/results/retraining-v2/RESULT_CARD.md), makine tarafından okunabilir [JSON](docs/model-development/results/retraining-v2/metrics/flan_retraining_results.json), düzenlenebilir [CSV](docs/model-development/results/retraining-v2/metrics/flan_retraining_results.csv), denetlenebilir [çalışma kitabı](docs/model-development/results/retraining-v2/metrics/flan_retraining_results.xlsx), güncel görseller ve iddia sınırlarını birbirine bağlar. Tarihsel notebook loss değerleri [deney günlüğünde](docs/model-development/EXPERIMENTS.md) korunur; v2 değerlendirme metriği gibi yeniden etiketlenmez. Ayrıca [benchmark protokolü](BENCHMARK_PLAN.md), [dataset kartı](docs/model-development/DATASET_CARD.md), [artifact envanteri](docs/model-development/evidence/ARTIFACT_INVENTORY.md) ve [veri sızıntısı denetimi](docs/model-development/evidence/TRAINING_DATA_AUDIT.md) yayınlanır.
 
 ## Yerel çalıştırma
 

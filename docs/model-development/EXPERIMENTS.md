@@ -1,14 +1,26 @@
 # Model Development Record
 
-This page is generated from source notebooks, trainer states, artifact hashes, and the frozen experiment manifest. Until Benchmark v1 is executed, all numbers in the table below are historical and must be read with their listed limitations.
+PathFinderShip's MiniLM and Flan-T5 models are pretrained checkpoints fine-tuned on project data; they were not trained from scratch. Original folder aliases are retained for traceability, while publication names describe the actual training change.
 
-| Experiment | Deliberate change | Historical evidence | Interpretation |
-|---|---|---|---|
-| MiniLM-L6 INT8 | Five-class intent fine-tuning, 4 epochs, LR 2e-5 | test accuracy 1.000; macro-F1 1.000 on 600 examples | Strong internal result, but split duplicates mean it is not the publication headline until `intent_v1` is run. |
-| Early Flan-T5 Base | Chat+four-bit command generation, early stopping | best validation loss 0.7815 at epoch 13; stopped at epoch 16 | Establishes the early multitask full-fine-tuning stage. |
-| Large LoRA q/v | LoRA only on q/v, LR 1e-4, label smoothing 0.1 | best trainer eval loss 1.8437; separate full evaluation loss 32.1334 | Rejected experiment; configuration and conflicting evaluation remain visible. |
-| Large LoRA 2x RAG | Seven LoRA target modules; RAG example weight 2.0 | best eval loss 0.9845; historical task-loss improvements of roughly 14–20% | Useful RAG-weighting milestone; old prompt construction contains known duplicated tags. |
-| Large LoRA 1.2x Chat | Seven LoRA targets; Chat weight 1.2 | step 1980 eval loss 0.9585; historical RAG EM 0.742 and F1 0.8609 | Strong historical RAG result; will be rerun on decontaminated Benchmark v1. |
-| My Class Second Try | Chat weight 1.7, task-specific smoothing, partial R-Drop | eval loss 1.0937; quick RAG EM 0.805/F1 0.9148 | Final candidate. The old chat run used a 1.2-second generation cap and was severely truncated, so its chat score is not a headline result. |
+## Retraining Evaluation v2
 
-The final report will add Benchmark v1 scores, confidence intervals, load status, environment, artifact SHA-256, and exact Hugging Face revision to this record.
+| Experiment ID | Original folder | Deliberate change | Chat token-F1 | RAG token-F1 | RAG EM | Interpretation |
+|---|---|---|---:|---:|---:|---|
+| `flan_large_lora_qv_failed` | `kötü` | LoRA q/v only, r=16, alpha=32 | 0.3942 | 0.8127 | 0.7063 | Rejected because the shared Chat result remained weak. |
+| `flan_large_lora_rag2_step1320` | `2x rag/checkpoint_1320` | RAG task-loss weight 2.0; Chat 1.0 | 0.3778 | 0.5864 | 0.4625 | Task weighting did not improve the shared evaluation. |
+| `flan_large_lora_chat12_step1485` | `1.2x chat/1485` | Chat task-loss weight 1.2; RAG 1.0 | 0.4695 | 0.6719 | 0.5563 | Useful intermediate checkpoint. |
+| `flan_large_lora_chat12_step1980` | `1.2x chat/1980` | Same task weighting, more optimization steps | 0.4684 | 0.6587 | 0.5438 | Slight regression versus step 1485. |
+| `flan_large_lora_first_try` | `My Class/First Try` | First custom trainer/loss iteration | 0.4937 | 0.8421 | 0.7438 | Strong runner-up on both tasks. |
+| **`flan_large_lora_second_try`** | **`My Class/Second Try`** | **Chat weight 1.7, task smoothing, partial R-Drop** | **0.5216** | **0.8894** | **0.7938** | **Selected final; best on every reported metric.** |
+
+`1.2x` and `2x` refer to task-loss multipliers, not model size or repeated copies of the dataset. No composite score is constructed across tasks.
+
+## Preserved MiniLM evaluation
+
+The MiniLM-L6 intent classifier was not changed by the Flan-T5 retraining cycle. Its verified INT8 ONNX result remains accuracy `1.0000`, macro-F1 `1.0000`, weighted-F1 `1.0000`, and ECE `0.1813` on 1,000 balanced project stress examples.
+
+## Historical training evidence
+
+Executed notebooks and Trainer states retain older training-loss evidence, including the rejected q/v run, the task-weighting milestones, and early full-fine-tuning experiments. Those loss values describe their own historical splits and are not compared numerically with Retraining Evaluation v2.
+
+Publication assets and claims boundaries are documented in [`results/retraining-v2/RESULT_CARD.md`](results/retraining-v2/RESULT_CARD.md).

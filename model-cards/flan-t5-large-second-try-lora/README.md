@@ -27,11 +27,17 @@ This is the final PathFinderShip Chat+RAG LoRA adapter. It fine-tunes `google/fl
 - Chat label smoothing: 0.02; RAG label smoothing: 0.00
 - Partial R-Drop: probability 0.15, lambda 0.25
 
-## Evidence
+## Retraining Evaluation v2
 
-Historical executed-notebook results include eval loss 1.0937 and a quick RAG subset result of EM 0.805/F1 0.9148. The quick historical chat run used a 1.2-second generation cap and was truncated, so that chat score is not a headline metric.
+| Metric | Result |
+|---|---:|
+| Chat token-F1 | **0.5216** |
+| RAG token-F1 | **0.8894** |
+| RAG exact match | **0.7938** |
 
-Benchmark v1 results must be inserted here only after the Lightning result ZIP passes manifest validation. See the GitHub experiment record for raw predictions, hashes, environment, and limitations.
+This adapter achieved the highest score on every reported metric among six updated LoRA variants and is therefore the selected final candidate. Results apply to the shared 300-example Chat and 160-example project RAG suites. They are metric values, not universal accuracy percentages, and automatic reference metrics do not replace human evaluation.
+
+The complete comparison, task-weight explanation, editable CSV, workbook, and figures are published in the PathFinderShip GitHub result card.
 
 ## Use
 

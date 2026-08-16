@@ -1,26 +1,33 @@
-# Benchmark v1 Dataset Card
+# PathFinderShip Model Evidence Dataset Card
 
 ## Purpose
 
-Benchmark v1 is an evaluation-only collection for PathFinderShip's intent, Chat+Command, Chat+RAG, ONNX parity, and pretrained vision-integration experiments. It must not be used for further fine-tuning after results have been published.
+The publication evaluation compares project-fine-tuned models on task-compatible, frozen project suites. The evaluation data is not used to claim universal model accuracy and should not be reused for further tuning after publication.
 
-## Components
+## Headline components
 
-- `intent_v1`: 1,000 deterministic project-authored stress examples, balanced across the five configured intent labels.
-- `command_v1`: 600 deterministic project-authored examples covering the valid four-bit command combinations and chat negatives.
-- `chat_ifeval_v1`: the official Google IFEval prompts (Apache-2.0), evaluated with its strict and loose rule checkers.
-- `chat_reference_v1`: 300 deterministic project-authored single-turn prompts with references and diagnostic tags.
-- `rag_v1`: 440 examples sampled with seed 42 from the test splits of eleven RAGBench subsets (HotpotQA excluded) plus 160 project-authored examples split evenly between answerable and unanswerable context.
-- `vision_coco_v1`: COCO 2017 validation images and annotations, used only to verify pretrained integration.
+- `intent_v1`: 1,000 deterministic project-authored stress examples, balanced across five configured MiniLM intent labels.
+- `chat_reference_v1`: 300 deterministic project-authored Chat prompts with reference responses.
+- `rag_project_v1`: 160 project-authored grounded RAG examples, including answerable and unanswerable contexts.
 
-## Decontamination
+Retraining Evaluation v2 compares six updated Flan-T5 Large LoRA adapters on the same Chat and RAG suites. MiniLM retains its previously verified intent result.
 
-Normalized exact hashes and word-ngram similarity signatures are built from all known historical training and validation inputs. Public and project-authored candidates are rejected when they exactly match or exceed the configured near-duplicate threshold. Every retained sample receives a stable ID and source field.
+## Metric definitions
+
+- Chat token-F1: token overlap against the reference Chat response.
+- RAG token-F1: token overlap against the grounded reference answer.
+- RAG exact match: normalized exact match against the grounded reference answer.
+- Intent accuracy/macro-F1/weighted-F1: five-class classification quality.
+- ECE: confidence calibration error across ten bins.
+
+## Decontamination record
+
+Known historical training and validation inputs were inventoried with normalized exact and near-duplicate fingerprints. The full audit remains in [`evidence/TRAINING_DATA_AUDIT.md`](evidence/TRAINING_DATA_AUDIT.md).
 
 ## Limitations
 
-- Project-authored examples are deterministic stress tests, not a representative sample of all user traffic.
-- Reference-overlap metrics do not fully measure conversational quality.
-- The lexical RAG support score is a transparent proxy, not a semantic hallucination judge.
-- IFEval measures verifiable instruction following and does not replace human conversation review.
-- COCO results validate pretrained inference integration; they do not demonstrate custom object-detector training.
+- Project-authored deterministic stress tests do not represent all production traffic.
+- Reference-overlap metrics can penalize semantically valid alternative wording and do not replace human review.
+- The MiniLM suite is balanced and template-driven; a perfect label score must be interpreted within that scope.
+- Retraining v2 reports aggregate values without new bootstrap confidence intervals.
+- YOLO is outside this model-training evidence set because the project uses pretrained detector integration rather than a custom-trained YOLO checkpoint.

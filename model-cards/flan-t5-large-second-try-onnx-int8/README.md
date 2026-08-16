@@ -17,7 +17,7 @@ Quantized ONNX encoder, decoder, and decoder-with-past export of the PathFinderS
 
 The export notebook completed successfully and recorded numerical tolerance warnings up to approximately 7.2e-5. Quality and generation parity against the source PyTorch+LoRA model are therefore reported explicitly instead of claiming bit-exact equivalence.
 
-Benchmark v1 parity, CPU latency, memory, and metric deltas will be added after the Lightning result bundle is validated. The repository retains raw paired predictions.
+The Flan-T5 adapters were retrained for Retraining Evaluation v2. Publish this ONNX artifact as the current final model only after confirming that the encoder/decoder files were exported from the updated Second Try weights and recording their SHA-256 values. Do not reuse parity numbers from a superseded checkpoint.
 
 Expected files:
 

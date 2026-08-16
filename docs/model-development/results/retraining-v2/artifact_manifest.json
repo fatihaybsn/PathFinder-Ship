@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "result_set": "retraining_evaluation_v2",
+  "file_count": 15,
+  "files": [
+    {"relative_path": "figures/flan_retraining_v2_dashboard.png", "size_bytes": 172662, "sha256": "74096e0b4aa7122ae0e570e79c8ccd57c5b95df236eae89cf92b580142de5f2b"},
+    {"relative_path": "figures/source-updated/benchmark_chat_reference_v1.png", "size_bytes": 951310, "sha256": "b79b979ec8817e2fd7c06e8798eaa82dc23f196baa6b950da2a92db11e83738d"},
+    {"relative_path": "figures/source-updated/benchmark_intent_v1.png", "size_bytes": 811361, "sha256": "7b1b7419810823bd3bf6d5c928795f60bf488d09c6487c3c554e5a3c77491c0a"},
+    {"relative_path": "figures/source-updated/benchmark_rag_project_v1.png", "size_bytes": 906014, "sha256": "d26df3099b36a22754ced2ce7f8a22c182b8c00c8e64d77a25aa523cd962e3a4"},
+    {"relative_path": "figures/source-updated/focused_flan_model_comparison.png", "size_bytes": 932665, "sha256": "2690dd4ba182524cd6452bc66ab719639f6d12aa3eb478518f9f918c98352237"},
+    {"relative_path": "figures/source-updated/historical_early_flan_t5_base_loss.png", "size_bytes": 763114, "sha256": "1365d3377db9dc09d30b835ec56fc0ba452c50e6335ca4a2e47dd4c7104befb8"},
+    {"relative_path": "figures/source-updated/historical_flan_large_eval_loss.png", "size_bytes": 656632, "sha256": "42a4d188d6186094f474fcdf50b737c48895e245109db7b95f3ff4391b748527"},
+    {"relative_path": "figures/source-updated/minilm_intent_confusion_matrix.png", "size_bytes": 67517, "sha256": "d2bd887a0aa644a82808fbc61de59937ac8fe73cc21cfdc5eb0413e145c06753"},
+    {"relative_path": "metrics/flan_retraining_results.csv", "size_bytes": 1095, "sha256": "c9c52f96f81a95145a37b85a9e772b2f4a5de136c745329b89fa44eec5335fc2"},
+    {"relative_path": "metrics/flan_retraining_results.json", "size_bytes": 3047, "sha256": "08a37f3f72c6f530bbdeebaaef36b2ba9820b0a37b89c89f0def89d6a898d891"},
+    {"relative_path": "metrics/flan_retraining_results.xlsx", "size_bytes": 8095, "sha256": "582c2bb81cbadefe3edc961b6008122ef2160ac7229e856c61f0049e6d6af65c"},
+    {"relative_path": "metrics/minilm_intent_results.json", "size_bytes": 440, "sha256": "f2eb117922dae26786d5ee3946d216af23c44ead24d27e06cb6433c247956a11"},
+    {"relative_path": "PROVENANCE.md", "size_bytes": 1274, "sha256": "428f7157673dee407c1d5601f1904b59d2864b3abf833952d2d0e7593a3e9710"},
+    {"relative_path": "RESULT_CARD.md", "size_bytes": 2315, "sha256": "00e2295d56a906ce8946b3adac7062a476312cc4a42cf7f092250eb9d6f2062d"},
+    {"relative_path": "tables/model_comparison.md", "size_bytes": 1816, "sha256": "74c6ff3709df9700c52438fc675b959b5fbdca07b5981809d4cbbccaa87e3f97"}
+  ]
+}

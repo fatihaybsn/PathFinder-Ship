@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "result_set": "retraining_evaluation_v2",
+  "status": "reported_complete",
+  "base_model": "google/flan-t5-large",
+  "method": "project-data LoRA fine-tuning",
+  "protocol": {
+    "chat_suite": "chat_reference_v1",
+    "chat_examples": 300,
+    "rag_suite": "rag_project_v1",
+    "rag_examples": 160,
+    "note": "All six retrained adapters were compared on the same task-compatible suites. No cross-task composite score is used."
+  },
+  "metric_definitions": {
+    "chat_token_f1": "Token-overlap F1 against the Chat reference answer.",
+    "rag_token_f1": "Token-overlap F1 against the grounded RAG reference answer.",
+    "rag_exact_match": "Normalized exact match against the grounded RAG reference answer."
+  },
+  "experiments": [
+    {
+      "id": "flan_large_lora_qv_failed",
+      "original_folder": "kötü",
+      "training_change": "LoRA q/v only; r=16; alpha=32; dropout=0.05; LR=1e-4; label smoothing=0.1",
+      "selection": "rejected",
+      "metrics": {"chat_token_f1": 0.3942, "rag_token_f1": 0.8127, "rag_exact_match": 0.7063}
+    },
+    {
+      "id": "flan_large_lora_rag2_step1320",
+      "original_folder": "2x rag/checkpoint_1320",
+      "training_change": "RAG task-loss weight=2.0; Chat task-loss weight=1.0; checkpoint step 1320",
+      "selection": "milestone",
+      "metrics": {"chat_token_f1": 0.3778, "rag_token_f1": 0.5864, "rag_exact_match": 0.4625}
+    },
+    {
+      "id": "flan_large_lora_chat12_step1485",
+      "original_folder": "1.2x chat/1485",
+      "training_change": "Chat task-loss weight=1.2; RAG task-loss weight=1.0; checkpoint step 1485",
+      "selection": "checkpoint",
+      "metrics": {"chat_token_f1": 0.4695, "rag_token_f1": 0.6719, "rag_exact_match": 0.5563}
+    },
+    {
+      "id": "flan_large_lora_chat12_step1980",
+      "original_folder": "1.2x chat/1980",
+      "training_change": "Chat task-loss weight=1.2; RAG task-loss weight=1.0; checkpoint step 1980",
+      "selection": "milestone",
+      "metrics": {"chat_token_f1": 0.4684, "rag_token_f1": 0.6587, "rag_exact_match": 0.5438}
+    },
+    {
+      "id": "flan_large_lora_first_try",
+      "original_folder": "My Class/First Try",
+      "training_change": "First custom trainer/loss iteration",
+      "selection": "runner_up",
+      "metrics": {"chat_token_f1": 0.4937, "rag_token_f1": 0.8421, "rag_exact_match": 0.7438}
+    },
+    {
+      "id": "flan_large_lora_second_try",
+      "original_folder": "My Class/Second Try",
+      "training_change": "Chat task weight=1.7; task-specific label smoothing; partial R-Drop",
+      "selection": "selected_final",
+      "metrics": {"chat_token_f1": 0.5216, "rag_token_f1": 0.8894, "rag_exact_match": 0.7938}
+    }
+  ],
+  "selected_model": "flan_large_lora_second_try",
+  "limitations": [
+    "Reference-overlap metrics do not replace human evaluation.",
+    "These values apply to the named frozen project suites and must not be presented as universal accuracy percentages.",
+    "The retraining-v2 summary does not report bootstrap confidence intervals."
+  ]
+}

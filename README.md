@@ -32,37 +32,28 @@ The read-only source audit currently records:
 - 4 saved Trainer states and 52 SHA-256 duplicate groups
 - a frozen experiment registry with professional IDs mapped to the original folder names such as `kötü`, `1.2x chat`, `2x rag`, and `My Class`
 
-### Historical training record
+### Retraining Evaluation v2
 
-These values were recovered from executed notebooks and Trainer states. They are historical results, not the new Benchmark v1 leaderboard.
+Six updated Flan-T5 Large LoRA adapters were evaluated on the same 300-example Chat and 160-example project RAG suites. The original folder aliases `1.2x Chat` and `2x RAG` describe **task-loss weights**; they do not mean model scaling or dataset duplication.
 
-| Experiment | Training change | Historical result | Important limitation |
-|---|---|---:|---|
-| MiniLM-L6 intent | 5 classes, 4 epochs, LR 2e-5, CPU training | accuracy 1.000; macro-F1 1.000 on 600 examples | Exact and normalized overlaps exist across the old train/validation/test splits; this score is not used as the clean headline result. |
-| Early Flan-T5 Base | Chat + four-bit command generation, early stopping | best validation loss 0.7815 at epoch 13; stopped at epoch 16 | The old 20-row command test used an incorrect denominator and is not reused. |
-| Flan-T5 Large LoRA q/v (`kötü`) | LoRA r=16/alpha=32 on q/v only; LR 1e-4 | best Trainer eval loss 1.8437; separate full eval loss 32.1334 | Rejected experiment; the missing adapter config is explicitly marked as reconstructed from code and tensor structure. |
-| Flan-T5 Large LoRA 2x RAG | Seven LoRA targets; RAG loss weight 2.0 | best eval loss 0.9845; historical task loss improved about 14–20% | Historical prompt construction contains known duplicated tags. |
-| Flan-T5 Large LoRA 1.2x Chat, step 1485 | Seven LoRA targets; Chat weight 1.2; intermediate checkpoint | best eval loss 0.9588 at epoch 2.25 | Retained to show checkpoint-to-checkpoint development, not only the selected endpoint. |
-| Flan-T5 Large LoRA 1.2x Chat | Seven LoRA targets; Chat weight 1.2 | step 1980 eval loss 0.9585; historical RAG EM 0.742/F1 0.8609 | Validation was selected from the saved 100k corpus and contains a small number of duplicate-row overlaps. |
-| My Class First Try | First custom loss/trainer iteration | no trustworthy standalone historical score recovered | The saved adapter is retained and will be judged on the same frozen tests as the other attempts. |
-| My Class Second Try | Chat weight 1.7, task smoothing, partial R-Drop | eval loss 1.0937; quick RAG EM 0.805/F1 0.9148 | The old chat evaluation imposed `max_time=1.2s`, truncating outputs to a 0.184 prediction/reference length ratio. |
+| Experiment | Deliberate training change | Chat token-F1 | RAG token-F1 | RAG EM | Decision |
+|---|---|---:|---:|---:|---|
+| LoRA q/v — `kötü` | q/v-only LoRA, r=16, alpha=32 | 0.3942 | 0.8127 | 0.7063 | Rejected: Chat remained weak |
+| RAG-loss-weight 2.0 — step 1320 | RAG loss weight 2.0; Chat 1.0 | 0.3778 | 0.5864 | 0.4625 | Weighting did not improve the shared evaluation |
+| Chat-loss-weight 1.2 — step 1485 | Chat loss weight 1.2; RAG 1.0 | 0.4695 | 0.6719 | 0.5563 | Intermediate checkpoint |
+| Chat-loss-weight 1.2 — step 1980 | Same weighting, more optimization steps | 0.4684 | 0.6587 | 0.5438 | Slight regression versus step 1485 |
+| My Class — First Try | First custom trainer/loss iteration | 0.4937 | 0.8421 | 0.7438 | Strong runner-up |
+| **My Class — Second Try** | Chat weight 1.7, task smoothing, partial R-Drop | **0.5216** | **0.8894** | **0.7938** | **Selected final; best on every reported metric** |
 
-### Focused Evidence v1
+![PathFinderShip Retraining Evaluation v2](docs/model-development/results/retraining-v2/figures/flan_retraining_v2_dashboard.png)
 
-The first publication run intentionally focuses on the project-trained artifacts that establish the development chain. It reports failures and never combines unrelated tasks into a single score:
+The results show why the rejected and intermediate attempts are retained: RAG weight `2.0` did not help, Chat weight `1.2` improved Chat, and extending the same run from step 1485 to 1980 caused a small regression. The custom Second Try configuration produced the strongest balance. There is no cross-task composite score, and values are reported with their metric names rather than as generic “accuracy.”
 
-- 1,000 balanced project-authored intent stress examples
-- 300 frozen project-authored Chat examples shared by all six Flan-T5 Large LoRA attempts
-- 160 frozen answerable/unanswerable project RAG examples shared by the same six attempts
-- 50 deterministic final-model PyTorch/INT8-ONNX parity examples (25 Chat + 25 RAG)
+### MiniLM intent result
 
-YOLO/COCO, IFEval, external RAGBench, early Small/Base checkpoints, and beam-search ablations are deliberately outside this first run. The generated comparison retains the rejected `kötü` adapter, milestones, both `1.2x` checkpoints, First Try, and the final candidate. The highest Chat and RAG results are highlighted independently; no composite score is used.
+The unchanged MiniLM-L6 INT8 ONNX classifier scored accuracy, macro-F1, and weighted-F1 of `1.0000` on the frozen balanced 1,000-example intent suite; ECE was `0.1813`. The perfect label score applies only to this project stress set, while ECE shows that confidence calibration is not perfect.
 
-Known training inputs are represented by 316,486 unique exact/near-duplicate fingerprints. Public candidates matching them are rejected before the suite is frozen. New results include raw predictions, metrics JSON, confidence intervals, environment metadata, hashes, plots, and per-model failure records.
-
-See the [benchmark protocol](BENCHMARK_PLAN.md), [experiment record](docs/model-development/EXPERIMENTS.md), [dataset card](docs/model-development/DATASET_CARD.md), [artifact inventory](docs/model-development/evidence/ARTIFACT_INVENTORY.md), and [split-leakage audit](docs/model-development/evidence/TRAINING_DATA_AUDIT.md).
-
-> Focused Evidence v1 GPU results are intentionally not shown until the returned Lightning bundle passes schema and SHA-256 validation. Historical and new results remain distinguishable in the generated comparison.
+The [v2 result card](docs/model-development/results/retraining-v2/RESULT_CARD.md) links the machine-readable [JSON](docs/model-development/results/retraining-v2/metrics/flan_retraining_results.json), editable [CSV](docs/model-development/results/retraining-v2/metrics/flan_retraining_results.csv), auditable [workbook](docs/model-development/results/retraining-v2/metrics/flan_retraining_results.xlsx), updated figures, and claims boundary. Historical notebook losses remain available in the [experiment record](docs/model-development/EXPERIMENTS.md); they are not relabeled as v2 evaluation metrics. See also the [benchmark protocol](BENCHMARK_PLAN.md), [dataset card](docs/model-development/DATASET_CARD.md), [artifact inventory](docs/model-development/evidence/ARTIFACT_INVENTORY.md), and [split-leakage audit](docs/model-development/evidence/TRAINING_DATA_AUDIT.md).
 
 ## Architecture
 

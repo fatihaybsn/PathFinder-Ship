@@ -21,4 +21,6 @@ Milestone LoRA adapter from the experiment that weighted RAG examples by 2.0 and
 - Two epochs, learning rate 2e-4
 - Historical runtime: 7,024.8 seconds on the recorded L40S workflow
 
-The Trainer state reports best eval loss 0.9845. Historical pre/post measurements recorded loss improvements of approximately 14.1% overall, 14.4% on Chat, and 20.5% on RAG. The historical prompt builder has known duplicated-tag cases, which are documented rather than hidden. Benchmark v1 uses a normalized prompt builder and separate result table.
+`2x RAG` means that RAG examples received a task-loss weight of `2.0` while Chat remained `1.0`; it is not dataset duplication or model scaling.
+
+Retraining Evaluation v2 reports Chat token-F1 `0.3778`, RAG token-F1 `0.5864`, and RAG exact match `0.4625`. The heavier RAG loss weight did not outperform the balanced custom trainer variants on the shared evaluation suites, so this adapter is published as an experimental milestone rather than the selected final model.

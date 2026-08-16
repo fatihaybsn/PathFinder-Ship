@@ -21,4 +21,6 @@ Milestone LoRA adapter from the experiment that weighted Chat examples by 1.2 an
 - Three planned epochs; checkpoint step 1980 corresponds to epoch 3
 - Learning rate 2e-4 with cosine schedule
 
-Historical evaluation reported eval loss 0.9585, RAG EM 0.742, RAG F1 0.8609, and RAG ROUGE-L 0.8573. These historical values came from the experiment's saved validation data and remain separate from decontaminated Benchmark v1 results.
+`1.2x Chat` means that Chat examples received a task-loss weight of `1.2` while RAG remained `1.0`; it is not a model-size or dataset multiplier.
+
+Retraining Evaluation v2 reports Chat token-F1 `0.4684`, RAG token-F1 `0.6587`, and RAG exact match `0.5438`. The earlier step-1485 checkpoint scored `0.4695`, `0.6719`, and `0.5563`, respectively, so additional optimization to step 1980 produced a small regression on the shared suites.

@@ -1,0 +1,7 @@
+experiment_id,display_name,training_change,chat_token_f1,rag_token_f1,rag_exact_match,selection,interpretation
+flan_large_lora_qv_failed,LoRA q/v — rejected (kötü),q/v-only LoRA; r=16; alpha=32,0.3942,0.8127,0.7063,rejected,RAG stronger than expected; Chat remains weak
+flan_large_lora_rag2_step1320,RAG-loss-weight 2.0 — step 1320,RAG loss weight=2.0; Chat=1.0,0.3778,0.5864,0.4625,milestone,Task weighting did not improve the shared evaluation
+flan_large_lora_chat12_step1485,Chat-loss-weight 1.2 — step 1485,Chat loss weight=1.2; RAG=1.0,0.4695,0.6719,0.5563,checkpoint,Chat improved and RAG recovered
+flan_large_lora_chat12_step1980,Chat-loss-weight 1.2 — step 1980,Chat loss weight=1.2; RAG=1.0,0.4684,0.6587,0.5438,milestone,Additional steps produced a small regression
+flan_large_lora_first_try,My Class — First Try,First custom trainer/loss iteration,0.4937,0.8421,0.7438,runner_up,Strong on both tasks
+flan_large_lora_second_try,My Class — Second Try,Chat weight=1.7; task smoothing; partial R-Drop,0.5216,0.8894,0.7938,selected_final,Best result on every reported metric
