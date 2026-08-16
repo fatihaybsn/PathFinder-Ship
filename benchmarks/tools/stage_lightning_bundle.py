@@ -96,6 +96,11 @@ def main() -> None:
     parser.add_argument("--archive-root", type=Path, required=True)
     parser.add_argument("--repo-root", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument(
+        "--manifest",
+        type=Path,
+        help="Experiment manifest to stage (defaults to focused_evidence.yaml).",
+    )
     args = parser.parse_args()
     archive_root = args.archive_root.resolve()
     repo_root = args.repo_root.resolve()
@@ -108,13 +113,17 @@ def main() -> None:
     output_dir.mkdir(parents=True)
     marker.write_text("PathFinder Lightning bundle v1\n", encoding="utf-8")
 
-    manifest_path = repo_root / "benchmarks" / "config" / "experiments.yaml"
+    manifest_path = (args.manifest or (repo_root / "benchmarks" / "config" / "focused_evidence.yaml")).resolve()
     experiments = yaml.safe_load(manifest_path.read_text(encoding="utf-8"))["experiments"]
     for experiment in experiments:
         print(f"[stage] {experiment['id']}")
         stage_model(experiment, archive_root, output_dir / "models")
 
-    copy_directory(repo_root / "benchmarks", output_dir / "benchmarks")
+    copy_directory(
+        repo_root / "benchmarks",
+        output_dir / "benchmarks",
+        lambda path: path.name != "training_fingerprints.jsonl" and path.name != "prepare_public_data.py",
+    )
     copy_file(repo_root / "BENCHMARK_PLAN.md", output_dir / "BENCHMARK_PLAN.md")
     copy_file(repo_root / "docs" / "model-development" / "DATASET_CARD.md", output_dir / "DATASET_CARD.md")
     for evidence_name in (

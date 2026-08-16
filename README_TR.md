@@ -54,24 +54,27 @@ Salt okunur yerel arşiv denetiminde:
 | Erken Flan-T5 Base | Chat + dört bit command, early stopping | epoch 13'te en iyi val loss 0.7815; epoch 16'da durdu | Eski 20 örnekli command testinin paydası hatalıydı. |
 | Large LoRA q/v (`kötü`) | Yalnız q/v hedefleri, r=16, alpha=32 | Trainer best eval loss 1.8437; ayrı full eval loss 32.1334 | Reddedilen deney; eksik adapter config kod ve tensor yapısından yeniden kurulmuş olarak işaretlendi. |
 | Large LoRA 2x RAG | Yedi LoRA hedefi, RAG ağırlığı 2.0 | best eval loss 0.9845; tarihsel loss iyileşmesi yaklaşık %14–20 | Bazı eski promptlarda çift tag sorunu var. |
+| Large LoRA 1.2x Chat, step 1485 | Yedi LoRA hedefi, Chat ağırlığı 1.2; ara checkpoint | epoch 2.25'te best eval loss 0.9588 | Yalnızca seçilen son checkpoint'i değil, gelişimi göstermek için tutuluyor. |
 | Large LoRA 1.2x Chat | Chat ağırlığı 1.2 | step 1980 eval loss 0.9585; RAG EM 0.742/F1 0.8609 | Eski validation bölümünde az sayıda tekrar sızıntısı var. |
+| My Class First Try | İlk özel loss/trainer denemesi | güvenilir bağımsız tarihsel test skoru bulunamadı | Kaydedilen adapter diğer denemelerle aynı sabit testte ölçülecek. |
 | My Class Second Try | Chat 1.7, görev bazlı smoothing, kısmi R-Drop | eval loss 1.0937; hızlı RAG EM 0.805/F1 0.9148 | Eski chat testi `max_time=1.2s` nedeniyle çıktıları ciddi biçimde kesti. |
 
-### Benchmark v1
+### Focused Evidence v1
 
-Yeni benchmark bütün yüklenebilir benzersiz modelleri aynı uyumlu testlerde çalıştırmak için hazırlandı:
+İlk yayın koşusu, model geliştirme zincirini kanıtlayan proje modellerine bilinçli olarak odaklanır:
 
 - dengeli 1.000 intent örneği,
-- 600 Chat+Command örneği,
-- Google IFEval ve 300 proje chat örneği,
-- HotpotQA hariç RAGBench test bölümleri ve 160 cevaplanabilir/cevaplanamaz proje örneği,
-- YOLO11 pretrained entegrasyonu için COCO val2017.
+- altı Flan-T5 Large LoRA denemesinin tamamında ortak 300 sabit proje Chat örneği,
+- aynı altı denemede ortak 160 sabit cevaplanabilir/cevaplanamaz proje RAG örneği,
+- final model için 25 Chat + 25 RAG olmak üzere 50 sabit PyTorch/INT8-ONNX parite örneği.
+
+YOLO/COCO, IFEval, haricî RAGBench, eski Small/Base modeller ve beam-search karşılaştırması bu ilk koşunun dışındadır. Üretilen tabloda reddedilen `kötü`, ara checkpoint'ler, iki `1.2x` sürümü, First Try ve final aday birlikte gösterilir. Chat ve RAG için en iyi sonuçlar ayrı ayrı öne çıkarılır; birleşik bir skor üretilmez.
 
 316.486 benzersiz eğitim girdisi imzası kullanılarak test verisi çakışmaları elenecektir. Yeni sonuçlar; ham tahminler, JSON metrikler, `%95` güven aralıkları, ortam bilgisi, SHA-256 manifesti, grafikler ve hata kayıtlarıyla birlikte yayınlanacaktır.
 
 Belgeler: [benchmark protokolü](BENCHMARK_PLAN.md), [deney günlüğü](docs/model-development/EXPERIMENTS.md), [dataset kartı](docs/model-development/DATASET_CARD.md), [artifact envanteri](docs/model-development/evidence/ARTIFACT_INVENTORY.md) ve [veri sızıntısı denetimi](docs/model-development/evidence/TRAINING_DATA_AUDIT.md).
 
-> Lightning AI sonuçları dönüp hash ve şema doğrulamasından geçene kadar yeni Benchmark v1 sayıları README'ye eklenmeyecektir.
+> Lightning AI sonuçları dönüp hash ve şema doğrulamasından geçene kadar yeni Focused Evidence v1 sayıları README'ye eklenmeyecektir.
 
 ## Yerel çalıştırma
 

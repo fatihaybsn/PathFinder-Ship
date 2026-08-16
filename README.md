@@ -42,24 +42,27 @@ These values were recovered from executed notebooks and Trainer states. They are
 | Early Flan-T5 Base | Chat + four-bit command generation, early stopping | best validation loss 0.7815 at epoch 13; stopped at epoch 16 | The old 20-row command test used an incorrect denominator and is not reused. |
 | Flan-T5 Large LoRA q/v (`kötü`) | LoRA r=16/alpha=32 on q/v only; LR 1e-4 | best Trainer eval loss 1.8437; separate full eval loss 32.1334 | Rejected experiment; the missing adapter config is explicitly marked as reconstructed from code and tensor structure. |
 | Flan-T5 Large LoRA 2x RAG | Seven LoRA targets; RAG loss weight 2.0 | best eval loss 0.9845; historical task loss improved about 14–20% | Historical prompt construction contains known duplicated tags. |
+| Flan-T5 Large LoRA 1.2x Chat, step 1485 | Seven LoRA targets; Chat weight 1.2; intermediate checkpoint | best eval loss 0.9588 at epoch 2.25 | Retained to show checkpoint-to-checkpoint development, not only the selected endpoint. |
 | Flan-T5 Large LoRA 1.2x Chat | Seven LoRA targets; Chat weight 1.2 | step 1980 eval loss 0.9585; historical RAG EM 0.742/F1 0.8609 | Validation was selected from the saved 100k corpus and contains a small number of duplicate-row overlaps. |
+| My Class First Try | First custom loss/trainer iteration | no trustworthy standalone historical score recovered | The saved adapter is retained and will be judged on the same frozen tests as the other attempts. |
 | My Class Second Try | Chat weight 1.7, task smoothing, partial R-Drop | eval loss 1.0937; quick RAG EM 0.805/F1 0.9148 | The old chat evaluation imposed `max_time=1.2s`, truncating outputs to a 0.184 prediction/reference length ratio. |
 
-### Reproducible Benchmark v1
+### Focused Evidence v1
 
-Benchmark v1 is prepared for execution in Lightning AI. It evaluates every loadable unique model on compatible tasks, reports failures, and never combines unrelated tasks into a single score. The new suite contains:
+The first publication run intentionally focuses on the project-trained artifacts that establish the development chain. It reports failures and never combines unrelated tasks into a single score:
 
 - 1,000 balanced project-authored intent stress examples
-- 600 Chat+Command examples covering all historically observed command-label combinations
-- 541 official IFEval prompts plus 300 project-authored chat-reference examples
-- 440 RAGBench test examples from 11 non-HotpotQA subsets plus 160 answerable/unanswerable project examples
-- COCO val2017 for pretrained YOLO11 integration and PyTorch/ONNX validation
+- 300 frozen project-authored Chat examples shared by all six Flan-T5 Large LoRA attempts
+- 160 frozen answerable/unanswerable project RAG examples shared by the same six attempts
+- 50 deterministic final-model PyTorch/INT8-ONNX parity examples (25 Chat + 25 RAG)
+
+YOLO/COCO, IFEval, external RAGBench, early Small/Base checkpoints, and beam-search ablations are deliberately outside this first run. The generated comparison retains the rejected `kötü` adapter, milestones, both `1.2x` checkpoints, First Try, and the final candidate. The highest Chat and RAG results are highlighted independently; no composite score is used.
 
 Known training inputs are represented by 316,486 unique exact/near-duplicate fingerprints. Public candidates matching them are rejected before the suite is frozen. New results include raw predictions, metrics JSON, confidence intervals, environment metadata, hashes, plots, and per-model failure records.
 
 See the [benchmark protocol](BENCHMARK_PLAN.md), [experiment record](docs/model-development/EXPERIMENTS.md), [dataset card](docs/model-development/DATASET_CARD.md), [artifact inventory](docs/model-development/evidence/ARTIFACT_INVENTORY.md), and [split-leakage audit](docs/model-development/evidence/TRAINING_DATA_AUDIT.md).
 
-> Benchmark v1 GPU results are intentionally not shown until the returned Lightning bundle passes schema and SHA-256 validation. Historical and new results will remain in separate tables.
+> Focused Evidence v1 GPU results are intentionally not shown until the returned Lightning bundle passes schema and SHA-256 validation. Historical and new results remain distinguishable in the generated comparison.
 
 ## Architecture
 

@@ -162,6 +162,8 @@ def load_suite(data_dir: Path, suite: str) -> list[dict]:
         return read_jsonl(data_dir / "ifeval_v1.jsonl")
     if suite == "rag_v1":
         return read_jsonl(data_dir / "ragbench_v1.jsonl") + read_jsonl(data_dir / "rag_project_v1.jsonl")
+    if suite == "rag_project_v1":
+        return read_jsonl(data_dir / "rag_project_v1.jsonl")
     raise ValueError(f"Unknown suite: {suite}")
 
 
@@ -393,6 +395,8 @@ def run_flan(
     only_suite: str | None,
     ifeval_code_root: Path | None,
     logger: logging.Logger,
+    run_beam_comparison: bool = True,
+    generation_batch_size: int = 4,
 ) -> None:
     import torch
 
@@ -405,6 +409,10 @@ def run_flan(
         "schema_version": 1,
         "experiment_id": experiment["id"],
         "family": experiment["family"],
+        "display_name": experiment.get("display_name", experiment["id"]),
+        "development_status": experiment.get("status"),
+        "training_change": experiment.get("training_change"),
+        "protocol": experiment.get("protocol", "benchmark_v1"),
         "status": "complete",
         "artifact_size_bytes": file_size_bytes(model_dir),
         "suites": {},
@@ -416,7 +424,7 @@ def run_flan(
         records = load_suite(data_dir, suite)
         prompts = [build_prompt(experiment["prompt_style"], suite, record) for record in records]
         max_new_tokens = 512 if suite == "chat_ifeval_v1" else (256 if suite == "chat_reference_v1" else 64)
-        batch_size = 1 if suite == "chat_ifeval_v1" else 4
+        batch_size = 1 if suite == "chat_ifeval_v1" else generation_batch_size
         logger.info("%s: %s examples", suite, len(records))
         predictions, latencies = generate_texts(model, tokenizer, prompts, max_new_tokens, beams=1, batch_size=batch_size)
         prediction_path = run_dir / "predictions" / f"{experiment['id']}__{suite}.jsonl"
@@ -425,7 +433,7 @@ def run_flan(
             suite_metrics = score_command(records, predictions)
         elif suite == "chat_reference_v1":
             suite_metrics = score_reference_chat(records, predictions)
-        elif suite == "rag_v1":
+        elif suite in {"rag_v1", "rag_project_v1"}:
             suite_metrics = score_rag(records, predictions)
         elif suite == "chat_ifeval_v1":
             suite_metrics = score_ifeval(
@@ -446,7 +454,7 @@ def run_flan(
         }
         metrics["suites"][suite] = suite_metrics
 
-        if experiment["id"] == "flan_large_lora_second_try" and suite in {"chat_reference_v1", "rag_v1"}:
+        if run_beam_comparison and experiment["id"] == "flan_large_lora_second_try" and suite in {"chat_reference_v1", "rag_v1", "rag_project_v1"}:
             beam_predictions, beam_latencies = generate_texts(
                 model, tokenizer, prompts, max_new_tokens, beams=4, batch_size=1
             )
@@ -537,7 +545,7 @@ def run_minilm(experiment: dict, models_root: Path, data_dir: Path, run_dir: Pat
         matrix = confusion_matrix(labels, predictions, labels=ordered_labels)
         figure, axis = plt.subplots(figsize=(8, 7))
         ConfusionMatrixDisplay(matrix, display_labels=ordered_labels).plot(ax=axis, cmap="Blues", colorbar=False)
-        axis.set_title("MiniLM Intent Benchmark v1 Confusion Matrix")
+        axis.set_title("MiniLM Intent — Focused Evidence v1 Confusion Matrix")
         figure.tight_layout()
         figure.savefig(run_dir / "figures" / "minilm_intent_confusion_matrix.png", dpi=180)
         plt.close(figure)
@@ -546,7 +554,9 @@ def run_minilm(experiment: dict, models_root: Path, data_dir: Path, run_dir: Pat
         write_json(run_dir / "metrics" / f"{experiment['id']}.json", summary)
 
 
-def run_onnx_parity(experiment: dict, models_root: Path, data_dir: Path, run_dir: Path) -> None:
+def run_onnx_parity(
+    experiment: dict, models_root: Path, data_dir: Path, run_dir: Path, examples_per_suite: int = 100
+) -> None:
     from optimum.onnxruntime import ORTModelForSeq2SeqLM
     from transformers import AutoTokenizer
 
@@ -555,10 +565,18 @@ def run_onnx_parity(experiment: dict, models_root: Path, data_dir: Path, run_dir
         raise FileNotFoundError(onnx_dir)
     tokenizer = AutoTokenizer.from_pretrained(onnx_dir, use_fast=True)
     model = ORTModelForSeq2SeqLM.from_pretrained(onnx_dir, provider="CPUExecutionProvider")
-    all_metrics = {"schema_version": 1, "experiment_id": experiment["id"], "status": "complete", "suites": {}}
-    for suite in ("chat_reference_v1", "rag_v1"):
-        records = load_suite(data_dir, suite)[:100]
-        pytorch_rows = read_jsonl(run_dir / "predictions" / f"{experiment['id']}__{suite}.jsonl")[:100]
+    all_metrics = {
+        "schema_version": 1,
+        "experiment_id": experiment["id"],
+        "display_name": experiment.get("display_name", experiment["id"]),
+        "protocol": experiment.get("protocol", "benchmark_v1"),
+        "status": "complete",
+        "suites": {},
+    }
+    parity_suites = [suite for suite in experiment["suites"] if suite in {"chat_reference_v1", "rag_v1", "rag_project_v1"}]
+    for suite in parity_suites:
+        records = load_suite(data_dir, suite)[:examples_per_suite]
+        pytorch_rows = read_jsonl(run_dir / "predictions" / f"{experiment['id']}__{suite}.jsonl")[:examples_per_suite]
         prompts = [build_prompt(experiment["prompt_style"], suite, record) for record in records]
         max_new = 256 if suite == "chat_reference_v1" else 64
         predictions = []
@@ -626,7 +644,7 @@ def run_yolo(experiment: dict, models_root: Path, run_dir: Path, logger: logging
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run PathFinderShip Benchmark v1 in Lightning AI.")
+    parser = argparse.ArgumentParser(description="Run a PathFinderShip model-evidence manifest in Lightning AI.")
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--models-root", type=Path, required=True)
     parser.add_argument("--data-dir", type=Path, required=True)
@@ -634,6 +652,9 @@ def main() -> None:
     parser.add_argument("--experiment", default="all")
     parser.add_argument("--only-suite")
     parser.add_argument("--ifeval-code-root", type=Path)
+    parser.add_argument("--generation-batch-size", type=int, default=4)
+    parser.add_argument("--skip-beam-comparison", action="store_true")
+    parser.add_argument("--onnx-parity-examples-per-suite", type=int, default=100)
     parser.add_argument("--force", action="store_true", help="Rerun even when status is already complete.")
     args = parser.parse_args()
     logger = setup_run(args.run_dir)
@@ -657,9 +678,14 @@ def main() -> None:
                 run_flan(
                     experiment, args.models_root, args.data_dir, args.run_dir,
                     args.only_suite, args.ifeval_code_root, logger,
+                    run_beam_comparison=not args.skip_beam_comparison,
+                    generation_batch_size=args.generation_batch_size,
                 )
                 if experiment["id"] == "flan_large_lora_second_try" and not args.only_suite:
-                    run_onnx_parity(experiment, args.models_root, args.data_dir, args.run_dir)
+                    run_onnx_parity(
+                        experiment, args.models_root, args.data_dir, args.run_dir,
+                        examples_per_suite=args.onnx_parity_examples_per_suite,
+                    )
             elif experiment["family"] == "vision_integration":
                 run_yolo(experiment, args.models_root, args.run_dir, logger)
             else:

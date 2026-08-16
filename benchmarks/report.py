@@ -83,12 +83,126 @@ def write_tables(run_dir: Path, metrics: list[dict]) -> None:
         writer.writerows(summary_rows)
 
 
+def metric_estimate(payload: dict, suite: str, metric: str):
+    value = payload.get("suites", {}).get(suite, {}).get(metric)
+    return scalar(value)
+
+
+def write_focused_comparison(
+    run_dir: Path, metrics: list[dict], experiment_manifest: Path | None, statuses: list[dict] | None = None
+) -> None:
+    """Join frozen training metadata with new shared-suite scores.
+
+    The table deliberately includes rejected and intermediate runs. Winners are
+    marked per task metric; no cross-task composite score is invented.
+    """
+    if experiment_manifest is None or not experiment_manifest.exists():
+        return
+    import yaml
+
+    registry = yaml.safe_load(experiment_manifest.read_text(encoding="utf-8"))["experiments"]
+    payloads = {
+        record["payload"].get("experiment_id"): record["payload"]
+        for record in metrics
+        if not record["file"].endswith("__onnx_parity.json")
+    }
+    status_by_id = {item.get("experiment_id"): item for item in (statuses or [])}
+    rows = []
+    for experiment in registry:
+        payload = payloads.get(experiment["id"], {})
+        row = {
+            "experiment_id": experiment["id"],
+            "display_name": experiment.get("display_name", experiment["id"]),
+            "original_folder": experiment.get("original_folder", experiment.get("source", "")),
+            "development_status": experiment.get("status", ""),
+            "training_change": experiment.get("training_change", ""),
+            "historical_result": experiment.get("historical_result", ""),
+            "historical_eval_loss": experiment.get("historical_eval_loss"),
+            "benchmark_status": payload.get("status", status_by_id.get(experiment["id"], {}).get("status", "not_run")),
+            "benchmark_error": status_by_id.get(experiment["id"], {}).get("error", ""),
+            "intent_accuracy": payload.get("accuracy"),
+            "intent_macro_f1": payload.get("macro_f1"),
+            "chat_token_f1": metric_estimate(payload, "chat_reference_v1", "token_f1"),
+            "chat_rouge_l": metric_estimate(payload, "chat_reference_v1", "rouge_l"),
+            "rag_token_f1": metric_estimate(payload, "rag_project_v1", "token_f1"),
+            "rag_rouge_l": metric_estimate(payload, "rag_project_v1", "rouge_l"),
+            "rag_exact_match": metric_estimate(payload, "rag_project_v1", "exact_match"),
+        }
+        rows.append(row)
+
+    winner_columns = ("intent_accuracy", "intent_macro_f1", "chat_token_f1", "chat_rouge_l", "rag_token_f1", "rag_rouge_l", "rag_exact_match")
+    for column in winner_columns:
+        valid = [row[column] for row in rows if isinstance(row[column], (int, float))]
+        best = max(valid) if valid else None
+        for row in rows:
+            row[f"best_{column}"] = best is not None and row[column] == best
+
+    csv_path = run_dir / "tables" / "focused_model_comparison.csv"
+    with csv_path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+
+    def show(value) -> str:
+        return "—" if not isinstance(value, (int, float)) else f"{value:.4f}"
+
+    markdown = [
+        "# Focused Evidence v1 — Model Comparison",
+        "",
+        "Rejected, intermediate, milestone, and final-candidate runs are all retained. **Best** is assigned independently within each compatible task; there is no composite score.",
+        "",
+        "| Experiment | Status | Training change | Historical eval loss | Chat token F1 | RAG token F1 | RAG EM |",
+        "|---|---|---|---:|---:|---:|---:|",
+    ]
+    for row in rows:
+        if row["experiment_id"] == "minilm_intent_int8":
+            chat = f"Intent accuracy {show(row['intent_accuracy'])}"
+            rag_f1 = f"Intent macro-F1 {show(row['intent_macro_f1'])}"
+            rag_em = "—"
+        else:
+            chat = show(row["chat_token_f1"]) + (" **BEST**" if row["best_chat_token_f1"] else "")
+            rag_f1 = show(row["rag_token_f1"]) + (" **BEST**" if row["best_rag_token_f1"] else "")
+            rag_em = show(row["rag_exact_match"]) + (" **BEST**" if row["best_rag_exact_match"] else "")
+        markdown.append(
+            f"| {row['display_name']} | {row['development_status']} | {row['training_change']} | "
+            f"{show(row['historical_eval_loss'])} | {chat} | {rag_f1} | {rag_em} |"
+        )
+    (run_dir / "tables" / "focused_model_comparison.md").write_text("\n".join(markdown) + "\n", encoding="utf-8")
+
+    try:
+        import matplotlib.pyplot as plt
+
+        flan_rows = [row for row in rows if row["experiment_id"].startswith("flan_")]
+        labels = [row["display_name"] for row in flan_rows]
+        figure, axes = plt.subplots(1, 2, figsize=(15, max(5, len(labels) * 0.75)), sharey=True)
+        colors = ["#c0392b" if row["development_status"] == "rejected" else "#4c78a8" for row in flan_rows]
+        for axis, column, title in (
+            (axes[0], "chat_token_f1", "Chat token F1"),
+            (axes[1], "rag_token_f1", "RAG token F1"),
+        ):
+            values = [row[column] if isinstance(row[column], (int, float)) else 0.0 for row in flan_rows]
+            bars = axis.barh(labels, values, color=colors)
+            if values:
+                best_index = max(range(len(values)), key=values.__getitem__)
+                bars[best_index].set_color("#2ca02c")
+            axis.set_xlim(0, 1)
+            axis.set_title(title)
+            axis.grid(axis="x", alpha=0.25)
+            axis.bar_label(bars, fmt="%.3f", padding=3)
+        figure.suptitle("Focused Evidence v1 — Same frozen tests, all Flan-T5 LoRA attempts")
+        figure.tight_layout()
+        figure.savefig(run_dir / "figures" / "focused_flan_model_comparison.png", dpi=180, bbox_inches="tight")
+        plt.close(figure)
+    except Exception as error:
+        (run_dir / "logs" / "focused_comparison_figure_error.txt").write_text(str(error), encoding="utf-8")
+
+
 def write_summary(run_dir: Path, statuses: list[dict], metric_count: int) -> None:
     complete = [item for item in statuses if item.get("status") == "complete"]
     failed = [item for item in statuses if item.get("status") == "failed"]
     lines = [
-        "PathFinderShip Benchmark v1 Result Summary",
-        "===========================================",
+        "PathFinderShip Model Evidence Result Summary",
+        "============================================",
         f"Completed experiments: {len(complete)}",
         f"Failed experiments: {len(failed)}",
         f"Metric files: {metric_count}",
@@ -116,7 +230,7 @@ def write_figures(run_dir: Path) -> None:
                 continue
             pivot = subset.pivot_table(index="experiment", columns="metric", values="value", aggfunc="first")
             axis = pivot.plot(kind="bar", figsize=(max(9, len(pivot) * 1.2), 5))
-            axis.set_title(f"PathFinderShip Benchmark v1 — {suite}")
+            axis.set_title(f"PathFinderShip Model Evidence — {suite}")
             axis.set_ylabel("Metric value")
             axis.set_xlabel("")
             axis.grid(axis="y", alpha=0.25)
@@ -225,6 +339,7 @@ def main() -> None:
     parser.add_argument("--run-dir", type=Path, required=True)
     parser.add_argument("--zip-path", type=Path, required=True)
     parser.add_argument("--historical-evidence", type=Path)
+    parser.add_argument("--experiment-manifest", type=Path)
     args = parser.parse_args()
     run_dir = args.run_dir.resolve()
     metrics = read_metrics(run_dir / "metrics")
@@ -232,6 +347,7 @@ def main() -> None:
     for path in sorted((run_dir / "status").glob("*.json")):
         statuses.append(json.loads(path.read_text(encoding="utf-8")))
     write_tables(run_dir, metrics)
+    write_focused_comparison(run_dir, metrics, args.experiment_manifest, statuses)
     write_summary(run_dir, statuses, len(metrics))
     write_figures(run_dir)
     write_historical_figures(run_dir, args.historical_evidence)

@@ -1,0 +1,124 @@
+schema_version: 1
+protocol: focused_evidence_v1
+description: Employer-facing comparison of the project-trained models stored under Primee/Models, plus the single MiniLM intent model.
+experiments:
+  - id: minilm_intent_int8
+    family: minilm_intent
+    display_name: MiniLM-L6 Intent Classifier INT8
+    status: final
+    claim: project_fine_tuned
+    base_model: nreimers/MiniLM-L6-H384-uncased
+    format: onnx_int8
+    prompt_style: classification_text
+    source: Primee/Classification Model MiniLM-L6/model
+    original_folder: Classification Model MiniLM-L6
+    protocol: focused_evidence_v1
+    training_change: Five intent classes; 4 epochs; learning rate 2e-5; exported as INT8 ONNX
+    historical_result: accuracy 1.000 / macro-F1 1.000 on the old 600-row split
+    historical_limitation: Old train/validation/test splits contain duplicate and cross-split overlaps.
+    suites: [intent_v1]
+    publish: true
+
+  - id: flan_large_lora_qv_failed
+    family: flan_large_chat_rag
+    display_name: LoRA q/v — rejected (kötü)
+    status: rejected
+    claim: project_fine_tuned
+    base_model: google/flan-t5-large
+    format: peft_lora
+    prompt_style: instruction_prefix
+    source: Primee/Models/kötü
+    original_folder: kötü
+    protocol: focused_evidence_v1
+    reconstructed_adapter_config: true
+    training_change: LoRA q/v only; r=16; alpha=32; dropout=0.05; LR=1e-4; label smoothing=0.1
+    historical_result: best Trainer eval loss 1.843674; separate full eval loss 32.1334
+    historical_eval_loss: 1.84367394447327
+    suites: [chat_reference_v1, rag_project_v1]
+    publish: false
+
+  - id: flan_large_lora_rag2_step1320
+    family: flan_large_chat_rag
+    display_name: LoRA 2x RAG — step 1320
+    status: milestone
+    claim: project_fine_tuned
+    base_model: google/flan-t5-large
+    format: peft_lora
+    prompt_style: task_wrapped_v1
+    source: Primee/Models/2x rag/checkpoint_1320
+    original_folder: 2x rag/checkpoint_1320
+    protocol: focused_evidence_v1
+    training_change: Seven LoRA target modules; RAG example weight=2.0; 2 epochs; checkpoint 1320
+    historical_result: best eval loss 0.984525; train loss 1.127030
+    historical_eval_loss: 0.984525263309479
+    suites: [chat_reference_v1, rag_project_v1]
+    publish: true
+
+  - id: flan_large_lora_chat12_step1485
+    family: flan_large_chat_rag
+    display_name: LoRA 1.2x Chat — step 1485
+    status: checkpoint
+    claim: project_fine_tuned
+    base_model: google/flan-t5-large
+    format: peft_lora
+    prompt_style: instruction_tail_v2
+    source: Primee/Models/1.2x chat/1485
+    original_folder: 1.2x chat/1485
+    protocol: focused_evidence_v1
+    training_change: Seven LoRA target modules; Chat example weight=1.2; intermediate checkpoint 1485 (epoch 2.25)
+    historical_result: best eval loss 0.958765
+    historical_eval_loss: 0.958764672279358
+    suites: [chat_reference_v1, rag_project_v1]
+    publish: false
+
+  - id: flan_large_lora_chat12_step1980
+    family: flan_large_chat_rag
+    display_name: LoRA 1.2x Chat — step 1980
+    status: milestone
+    claim: project_fine_tuned
+    base_model: google/flan-t5-large
+    format: peft_lora
+    prompt_style: instruction_tail_v2
+    source: Primee/Models/1.2x chat/1980
+    original_folder: 1.2x chat/1980
+    protocol: focused_evidence_v1
+    training_change: Seven LoRA target modules; Chat example weight=1.2; final checkpoint 1980 (epoch 3)
+    historical_result: eval loss 0.958510; historical RAG EM 0.742 / F1 0.8609
+    historical_eval_loss: 0.958509743213654
+    suites: [chat_reference_v1, rag_project_v1]
+    publish: true
+
+  - id: flan_large_lora_first_try
+    family: flan_large_chat_rag
+    display_name: My Class — First Try
+    status: historical
+    claim: project_fine_tuned
+    base_model: google/flan-t5-large
+    format: peft_lora
+    prompt_style: instruction_tail_v2
+    source: Primee/Models/My Class/First Try
+    original_folder: My Class/First Try
+    protocol: focused_evidence_v1
+    training_change: First custom loss/trainer iteration; saved as a separate LoRA adapter
+    historical_result: No trustworthy standalone historical test score was recovered; evaluated here on the shared suite.
+    suites: [chat_reference_v1, rag_project_v1]
+    publish: false
+
+  - id: flan_large_lora_second_try
+    family: flan_large_chat_rag
+    display_name: My Class — Second Try (final candidate)
+    status: final_candidate
+    claim: project_fine_tuned
+    base_model: google/flan-t5-large
+    format: peft_lora
+    prompt_style: instruction_tail_v2
+    source: Primee/Models/My Class/Second Try/LORA
+    onnx_source: Primee/Models/My Class/Second Try/onnx
+    original_folder: My Class/Second Try
+    protocol: focused_evidence_v1
+    training_change: Chat weight=1.7; task-specific label smoothing; partial R-Drop; LoRA plus INT8 ONNX export
+    historical_result: eval loss 1.093734; quick RAG EM 0.805 / F1 0.9148
+    historical_eval_loss: 1.0937335
+    historical_limitation: Old chat evaluation used max_time=1.2s and truncated generations; that chat score is not reused.
+    suites: [chat_reference_v1, rag_project_v1, onnx_parity_v1]
+    publish: true
