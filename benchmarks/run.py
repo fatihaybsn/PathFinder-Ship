@@ -135,7 +135,7 @@ def build_prompt(style: str, suite: str, record: dict) -> str:
         instruction = CHAT_INSTRUCTION
         task = "chat"
         tag = "Assistant:"
-    elif suite == "rag_v1":
+    elif suite in {"rag_v1", "rag_project_v1"}:
         raw_input = record["input"]
         instruction = RAG_INSTRUCTION
         task = "rag_qa"

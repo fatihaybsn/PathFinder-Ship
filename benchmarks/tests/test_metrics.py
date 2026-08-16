@@ -1,5 +1,6 @@
 import unittest
 
+from benchmarks.run import build_prompt
 from benchmarks.metrics import (
     bootstrap_ci,
     classification_summary,
@@ -40,6 +41,15 @@ class MetricsTest(unittest.TestCase):
         first = bootstrap_ci([0.0, 1.0, 1.0], lambda values: sum(values) / len(values), iterations=100)
         second = bootstrap_ci([0.0, 1.0, 1.0], lambda values: sum(values) / len(values), iterations=100)
         self.assertEqual(first, second)
+
+    def test_project_rag_suite_builds_a_rag_prompt(self):
+        prompt = build_prompt(
+            "instruction_tail_v2",
+            "rag_project_v1",
+            {"input": "Context: Port is Izmir.\nQuestion: Which port?\nAnswer:"},
+        )
+        self.assertIn("Context: Port is Izmir.", prompt)
+        self.assertTrue(prompt.endswith("Answer:"))
 
 
 if __name__ == "__main__":
