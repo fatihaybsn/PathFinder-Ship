@@ -69,6 +69,24 @@ Değiştirilmeyen MiniLM-L6 INT8 ONNX modeli, sabit ve dengeli 1.000 örnekli in
 
 [V2 sonuç kartı](docs/model-development/results/retraining-v2/RESULT_CARD.md), makine tarafından okunabilir [JSON](docs/model-development/results/retraining-v2/metrics/flan_retraining_results.json), düzenlenebilir [CSV](docs/model-development/results/retraining-v2/metrics/flan_retraining_results.csv), denetlenebilir [çalışma kitabı](docs/model-development/results/retraining-v2/metrics/flan_retraining_results.xlsx), güncel görseller ve iddia sınırlarını birbirine bağlar. Tarihsel notebook loss değerleri [deney günlüğünde](docs/model-development/EXPERIMENTS.md) korunur; v2 değerlendirme metriği gibi yeniden etiketlenmez. Ayrıca [benchmark protokolü](BENCHMARK_PLAN.md), [dataset kartı](docs/model-development/DATASET_CARD.md), [artifact envanteri](docs/model-development/evidence/ARTIFACT_INVENTORY.md) ve [veri sızıntısı denetimi](docs/model-development/evidence/TRAINING_DATA_AUDIT.md) yayınlanır.
 
+## Yayınlanan model dosyaları
+
+Seçilen model dosyaları; geliştiricilerin, teknik inceleme yapanların ve işe alım sürecindeki mühendislerin model kartlarını, yapılandırmaları, değerlendirme bağlamını ve dosya hash'lerini inceleyebilmesi veya artifact'ları kendi ortamına indirerek değerlendirebilmesi için Hugging Face üzerinde yayınlanmıştır. PathFinderShip, barındırılan ticari bir model servisi olarak değil; öğrenci portföyü ve tekrar üretilebilir mühendislik çalışması olarak sunulmaktadır.
+
+| Artifact | Gösterdiği çalışma | Hugging Face |
+|---|---|---|
+| PathFinder Flan-T5 Large — Second Try | `google/flan-t5-large` ile birlikte yüklenen, seçilmiş final Chat + RAG LoRA adapter'ı | [Model kartı ve dosyalar](https://huggingface.co/Fatihaybasn/pathfinder-flan-t5-large-second-try-lora) |
+| PathFinder Flan-T5 Large — Second Try INT8 | Lokal CPU inference için quantized ONNX encoder/decoder deployment dosyaları | [Model kartı ve dosyalar](https://huggingface.co/Fatihaybasn/pathfinder-flan-t5-large-second-try-onnx-int8) |
+| PathFinder MiniLM Intent INT8 | Yapılandırılmış yönlendirme hattında kullanılan beş sınıflı ONNX intent modeli | [Model kartı ve dosyalar](https://huggingface.co/Fatihaybasn/pathfinder-minilm-intent-onnx-int8) |
+
+Bir model reposu Hugging Face CLI ile indirilebilir:
+
+```bash
+hf download Fatihaybasn/pathfinder-flan-t5-large-second-try-lora --local-dir ./pathfinder-lora
+```
+
+Benchmark sonuçları ve deney geçmişi bu proje kapsamında üretilip belgelenmiştir. Hugging Face artifact barındırma ve sürümleme sağlar; bu bağlantılar Hugging Face tarafından yapılmış bağımsız metrik doğrulaması olarak yorumlanmamalıdır.
+
 ## Yerel çalıştırma
 
 ```bash

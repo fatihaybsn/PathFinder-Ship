@@ -55,6 +55,24 @@ The unchanged MiniLM-L6 INT8 ONNX classifier scored accuracy, macro-F1, and weig
 
 The [v2 result card](docs/model-development/results/retraining-v2/RESULT_CARD.md) links the machine-readable [JSON](docs/model-development/results/retraining-v2/metrics/flan_retraining_results.json), editable [CSV](docs/model-development/results/retraining-v2/metrics/flan_retraining_results.csv), auditable [workbook](docs/model-development/results/retraining-v2/metrics/flan_retraining_results.xlsx), updated figures, and claims boundary. Historical notebook losses remain available in the [experiment record](docs/model-development/EXPERIMENTS.md); they are not relabeled as v2 evaluation metrics. See also the [benchmark protocol](BENCHMARK_PLAN.md), [dataset card](docs/model-development/DATASET_CARD.md), [artifact inventory](docs/model-development/evidence/ARTIFACT_INVENTORY.md), and [split-leakage audit](docs/model-development/evidence/TRAINING_DATA_AUDIT.md).
 
+## Published Model Artifacts
+
+The selected artifacts are published on Hugging Face so developers, technical reviewers, and hiring engineers can inspect the model cards, configurations, evaluation context, and checksums or download the files for independent review. PathFinderShip is presented as a student portfolio and reproducible engineering study, not as a hosted commercial model service.
+
+| Artifact | What it demonstrates | Hugging Face |
+|---|---|---|
+| PathFinder Flan-T5 Large — Second Try | Final selected Chat + RAG LoRA adapter; loaded together with `google/flan-t5-large` | [Model card and files](https://huggingface.co/Fatihaybasn/pathfinder-flan-t5-large-second-try-lora) |
+| PathFinder Flan-T5 Large — Second Try INT8 | Quantized ONNX encoder/decoder deployment artifacts for local CPU inference | [Model card and files](https://huggingface.co/Fatihaybasn/pathfinder-flan-t5-large-second-try-onnx-int8) |
+| PathFinder MiniLM Intent INT8 | Five-class ONNX intent classifier used by the structured routing pipeline | [Model card and files](https://huggingface.co/Fatihaybasn/pathfinder-minilm-intent-onnx-int8) |
+
+An artifact repository can be downloaded with the Hugging Face CLI:
+
+```bash
+hf download Fatihaybasn/pathfinder-flan-t5-large-second-try-lora --local-dir ./pathfinder-lora
+```
+
+The benchmark results and experiment history were produced and documented by this project. Hugging Face provides artifact hosting and versioning; these links should not be read as independent metric certification by Hugging Face.
+
 ## Architecture
 
 ```mermaid
