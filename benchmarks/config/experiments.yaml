@@ -1,0 +1,136 @@
+schema_version: 1
+archive_root_name: PathFindership
+experiments:
+  - id: minilm_intent_int8
+    family: minilm_intent
+    display_name: MiniLM-L6 Intent Classifier INT8
+    status: final
+    claim: project_fine_tuned
+    base_model: nreimers/MiniLM-L6-H384-uncased
+    format: onnx_int8
+    prompt_style: classification_text
+    source: Primee/Classification Model MiniLM-L6/model
+    suites: [intent_v1]
+    publish: true
+
+  - id: flan_t5_small_early
+    family: flan_early_chat_command
+    display_name: Early Flan-T5 Small Chat+Command
+    status: historical
+    claim: project_fine_tuned
+    base_model: google/flan-t5-small
+    format: transformers_full
+    prompt_style: early_task_prefix
+    source: NLPP/Multi Task Models/Model Test and Run/T5 Small model 10 epoch,5e-4,16 batch,T4/multi_task_flan_t5
+    suites: [command_v1, chat_reference_v1]
+    publish: false
+
+  - id: flan_t5_base_early_batch64
+    family: flan_early_chat_command
+    display_name: Early Flan-T5 Base Batch64
+    status: historical
+    claim: project_fine_tuned
+    base_model: google/flan-t5-base
+    format: transformers_full
+    prompt_style: early_task_prefix
+    source: NLPP/Multi Task Models/Model Test and Run/T5 base,BatchSize64, L40S,10Epoch,1.2e-3/20_multi_task_flan_t5
+    suites: [command_v1, chat_reference_v1]
+    publish: false
+
+  - id: flan_t5_base_early_stopping
+    family: flan_early_chat_command
+    display_name: Early Flan-T5 Base Early-Stopping
+    status: historical
+    claim: project_fine_tuned
+    base_model: google/flan-t5-base
+    format: transformers_full
+    prompt_style: early_task_prefix
+    source: NLPP/Multi Task Models/Flan T5 Base/labelsiz/Passenger-Bot
+    suites: [command_v1, chat_reference_v1]
+    publish: false
+
+  - id: flan_large_lora_qv_failed
+    family: flan_large_chat_rag
+    display_name: Flan-T5 Large LoRA q/v (historical "kötü")
+    status: rejected
+    claim: project_fine_tuned
+    base_model: google/flan-t5-large
+    format: peft_lora
+    prompt_style: instruction_prefix
+    source: Primee/Models/kötü
+    reconstructed_adapter_config: true
+    suites: [chat_reference_v1, rag_v1]
+    publish: false
+
+  - id: flan_large_lora_rag2_step1320
+    family: flan_large_chat_rag
+    display_name: Flan-T5 Large LoRA 2x RAG step 1320
+    status: milestone
+    claim: project_fine_tuned
+    base_model: google/flan-t5-large
+    format: peft_lora
+    prompt_style: task_wrapped_v1
+    source: Primee/Models/2x rag/checkpoint_1320
+    suites: [chat_ifeval_v1, chat_reference_v1, rag_v1]
+    publish: true
+
+  - id: flan_large_lora_chat12_step1485
+    family: flan_large_chat_rag
+    display_name: Flan-T5 Large LoRA 1.2x Chat step 1485
+    status: checkpoint
+    claim: project_fine_tuned
+    base_model: google/flan-t5-large
+    format: peft_lora
+    prompt_style: instruction_tail_v2
+    source: Primee/Models/1.2x chat/1485
+    suites: [chat_ifeval_v1, chat_reference_v1, rag_v1]
+    publish: false
+
+  - id: flan_large_lora_chat12_step1980
+    family: flan_large_chat_rag
+    display_name: Flan-T5 Large LoRA 1.2x Chat step 1980
+    status: milestone
+    claim: project_fine_tuned
+    base_model: google/flan-t5-large
+    format: peft_lora
+    prompt_style: instruction_tail_v2
+    source: Primee/Models/1.2x chat/1980
+    suites: [chat_ifeval_v1, chat_reference_v1, rag_v1]
+    publish: true
+
+  - id: flan_large_lora_first_try
+    family: flan_large_chat_rag
+    display_name: Flan-T5 Large LoRA My Class First Try
+    status: historical
+    claim: project_fine_tuned
+    base_model: google/flan-t5-large
+    format: peft_lora
+    prompt_style: instruction_tail_v2
+    source: Primee/Models/My Class/First Try
+    suites: [chat_ifeval_v1, chat_reference_v1, rag_v1]
+    publish: false
+
+  - id: flan_large_lora_second_try
+    family: flan_large_chat_rag
+    display_name: Flan-T5 Large LoRA My Class Second Try
+    status: final
+    claim: project_fine_tuned
+    base_model: google/flan-t5-large
+    format: peft_lora
+    prompt_style: instruction_tail_v2
+    source: Primee/Models/My Class/Second Try/LORA
+    onnx_source: Primee/Models/My Class/Second Try/onnx
+    suites: [chat_ifeval_v1, chat_reference_v1, rag_v1, onnx_parity_v1]
+    publish: true
+
+  - id: yolo11_pretrained_integration
+    family: vision_integration
+    display_name: YOLO11 pretrained PT/ONNX integration
+    status: integration
+    claim: pretrained_integration_only
+    base_model: Ultralytics YOLO11 COCO pretrained
+    format: pytorch_and_onnx
+    prompt_style: none
+    source: Primee/PathFinder-Ship/YOLO
+    suites: [vision_coco_v1]
+    publish: false

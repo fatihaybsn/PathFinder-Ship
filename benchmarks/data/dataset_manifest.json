@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "seed": 42,
+  "files": {
+    "intent_v1": {
+      "rows": 1000,
+      "sha256": "7c344b47faaa987425061d3faa94a22074ed06ec2b043cb9c4d8f22b55c03daf",
+      "file": "intent_v1.jsonl"
+    },
+    "command_v1": {
+      "rows": 600,
+      "sha256": "74c79acf4c4db27c45850c39339d7fbeea5df6ef10be8be68150ad106d632735",
+      "file": "command_v1.jsonl"
+    },
+    "chat_reference_v1": {
+      "rows": 300,
+      "sha256": "a673196921f21fd168224486785eeb2d515e250b9e7a157d44facd9bf7727aeb",
+      "file": "chat_reference_v1.jsonl"
+    },
+    "rag_project_v1": {
+      "rows": 160,
+      "sha256": "1a0cd9be8f7ecf8334f0713ead9a53d3498c3ba8a5bb61840281cb6116b854d4",
+      "file": "rag_project_v1.jsonl"
+    },
+    "training_fingerprints": {
+      "rows": 316486,
+      "sha256": "64a1c552e27f499593268d882d49d9e58ed8213fae185b263c77358739180a36",
+      "file": "training_fingerprints.jsonl"
+    }
+  },
+  "fingerprint_source_counts": {
+    "minilm_train": 4774,
+    "minilm_validation": 598,
+    "minilm_test_historical": 599,
+    "early_chat_command": 11857,
+    "flan_chat12_corpus": 99871,
+    "flan_rag2_corpus": 99158,
+    "flan_second_try_corpus": 99629
+  },
+  "public_components_built_in_lightning": [
+    "google/IFEval",
+    "galileo-ai/ragbench"
+  ]
+}

@@ -25,5 +25,8 @@ backend/data/uploads/
 *.bin
 *.safetensors
 
+# Generated locally from private training corpora; copied only into the Lightning handoff.
+benchmarks/data/training_fingerprints.jsonl
+
 .DS_Store
 Thumbs.db

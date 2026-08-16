@@ -1,0 +1,1847 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-08-16T07:09:11.980455+00:00",
+  "source_root_label": "PathFindership",
+  "trainer_states": [
+    {
+      "source": "Primee/Models/1.2x chat/1485/trainer_state.json",
+      "sha256": "d2b1f3b812bb71921ee6560c4841731946e3b28ae5f7d8dcff769022790f1a29",
+      "best_metric": 0.9587646722793579,
+      "best_model_checkpoint": "./flant5_steps_maxlen_fixed/checkpoint-1485",
+      "epoch": 2.250063147259409,
+      "global_step": 1485,
+      "max_steps": 1980,
+      "log_history": [
+        {
+          "epoch": 0.07577671129072998,
+          "learning_rate": 0.00016333333333333334,
+          "loss": 1.48,
+          "step": 50
+        },
+        {
+          "epoch": 0.15155342258145996,
+          "learning_rate": 0.00019979646030264867,
+          "loss": 1.3758,
+          "step": 100
+        },
+        {
+          "epoch": 0.22733013387218995,
+          "learning_rate": 0.00019894152728734476,
+          "loss": 1.3363,
+          "step": 150
+        },
+        {
+          "epoch": 0.3031068451629199,
+          "learning_rate": 0.00019742472280972012,
+          "loss": 1.3508,
+          "step": 200
+        },
+        {
+          "epoch": 0.3788835564536499,
+          "learning_rate": 0.00019525619356575952,
+          "loss": 1.2887,
+          "step": 250
+        },
+        {
+          "epoch": 0.4546602677443799,
+          "learning_rate": 0.00019245044597820726,
+          "loss": 1.2958,
+          "step": 300
+        },
+        {
+          "epoch": 0.5304369790351099,
+          "learning_rate": 0.00018902624915554165,
+          "loss": 1.2817,
+          "step": 350
+        },
+        {
+          "epoch": 0.6062136903258398,
+          "learning_rate": 0.0001850065093356229,
+          "loss": 1.2839,
+          "step": 400
+        },
+        {
+          "epoch": 0.6819904016165699,
+          "learning_rate": 0.000180418116653925,
+          "loss": 1.2734,
+          "step": 450
+        },
+        {
+          "epoch": 0.7501894417782268,
+          "eval_loss": 0.973031222820282,
+          "step": 495
+        },
+        {
+          "epoch": 0.7577671129072998,
+          "learning_rate": 0.00017529176526139944,
+          "loss": 1.2958,
+          "step": 500
+        },
+        {
+          "epoch": 0.8335438241980299,
+          "learning_rate": 0.0001696617479952964,
+          "loss": 1.2883,
+          "step": 550
+        },
+        {
+          "epoch": 0.9093205354887598,
+          "learning_rate": 0.0001635657269764965,
+          "loss": 1.2527,
+          "step": 600
+        },
+        {
+          "epoch": 0.9850972467794897,
+          "learning_rate": 0.00015704448166794786,
+          "loss": 1.271,
+          "step": 650
+        },
+        {
+          "epoch": 1.060621369032584,
+          "learning_rate": 0.0001501416360795769,
+          "loss": 1.0654,
+          "step": 700
+        },
+        {
+          "epoch": 1.136398080323314,
+          "learning_rate": 0.0001429033669445413,
+          "loss": 1.2477,
+          "step": 750
+        },
+        {
+          "epoch": 1.212174791614044,
+          "learning_rate": 0.00013537809481898582,
+          "loss": 1.2464,
+          "step": 800
+        },
+        {
+          "epoch": 1.287951502904774,
+          "learning_rate": 0.00012761616017169708,
+          "loss": 1.2301,
+          "step": 850
+        },
+        {
+          "epoch": 1.363728214195504,
+          "learning_rate": 0.00011966948663046101,
+          "loss": 1.2317,
+          "step": 900
+        },
+        {
+          "epoch": 1.4395049254862338,
+          "learning_rate": 0.00011159123363784458,
+          "loss": 1.2478,
+          "step": 950
+        },
+        {
+          "epoch": 1.5001262945188178,
+          "eval_loss": 0.9642093181610107,
+          "step": 990
+        },
+        {
+          "epoch": 1.515281636776964,
+          "learning_rate": 0.00010343544083996824,
+          "loss": 1.2434,
+          "step": 1000
+        },
+        {
+          "epoch": 1.5910583480676939,
+          "learning_rate": 9.525666658713755e-05,
+          "loss": 1.2525,
+          "step": 1050
+        },
+        {
+          "epoch": 1.6668350593584238,
+          "learning_rate": 8.710962296459246e-05,
+          "loss": 1.2638,
+          "step": 1100
+        },
+        {
+          "epoch": 1.742611770649154,
+          "learning_rate": 7.904880979484315e-05,
+          "loss": 1.2432,
+          "step": 1150
+        },
+        {
+          "epoch": 1.8183884819398837,
+          "learning_rate": 7.112815005994197e-05,
+          "loss": 1.2496,
+          "step": 1200
+        },
+        {
+          "epoch": 1.8941651932306138,
+          "learning_rate": 6.340062918254235e-05,
+          "loss": 1.2529,
+          "step": 1250
+        },
+        {
+          "epoch": 1.9699419045213438,
+          "learning_rate": 5.591794057878063e-05,
+          "loss": 1.2288,
+          "step": 1300
+        },
+        {
+          "epoch": 2.045466026774438,
+          "learning_rate": 4.8730139854063825e-05,
+          "loss": 1.0524,
+          "step": 1350
+        },
+        {
+          "epoch": 2.121242738065168,
+          "learning_rate": 4.188530995502695e-05,
+          "loss": 1.2331,
+          "step": 1400
+        },
+        {
+          "epoch": 2.197019449355898,
+          "learning_rate": 3.5429239517633296e-05,
+          "loss": 1.2471,
+          "step": 1450
+        },
+        {
+          "epoch": 2.250063147259409,
+          "eval_loss": 0.9587646722793579,
+          "step": 1485
+        }
+      ]
+    },
+    {
+      "source": "Primee/Models/1.2x chat/1980/trainer_state.json",
+      "sha256": "d22f38ad1917262b1e13cd8a090c634c229836f177fa66cd0049935aca795181",
+      "best_metric": 0.9585097432136536,
+      "best_model_checkpoint": "./flant5_steps_maxlen_fixed/checkpoint-1980",
+      "epoch": 3.0,
+      "global_step": 1980,
+      "max_steps": 1980,
+      "log_history": [
+        {
+          "epoch": 0.07577671129072998,
+          "learning_rate": 0.00016333333333333334,
+          "loss": 1.48,
+          "step": 50
+        },
+        {
+          "epoch": 0.15155342258145996,
+          "learning_rate": 0.00019979646030264867,
+          "loss": 1.3758,
+          "step": 100
+        },
+        {
+          "epoch": 0.22733013387218995,
+          "learning_rate": 0.00019894152728734476,
+          "loss": 1.3363,
+          "step": 150
+        },
+        {
+          "epoch": 0.3031068451629199,
+          "learning_rate": 0.00019742472280972012,
+          "loss": 1.3508,
+          "step": 200
+        },
+        {
+          "epoch": 0.3788835564536499,
+          "learning_rate": 0.00019525619356575952,
+          "loss": 1.2887,
+          "step": 250
+        },
+        {
+          "epoch": 0.4546602677443799,
+          "learning_rate": 0.00019245044597820726,
+          "loss": 1.2958,
+          "step": 300
+        },
+        {
+          "epoch": 0.5304369790351099,
+          "learning_rate": 0.00018902624915554165,
+          "loss": 1.2817,
+          "step": 350
+        },
+        {
+          "epoch": 0.6062136903258398,
+          "learning_rate": 0.0001850065093356229,
+          "loss": 1.2839,
+          "step": 400
+        },
+        {
+          "epoch": 0.6819904016165699,
+          "learning_rate": 0.000180418116653925,
+          "loss": 1.2734,
+          "step": 450
+        },
+        {
+          "epoch": 0.7501894417782268,
+          "eval_loss": 0.973031222820282,
+          "step": 495
+        },
+        {
+          "epoch": 0.7577671129072998,
+          "learning_rate": 0.00017529176526139944,
+          "loss": 1.2958,
+          "step": 500
+        },
+        {
+          "epoch": 0.8335438241980299,
+          "learning_rate": 0.0001696617479952964,
+          "loss": 1.2883,
+          "step": 550
+        },
+        {
+          "epoch": 0.9093205354887598,
+          "learning_rate": 0.0001635657269764965,
+          "loss": 1.2527,
+          "step": 600
+        },
+        {
+          "epoch": 0.9850972467794897,
+          "learning_rate": 0.00015704448166794786,
+          "loss": 1.271,
+          "step": 650
+        },
+        {
+          "epoch": 1.060621369032584,
+          "learning_rate": 0.0001501416360795769,
+          "loss": 1.0654,
+          "step": 700
+        },
+        {
+          "epoch": 1.136398080323314,
+          "learning_rate": 0.0001429033669445413,
+          "loss": 1.2477,
+          "step": 750
+        },
+        {
+          "epoch": 1.212174791614044,
+          "learning_rate": 0.00013537809481898582,
+          "loss": 1.2464,
+          "step": 800
+        },
+        {
+          "epoch": 1.287951502904774,
+          "learning_rate": 0.00012761616017169708,
+          "loss": 1.2301,
+          "step": 850
+        },
+        {
+          "epoch": 1.363728214195504,
+          "learning_rate": 0.00011966948663046101,
+          "loss": 1.2317,
+          "step": 900
+        },
+        {
+          "epoch": 1.4395049254862338,
+          "learning_rate": 0.00011159123363784458,
+          "loss": 1.2478,
+          "step": 950
+        },
+        {
+          "epoch": 1.5001262945188178,
+          "eval_loss": 0.9642093181610107,
+          "step": 990
+        },
+        {
+          "epoch": 1.515281636776964,
+          "learning_rate": 0.00010343544083996824,
+          "loss": 1.2434,
+          "step": 1000
+        },
+        {
+          "epoch": 1.5910583480676939,
+          "learning_rate": 9.525666658713755e-05,
+          "loss": 1.2525,
+          "step": 1050
+        },
+        {
+          "epoch": 1.6668350593584238,
+          "learning_rate": 8.710962296459246e-05,
+          "loss": 1.2638,
+          "step": 1100
+        },
+        {
+          "epoch": 1.742611770649154,
+          "learning_rate": 7.904880979484315e-05,
+          "loss": 1.2432,
+          "step": 1150
+        },
+        {
+          "epoch": 1.8183884819398837,
+          "learning_rate": 7.112815005994197e-05,
+          "loss": 1.2496,
+          "step": 1200
+        },
+        {
+          "epoch": 1.8941651932306138,
+          "learning_rate": 6.340062918254235e-05,
+          "loss": 1.2529,
+          "step": 1250
+        },
+        {
+          "epoch": 1.9699419045213438,
+          "learning_rate": 5.591794057878063e-05,
+          "loss": 1.2288,
+          "step": 1300
+        },
+        {
+          "epoch": 2.045466026774438,
+          "learning_rate": 4.8730139854063825e-05,
+          "loss": 1.0524,
+          "step": 1350
+        },
+        {
+          "epoch": 2.121242738065168,
+          "learning_rate": 4.188530995502695e-05,
+          "loss": 1.2331,
+          "step": 1400
+        },
+        {
+          "epoch": 2.197019449355898,
+          "learning_rate": 3.5429239517633296e-05,
+          "loss": 1.2471,
+          "step": 1450
+        },
+        {
+          "epoch": 2.250063147259409,
+          "eval_loss": 0.9587646722793579,
+          "step": 1485
+        },
+        {
+          "epoch": 2.272796160646628,
+          "learning_rate": 2.9405116563115087e-05,
+          "loss": 1.2229,
+          "step": 1500
+        },
+        {
+          "epoch": 2.3485728719373578,
+          "learning_rate": 2.3853239590782317e-05,
+          "loss": 1.2297,
+          "step": 1550
+        },
+        {
+          "epoch": 2.424349583228088,
+          "learning_rate": 1.8810748000349544e-05,
+          "loss": 1.2267,
+          "step": 1600
+        },
+        {
+          "epoch": 2.500126294518818,
+          "learning_rate": 1.4311373647127713e-05,
+          "loss": 1.2374,
+          "step": 1650
+        },
+        {
+          "epoch": 2.575903005809548,
+          "learning_rate": 1.0385215192056773e-05,
+          "loss": 1.2254,
+          "step": 1700
+        },
+        {
+          "epoch": 2.651679717100278,
+          "learning_rate": 7.058536756069567e-06,
+          "loss": 1.2102,
+          "step": 1750
+        },
+        {
+          "epoch": 2.727456428391008,
+          "learning_rate": 4.35359222569347e-06,
+          "loss": 1.2318,
+          "step": 1800
+        },
+        {
+          "epoch": 2.803233139681738,
+          "learning_rate": 2.2884763852006e-06,
+          "loss": 1.2045,
+          "step": 1850
+        },
+        {
+          "epoch": 2.8790098509724675,
+          "learning_rate": 8.770038711614748e-07,
+          "loss": 1.2365,
+          "step": 1900
+        },
+        {
+          "epoch": 2.9547865622631977,
+          "learning_rate": 1.286167591383891e-07,
+          "loss": 1.2393,
+          "step": 1950
+        },
+        {
+          "epoch": 3.0,
+          "eval_loss": 0.9585097432136536,
+          "step": 1980
+        }
+      ]
+    },
+    {
+      "source": "Primee/Models/2x rag/checkpoint_1320/trainer_state.json",
+      "sha256": "ed6d4855d2bfa45144618f3fbf18d5b12ef7dc5217d4b60990ea8508ed8ec5c0",
+      "best_metric": 0.9845252633094788,
+      "best_model_checkpoint": "./flant5_steps_maxlen_fixed/checkpoint-1320",
+      "epoch": 2.0,
+      "global_step": 1320,
+      "max_steps": 1320,
+      "log_history": [
+        {
+          "epoch": 0.07577671129072998,
+          "learning_rate": 0.00019997560408170604,
+          "loss": 1.2923,
+          "step": 50
+        },
+        {
+          "epoch": 0.15155342258145996,
+          "learning_rate": 0.000198953366100654,
+          "loss": 1.2104,
+          "step": 100
+        },
+        {
+          "epoch": 0.22733013387218995,
+          "learning_rate": 0.00019644277738739964,
+          "loss": 1.1977,
+          "step": 150
+        },
+        {
+          "epoch": 0.3031068451629199,
+          "learning_rate": 0.0001924815995330528,
+          "loss": 1.1666,
+          "step": 200
+        },
+        {
+          "epoch": 0.3788835564536499,
+          "learning_rate": 0.00018712941233961736,
+          "loss": 1.1525,
+          "step": 250
+        },
+        {
+          "epoch": 0.4546602677443799,
+          "learning_rate": 0.00018046671768431232,
+          "loss": 1.1469,
+          "step": 300
+        },
+        {
+          "epoch": 0.5304369790351099,
+          "learning_rate": 0.00017259372869640678,
+          "loss": 1.1244,
+          "step": 350
+        },
+        {
+          "epoch": 0.6062136903258398,
+          "learning_rate": 0.0001636288624584773,
+          "loss": 1.1285,
+          "step": 400
+        },
+        {
+          "epoch": 0.6668350593584238,
+          "eval_loss": 0.9998088479042053,
+          "step": 440
+        },
+        {
+          "epoch": 0.6819904016165699,
+          "learning_rate": 0.000153706958903263,
+          "loss": 1.1144,
+          "step": 450
+        },
+        {
+          "epoch": 0.7577671129072998,
+          "learning_rate": 0.0001429772526955677,
+          "loss": 1.1163,
+          "step": 500
+        },
+        {
+          "epoch": 0.8335438241980299,
+          "learning_rate": 0.00013160112860399338,
+          "loss": 1.13,
+          "step": 550
+        },
+        {
+          "epoch": 0.9093205354887598,
+          "learning_rate": 0.00011974969412380299,
+          "loss": 1.1159,
+          "step": 600
+        },
+        {
+          "epoch": 0.9850972467794897,
+          "learning_rate": 0.00010760120586092432,
+          "loss": 1.118,
+          "step": 650
+        },
+        {
+          "epoch": 1.060621369032584,
+          "learning_rate": 9.533838838667532e-05,
+          "loss": 0.9424,
+          "step": 700
+        },
+        {
+          "epoch": 1.136398080323314,
+          "learning_rate": 8.314568589013086e-05,
+          "loss": 1.0776,
+          "step": 750
+        },
+        {
+          "epoch": 1.212174791614044,
+          "learning_rate": 7.120648796583788e-05,
+          "loss": 1.0873,
+          "step": 800
+        },
+        {
+          "epoch": 1.287951502904774,
+          "learning_rate": 5.970037126361398e-05,
+          "loss": 1.0923,
+          "step": 850
+        },
+        {
+          "epoch": 1.333417529679212,
+          "eval_loss": 0.9895083904266357,
+          "step": 880
+        },
+        {
+          "epoch": 1.363728214195504,
+          "learning_rate": 4.8800398488583765e-05,
+          "loss": 1.1032,
+          "step": 900
+        },
+        {
+          "epoch": 1.4395049254862338,
+          "learning_rate": 3.867051537700641e-05,
+          "loss": 1.1026,
+          "step": 950
+        },
+        {
+          "epoch": 1.515281636776964,
+          "learning_rate": 2.946308479980139e-05,
+          "loss": 1.0908,
+          "step": 1000
+        },
+        {
+          "epoch": 1.5910583480676939,
+          "learning_rate": 2.1316595083150014e-05,
+          "loss": 1.1018,
+          "step": 1050
+        },
+        {
+          "epoch": 1.6668350593584238,
+          "learning_rate": 1.4353577015164354e-05,
+          "loss": 1.1101,
+          "step": 1100
+        },
+        {
+          "epoch": 1.742611770649154,
+          "learning_rate": 8.67876086878211e-06,
+          "loss": 1.0869,
+          "step": 1150
+        },
+        {
+          "epoch": 1.8183884819398837,
+          "learning_rate": 4.3775011609783815e-06,
+          "loss": 1.1117,
+          "step": 1200
+        },
+        {
+          "epoch": 1.8941651932306138,
+          "learning_rate": 1.5144928413821646e-06,
+          "loss": 1.1168,
+          "step": 1250
+        },
+        {
+          "epoch": 1.9699419045213438,
+          "learning_rate": 1.327982200157063e-07,
+          "loss": 1.0896,
+          "step": 1300
+        },
+        {
+          "epoch": 2.0,
+          "eval_loss": 0.9845252633094788,
+          "step": 1320
+        }
+      ]
+    },
+    {
+      "source": "Primee/Models/kötü/trainer_state.json",
+      "sha256": "53edcd7ba271e1f7dc12abf0b06435568a9e6828cb421ce9b9a5f0b7f515ec73",
+      "best_metric": 1.8436739444732666,
+      "best_model_checkpoint": "flan_t5_multi_task_lora/checkpoint-2640",
+      "epoch": 2.0,
+      "global_step": 2640,
+      "max_steps": 2640,
+      "log_history": [
+        {
+          "epoch": 0.07577671129072998,
+          "learning_rate": 7.500000000000001e-05,
+          "loss": 3.4111,
+          "step": 100
+        },
+        {
+          "epoch": 0.15155342258145996,
+          "learning_rate": 9.732854864433812e-05,
+          "loss": 2.5851,
+          "step": 200
+        },
+        {
+          "epoch": 0.22733013387218995,
+          "learning_rate": 9.334130781499203e-05,
+          "loss": 2.5564,
+          "step": 300
+        },
+        {
+          "epoch": 0.3031068451629199,
+          "learning_rate": 8.935406698564594e-05,
+          "loss": 2.6285,
+          "step": 400
+        },
+        {
+          "epoch": 0.3788835564536499,
+          "learning_rate": 8.536682615629983e-05,
+          "loss": 2.3972,
+          "step": 500
+        },
+        {
+          "epoch": 0.4546602677443799,
+          "learning_rate": 8.137958532695376e-05,
+          "loss": 2.4787,
+          "step": 600
+        },
+        {
+          "epoch": 0.5304369790351099,
+          "learning_rate": 7.739234449760767e-05,
+          "loss": 2.3637,
+          "step": 700
+        },
+        {
+          "epoch": 0.6062136903258398,
+          "learning_rate": 7.340510366826156e-05,
+          "loss": 2.4643,
+          "step": 800
+        },
+        {
+          "epoch": 0.6668350593584238,
+          "eval_loss": 1.8743126392364502,
+          "step": 880
+        },
+        {
+          "epoch": 0.6819904016165699,
+          "learning_rate": 6.941786283891547e-05,
+          "loss": 2.4465,
+          "step": 900
+        },
+        {
+          "epoch": 0.7577671129072998,
+          "learning_rate": 6.543062200956938e-05,
+          "loss": 2.4557,
+          "step": 1000
+        },
+        {
+          "epoch": 0.8335438241980299,
+          "learning_rate": 6.144338118022329e-05,
+          "loss": 2.3773,
+          "step": 1100
+        },
+        {
+          "epoch": 0.9093205354887598,
+          "learning_rate": 5.7456140350877194e-05,
+          "loss": 2.4446,
+          "step": 1200
+        },
+        {
+          "epoch": 0.9850972467794897,
+          "learning_rate": 5.3468899521531104e-05,
+          "loss": 2.4983,
+          "step": 1300
+        },
+        {
+          "epoch": 1.060621369032584,
+          "learning_rate": 4.9481658692185014e-05,
+          "loss": 2.4518,
+          "step": 1400
+        },
+        {
+          "epoch": 1.136398080323314,
+          "learning_rate": 4.549441786283892e-05,
+          "loss": 2.3694,
+          "step": 1500
+        },
+        {
+          "epoch": 1.212174791614044,
+          "learning_rate": 4.150717703349282e-05,
+          "loss": 2.3058,
+          "step": 1600
+        },
+        {
+          "epoch": 1.287951502904774,
+          "learning_rate": 3.7519936204146736e-05,
+          "loss": 2.3649,
+          "step": 1700
+        },
+        {
+          "epoch": 1.333417529679212,
+          "eval_loss": 1.8508327007293701,
+          "step": 1760
+        },
+        {
+          "epoch": 1.363728214195504,
+          "learning_rate": 3.353269537480064e-05,
+          "loss": 2.3766,
+          "step": 1800
+        },
+        {
+          "epoch": 1.4395049254862338,
+          "learning_rate": 2.954545454545455e-05,
+          "loss": 2.406,
+          "step": 1900
+        },
+        {
+          "epoch": 1.515281636776964,
+          "learning_rate": 2.5558213716108455e-05,
+          "loss": 2.3433,
+          "step": 2000
+        },
+        {
+          "epoch": 1.5910583480676939,
+          "learning_rate": 2.157097288676236e-05,
+          "loss": 2.3332,
+          "step": 2100
+        },
+        {
+          "epoch": 1.6668350593584238,
+          "learning_rate": 1.758373205741627e-05,
+          "loss": 2.3971,
+          "step": 2200
+        },
+        {
+          "epoch": 1.742611770649154,
+          "learning_rate": 1.3596491228070177e-05,
+          "loss": 2.3201,
+          "step": 2300
+        },
+        {
+          "epoch": 1.8183884819398837,
+          "learning_rate": 9.609250398724083e-06,
+          "loss": 2.3599,
+          "step": 2400
+        },
+        {
+          "epoch": 1.8941651932306138,
+          "learning_rate": 5.622009569377991e-06,
+          "loss": 2.3901,
+          "step": 2500
+        },
+        {
+          "epoch": 1.9699419045213438,
+          "learning_rate": 1.6347687400318979e-06,
+          "loss": 2.35,
+          "step": 2600
+        },
+        {
+          "epoch": 2.0,
+          "eval_loss": 1.8436739444732666,
+          "step": 2640
+        }
+      ]
+    }
+  ],
+  "metric_files": [
+    {
+      "source": "Primee/Models/kötü/metric/metrics_full.json",
+      "sha256": "c2efbc07324a946f4cc4d1f051987abe984ab5188d7a6b157a08a2c74e0ccec7",
+      "payload": {
+        "full": {
+          "eval_loss": 32.133399963378906,
+          "eval_model_preparation_time": 0.0087,
+          "eval_em": 0.0,
+          "eval_rougeL": 0.5187206389938939,
+          "eval_runtime": 1825.2442,
+          "eval_samples_per_second": 2.739,
+          "eval_steps_per_second": 0.043
+        },
+        "used_config": {
+          "batch_size": 64,
+          "beams": 4
+        }
+      }
+    }
+  ],
+  "notebooks": [
+    {
+      "source": "NLPP/Multi Task Models/Flan T5 Base/Flan_T5_early_Base.ipynb",
+      "sha256": "6c4abb512b0c992e603f19906da8054e961da4174493f68d32ebb0ac5f1bfff1",
+      "code_cells": 8,
+      "executed_code_cells": 7,
+      "evidence_cells": [
+        {
+          "cell": 15,
+          "execution_count": 7,
+          "matched_output": [
+            "Epoch 1/25:   0%|          | 0/600 [00:00<?, ?it/s]Passing a tuple of `past_key_values` is deprecated and will be removed in Transformers v4.48.0. You should pass an instance of `EncoderDecoderCache` instead, e.g. `past_key_values=EncoderDecoderCache.from_legacy_cache(past_key_values)`.",
+            "Epoch 1/25: 100%|██████████| 600/600 [07:13<00:00,  1.38it/s]",
+            "Epoch 1 Train Loss: 1.8624",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.22it/s]",
+            "Validation Loss: 1.5641",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 1.5641)",
+            "Epoch 2/25: 100%|██████████| 600/600 [07:16<00:00,  1.37it/s]",
+            "Epoch 2 Train Loss: 1.4846",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.26it/s]",
+            "Validation Loss: 1.3893",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 1.3893)",
+            "Epoch 3/25: 100%|██████████| 600/600 [07:16<00:00,  1.37it/s]",
+            "Epoch 3 Train Loss: 1.2243",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.25it/s]",
+            "Validation Loss: 1.2436",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 1.2436)",
+            "Epoch 4/25: 100%|██████████| 600/600 [07:17<00:00,  1.37it/s]",
+            "Epoch 4 Train Loss: 1.0044",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.24it/s]",
+            "Validation Loss: 1.1273",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 1.1273)",
+            "Epoch 5/25: 100%|██████████| 600/600 [07:16<00:00,  1.37it/s]",
+            "Epoch 5 Train Loss: 0.8233",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.18it/s]",
+            "Validation Loss: 1.0277",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 1.0277)",
+            "Epoch 6/25: 100%|██████████| 600/600 [07:18<00:00,  1.37it/s]",
+            "Epoch 6 Train Loss: 0.6740",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.27it/s]",
+            "Validation Loss: 0.9614",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 0.9614)",
+            "Epoch 7/25: 100%|██████████| 600/600 [07:15<00:00,  1.38it/s]",
+            "Epoch 7 Train Loss: 0.5545",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.22it/s]",
+            "Validation Loss: 0.8897",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 0.8897)",
+            "Epoch 8/25: 100%|██████████| 600/600 [07:15<00:00,  1.38it/s]",
+            "Epoch 8 Train Loss: 0.4570",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.20it/s]",
+            "Validation Loss: 0.8586",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 0.8586)",
+            "Epoch 9/25: 100%|██████████| 600/600 [07:15<00:00,  1.38it/s]",
+            "Epoch 9 Train Loss: 0.3804",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.22it/s]",
+            "Validation Loss: 0.8150",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 0.8150)",
+            "Epoch 10/25: 100%|██████████| 600/600 [07:15<00:00,  1.38it/s]",
+            "Epoch 10 Train Loss: 0.3180",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.28it/s]",
+            "Validation Loss: 0.8098",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 0.8098)",
+            "Epoch 11/25: 100%|██████████| 600/600 [07:13<00:00,  1.38it/s]",
+            "Epoch 11 Train Loss: 0.2670",
+            "Validating: 100%|██████████| 150/150 [00:34<00:00,  4.32it/s]",
+            "Validation Loss: 0.7878",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 0.7878)",
+            "Epoch 12/25: 100%|██████████| 600/600 [07:14<00:00,  1.38it/s]",
+            "Epoch 12 Train Loss: 0.2277",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.21it/s]",
+            "Validation Loss: 0.8106",
+            "Epoch 13/25: 100%|██████████| 600/600 [07:15<00:00,  1.38it/s]",
+            "Epoch 13 Train Loss: 0.1966",
+            "Validating: 100%|██████████| 150/150 [00:34<00:00,  4.29it/s]",
+            "Validation Loss: 0.7815",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 0.7815)",
+            "Epoch 14/25: 100%|██████████| 600/600 [07:13<00:00,  1.38it/s]",
+            "Epoch 14 Train Loss: 0.1685",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.20it/s]",
+            "Validation Loss: 0.7930",
+            "Epoch 15/25: 100%|██████████| 600/600 [07:15<00:00,  1.38it/s]",
+            "Epoch 15 Train Loss: 0.1485",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.26it/s]",
+            "Validation Loss: 0.8193",
+            "Epoch 16/25: 100%|██████████| 600/600 [07:15<00:00,  1.38it/s]",
+            "Epoch 16 Train Loss: 0.1324",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.18it/s]",
+            "Validation Loss: 0.8305",
+            "🛑 Early stopping tetiklendi! Epoch 16"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "NLPP/Multi Task Models/Flan T5 Base/labelsiz/Flan_T5_early_Base.ipynb",
+      "sha256": "e449a347b586784de94c64e1769c2d5e10c3d3dc7c1fa360ecd3494e8354a5b1",
+      "code_cells": 8,
+      "executed_code_cells": 4,
+      "evidence_cells": [
+        {
+          "cell": 15,
+          "execution_count": null,
+          "matched_output": [
+            "Epoch 1 Train Loss: 2.082520280679067",
+            "Validation Loss: 1.7801279973983766",
+            "Epoch 2 Train Loss: 1.7336253134409587",
+            "Validation Loss: 1.6041717100143433",
+            "Epoch 3 Train Loss: 1.4821863508224487",
+            "Validation Loss: 1.4557249895731608",
+            "Epoch 4 Train Loss: 1.2668886872132619",
+            "Validation Loss: 1.3258104356129965",
+            "Epoch 5 Train Loss: 1.076802784204483",
+            "Validation Loss: 1.2195676676432292",
+            "Epoch 6 Train Loss: 0.9153044120470682",
+            "Validation Loss: 1.122389771938324",
+            "Epoch 7 Train Loss: 0.7795151778062185",
+            "Validation Loss: 1.0490030201276144",
+            "Epoch 8 Train Loss: 0.6637645546595256",
+            "Validation Loss: 0.9836504801114401",
+            "Epoch 9 Train Loss: 0.5677157791455587",
+            "Validation Loss: 0.9275967121124268",
+            "Epoch 10 Train Loss: 0.4860374207297961",
+            "Validation Loss: 0.8923602139949799",
+            "Epoch 11 Train Loss: 0.41907055348157884",
+            "Validation Loss: 0.8693977292378744",
+            "Epoch 12 Train Loss: 0.3624173246324062",
+            "Validation Loss: 0.8500039621194204"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "NLPP/Multi Task Models/Model Train/Flan T5 Base/Flan_T5_Base.ipynb",
+      "sha256": "9af515b71887ce36e37c8ae7af0723b55835281ab1114ae8d7b28adf29cf62bb",
+      "code_cells": 9,
+      "executed_code_cells": 3,
+      "evidence_cells": []
+    },
+    {
+      "source": "NLPP/Multi Task Models/Model Train/Flan T5 Small/Flan_T5_small.ipynb",
+      "sha256": "9e0432b71ddad5f5f10e72fec00c62a15fb21fd9375c06c70a146cbb4a938013",
+      "code_cells": 9,
+      "executed_code_cells": 4,
+      "evidence_cells": []
+    },
+    {
+      "source": "Primee/Classification Model MiniLM-L6/intent_classifier_minilm_cpu.ipynb",
+      "sha256": "b47f08f06e0438f0d2db0aa79e1a61d0de683b192cfd756f8d6e88f69272849d",
+      "code_cells": 11,
+      "executed_code_cells": 10,
+      "evidence_cells": [
+        {
+          "cell": 4,
+          "execution_count": 4,
+          "matched_output": [
+            "Generating train split: 0 examples [00:00, ? examples/s]",
+            "Generating train split: 0 examples [00:00, ? examples/s]",
+            "Generating train split: 0 examples [00:00, ? examples/s]",
+            "train: Dataset({",
+            "validation: Dataset({"
+          ]
+        },
+        {
+          "cell": 5,
+          "execution_count": 5,
+          "matched_output": [
+            "You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference."
+          ]
+        },
+        {
+          "cell": 6,
+          "execution_count": 6,
+          "matched_output": [
+            "train: Dataset({",
+            "validation: Dataset({"
+          ]
+        },
+        {
+          "cell": 8,
+          "execution_count": 8,
+          "matched_output": [
+            "/home/zeus/miniconda3/envs/cloudspace/lib/python3.10/site-packages/transformers/training_args.py:1609: FutureWarning: using `no_cuda` is deprecated and will be removed in version 5.0 of 🤗 Transformers. Use `use_cpu` instead",
+            "/tmp/ipykernel_1676/2118173708.py:19: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `Trainer.__init__`. Use `processing_class` instead.",
+            "trainer = Trainer("
+          ]
+        },
+        {
+          "cell": 9,
+          "execution_count": 9,
+          "matched_output": [
+            "TrainOutput(global_step=600, training_loss=0.4128371254603068, metrics={'train_runtime': 318.8847, 'train_samples_per_second': 60.21, 'train_steps_per_second': 1.882, 'total_flos': 40599293976576.0, 'train_loss': 0.4128371254603068, 'epoch': 4.0})"
+          ]
+        },
+        {
+          "cell": 10,
+          "execution_count": 10,
+          "matched_output": [
+            "Test metrics: {'eval_loss': 0.16360074281692505, 'eval_accuracy': 1.0, 'eval_f1': 1.0, 'eval_runtime': 2.6299, 'eval_samples_per_second': 228.144, 'eval_steps_per_second': 3.802, 'epoch': 4.0}",
+            "accuracy                         1.0000       600"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Primee/Models/1.2x chat/1.2x chat kullanıldı L40S 48 GB VRAM.ipynb",
+      "sha256": "f8edcd92c6294f125aef85f3b772815affb54a750a2d9fd93a632467ad5674e9",
+      "code_cells": 16,
+      "executed_code_cells": 8,
+      "evidence_cells": [
+        {
+          "cell": 1,
+          "execution_count": 1,
+          "matched_output": [
+            "Requirement already satisfied: nvidia-cuda-runtime-cu12==12.8.57 in /system/conda/miniconda3/envs/cloudspace/lib/python3.10/site-packages (from torch>=1.13.0->peft) (12.8.57)",
+            "Requirement already satisfied: nvidia-cuda-runtime-cu12==12.8.57 in /system/conda/miniconda3/envs/cloudspace/lib/python3.10/site-packages (from torch<3,>=2.2->bitsandbytes) (12.8.57)"
+          ]
+        },
+        {
+          "cell": 3,
+          "execution_count": null,
+          "matched_output": [
+            "Train: 95000 (chat=47500, rag_qa=47500)",
+            "Valid: 5000   (chat=2500, rag_qa=2500)"
+          ]
+        },
+        {
+          "cell": 7,
+          "execution_count": 7,
+          "matched_output": [
+            "trainable params: 18,284,544 || all params: 801,434,624 || trainable%: 2.2815"
+          ]
+        },
+        {
+          "cell": 9,
+          "execution_count": 12,
+          "matched_output": [
+            "/tmp/ipykernel_5622/3144775212.py:37: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `WeightedLossTrainer.__init__`. Use `processing_class` instead.",
+            "trainer = WeightedLossTrainer("
+          ]
+        },
+        {
+          "cell": 10,
+          "execution_count": 13,
+          "matched_output": [
+            "[PRE] Eval boyutları -> all=2000, chat=978, rag=1022",
+            "{'loss_all': 1.1551, 'ppl_all': 3.1742, 'loss_chat': 2.1314, 'ppl_chat': 8.427, 'loss_rag': 0.2223, 'ppl_rag': 1.2489}"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Primee/Models/1.2x chat/1.3x chat kullanıldı L40S 48 GB VRAM.ipynb",
+      "sha256": "8309894bab5f96aec8929befda1e5178563bb14fc0d70c35ce52c83090030004",
+      "code_cells": 16,
+      "executed_code_cells": 11,
+      "evidence_cells": [
+        {
+          "cell": 1,
+          "execution_count": 1,
+          "matched_output": [
+            "Requirement already satisfied: nvidia-cuda-runtime-cu12==12.8.57 in /system/conda/miniconda3/envs/cloudspace/lib/python3.10/site-packages (from torch>=1.13.0->peft) (12.8.57)",
+            "Requirement already satisfied: nvidia-cuda-runtime-cu12==12.8.57 in /system/conda/miniconda3/envs/cloudspace/lib/python3.10/site-packages (from torch<3,>=2.2->bitsandbytes) (12.8.57)"
+          ]
+        },
+        {
+          "cell": 3,
+          "execution_count": 3,
+          "matched_output": [
+            "Generating train split: 0 examples [00:00, ? examples/s]",
+            "Train: 95000 (chat=47500, rag_qa=47500)",
+            "Valid: 5000   (chat=2500, rag_qa=2500)"
+          ]
+        },
+        {
+          "cell": 6,
+          "execution_count": 6,
+          "matched_output": [
+            "Tokenizing train:   0%|          | 0/95000 [00:00<?, ? examples/s]",
+            "Tokenizing validation:   0%|          | 0/2000 [00:00<?, ? examples/s]"
+          ]
+        },
+        {
+          "cell": 7,
+          "execution_count": 7,
+          "matched_output": [
+            "trainable params: 18,284,544 || all params: 801,434,624 || trainable%: 2.2815"
+          ]
+        },
+        {
+          "cell": 9,
+          "execution_count": 9,
+          "matched_output": [
+            "/tmp/ipykernel_1652/3144775212.py:37: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `WeightedLossTrainer.__init__`. Use `processing_class` instead.",
+            "trainer = WeightedLossTrainer("
+          ]
+        },
+        {
+          "cell": 10,
+          "execution_count": 10,
+          "matched_output": [
+            "[PRE] Eval boyutları -> all=2000, chat=978, rag=1022",
+            "{'loss_all': 1.1255, 'ppl_all': 3.0819, 'loss_chat': 2.0243, 'ppl_chat': 7.5711, 'loss_rag': 0.2499, 'ppl_rag': 1.2839}"
+          ]
+        },
+        {
+          "cell": 12,
+          "execution_count": 1,
+          "matched_output": [
+            "AssertionError: Trainer oluşturulmalı."
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Primee/Models/1.2x chat/Lora_1980/sonuçlar/metrics hesaplama.ipynb",
+      "sha256": "d112be77f8780655da9ddf0981b44ab21544e0a2ec7773dc409db43979215713",
+      "code_cells": 3,
+      "executed_code_cells": 1,
+      "evidence_cells": [
+        {
+          "cell": 2,
+          "execution_count": 3,
+          "matched_output": [
+            "Loss pass:   0%|          | 0/313 [00:00<?, ?it/s]",
+            "[LOSS] token_avg=1.9597 (ppl=7.0970) | per_example=1.1274 (ppl=3.0878)"
+          ]
+        },
+        {
+          "cell": 3,
+          "execution_count": null,
+          "matched_output": [
+            "==== EVALUATION SUMMARY ====",
+            "loss_token_avg:   1.9597 | ppl_token_avg:   7.0970",
+            "loss_per_example: 1.1274 | ppl_per_example:3.0878",
+            "ROUGE (all):      {'rouge1': 0.5360664663943819, 'rouge2': 0.33165199446786475, 'rougeL': 0.5130552841839928, 'rougeLsum': 0.5165143355184845}",
+            "ROUGE (chat):     {'rouge1': 0.2135984451557854, 'rouge2': 0.11827496433509724, 'rougeL': 0.16891094215626212, 'rougeLsum': 0.17542926161323238}",
+            "ROUGE (rag):      {'rouge1': 0.858236518491988, 'rouge2': 0.5438478492732901, 'rougeL': 0.8573196808113621, 'rougeLsum': 0.8575559963295855}",
+            "RAG EM: 0.7420 | RAG F1: 0.8609",
+            "Saved metrics.json and predictions.csv to: ./eval_out"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Primee/Models/1.2x chat/metrics hesaplama.ipynb",
+      "sha256": "e47297eb343cbd7966bc829e14dc336ae7cca242b4c0db0d5eaa81edd7d5303f",
+      "code_cells": 3,
+      "executed_code_cells": 0,
+      "evidence_cells": [
+        {
+          "cell": 2,
+          "execution_count": null,
+          "matched_output": [
+            "Loss pass:   0%|          | 0/313 [00:00<?, ?it/s]",
+            "[LOSS] token_avg=1.9597 (ppl=7.0970) | per_example=1.1274 (ppl=3.0878)"
+          ]
+        },
+        {
+          "cell": 3,
+          "execution_count": null,
+          "matched_output": [
+            "==== EVALUATION SUMMARY ====",
+            "loss_token_avg:   1.9597 | ppl_token_avg:   7.0970",
+            "loss_per_example: 1.1274 | ppl_per_example:3.0878",
+            "ROUGE (all):      {'rouge1': 0.5360664663943819, 'rouge2': 0.33165199446786475, 'rougeL': 0.5130552841839928, 'rougeLsum': 0.5165143355184845}",
+            "ROUGE (chat):     {'rouge1': 0.2135984451557854, 'rouge2': 0.11827496433509724, 'rougeL': 0.16891094215626212, 'rougeLsum': 0.17542926161323238}",
+            "ROUGE (rag):      {'rouge1': 0.858236518491988, 'rouge2': 0.5438478492732901, 'rougeL': 0.8573196808113621, 'rougeLsum': 0.8575559963295855}",
+            "RAG EM: 0.7420 | RAG F1: 0.8609",
+            "Saved metrics.json and predictions.csv to: ./eval_out"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Primee/Models/2x rag/2x rag kullanıldı L40S 48 GB VRAM .ipynb",
+      "sha256": "6fe78e315e65783e68c0e0cd0ba3c35310bc2e6d79bfa2874e2118e4986b748a",
+      "code_cells": 16,
+      "executed_code_cells": 13,
+      "evidence_cells": [
+        {
+          "cell": 3,
+          "execution_count": 3,
+          "matched_output": [
+            "Train: 95000 (chat=47500, rag_qa=47500)",
+            "Valid: 5000   (chat=2500, rag_qa=2500)"
+          ]
+        },
+        {
+          "cell": 7,
+          "execution_count": 7,
+          "matched_output": [
+            "trainable params: 18,284,544 || all params: 801,434,624 || trainable%: 2.2815"
+          ]
+        },
+        {
+          "cell": 9,
+          "execution_count": 9,
+          "matched_output": [
+            "/tmp/ipykernel_12997/545680569.py:7: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `WeightedLossTrainer.__init__`. Use `processing_class` instead."
+          ]
+        },
+        {
+          "cell": 10,
+          "execution_count": 10,
+          "matched_output": [
+            "[PRE] Eval boyutları -> all=2000, chat=978, rag=1022",
+            "{'loss_all': 1.1485, 'ppl_all': 3.1536, 'loss_chat': 2.086, 'ppl_chat': 8.0524, 'loss_rag': 0.2514, 'ppl_rag': 1.2858}"
+          ]
+        },
+        {
+          "cell": 11,
+          "execution_count": 11,
+          "matched_output": [
+            "TrainOutput(global_step=1320, training_loss=1.1270300157142408, metrics={'train_runtime': 7024.7825, 'train_samples_per_second': 27.047, 'train_steps_per_second': 0.188, 'total_flos': 1.455615708860252e+17, 'train_loss': 1.1270300157142408, 'epoch': 2.0})"
+          ]
+        },
+        {
+          "cell": 12,
+          "execution_count": 12,
+          "matched_output": [
+            "[POST] Eval boyutları -> all=2000, chat=978, rag=1022",
+            "[POST] {'loss_all': 0.9862, 'ppl_all': 2.6809, 'loss_chat': 1.785, 'ppl_chat': 5.9596, 'loss_rag': 0.1999, 'ppl_rag': 1.2213}",
+            "{'loss_all': {'after': 0.9862,",
+            "'loss_chat': {'after': 1.785,",
+            "'loss_rag': {'after': 0.1999,"
+          ]
+        },
+        {
+          "cell": 16,
+          "execution_count": 16,
+          "matched_output": [
+            "Validation set validation.jsonl dosyasına kaydedildi. Toplam 5000 örnek var."
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Primee/Models/2x rag/metrics hesaplama.ipynb",
+      "sha256": "d112be77f8780655da9ddf0981b44ab21544e0a2ec7773dc409db43979215713",
+      "code_cells": 3,
+      "executed_code_cells": 1,
+      "evidence_cells": [
+        {
+          "cell": 2,
+          "execution_count": 3,
+          "matched_output": [
+            "Loss pass:   0%|          | 0/313 [00:00<?, ?it/s]",
+            "[LOSS] token_avg=1.9597 (ppl=7.0970) | per_example=1.1274 (ppl=3.0878)"
+          ]
+        },
+        {
+          "cell": 3,
+          "execution_count": null,
+          "matched_output": [
+            "==== EVALUATION SUMMARY ====",
+            "loss_token_avg:   1.9597 | ppl_token_avg:   7.0970",
+            "loss_per_example: 1.1274 | ppl_per_example:3.0878",
+            "ROUGE (all):      {'rouge1': 0.5360664663943819, 'rouge2': 0.33165199446786475, 'rougeL': 0.5130552841839928, 'rougeLsum': 0.5165143355184845}",
+            "ROUGE (chat):     {'rouge1': 0.2135984451557854, 'rouge2': 0.11827496433509724, 'rougeL': 0.16891094215626212, 'rougeLsum': 0.17542926161323238}",
+            "ROUGE (rag):      {'rouge1': 0.858236518491988, 'rouge2': 0.5438478492732901, 'rougeL': 0.8573196808113621, 'rougeLsum': 0.8575559963295855}",
+            "RAG EM: 0.7420 | RAG F1: 0.8609",
+            "Saved metrics.json and predictions.csv to: ./eval_out"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Primee/Models/My Class/My Class-GPU.ipynb",
+      "sha256": "8d906905974e2f8aed541c7a830134299332f63f84bdab5e4ef5bc2424b1d427",
+      "code_cells": 16,
+      "executed_code_cells": 0,
+      "evidence_cells": []
+    },
+    {
+      "source": "Primee/Models/My Class/Second Try/flan_t5_onnx_chat_rag_pipeline.ipynb",
+      "sha256": "87cd93e67e98c9d9c6e1ec305cd805b87346e4de285281f8cd225d62769736a5",
+      "code_cells": 5,
+      "executed_code_cells": 5,
+      "evidence_cells": [
+        {
+          "cell": 3,
+          "execution_count": 2,
+          "matched_output": [
+            "Çalışma klasörü: /teamspace/studios/this_studio/artifacts_flan_t5_onnx"
+          ]
+        },
+        {
+          "cell": 5,
+          "execution_count": 4,
+          "matched_output": [
+            "Merge tamam. Kayıt klasörü: artifacts_flan_t5_onnx/merged_model"
+          ]
+        },
+        {
+          "cell": 7,
+          "execution_count": 8,
+          "matched_output": [
+            "ONNX export başlıyor (with-past)...",
+            "Could not find ONNX initializer for torch parameter decoder.embed_tokens.weight. decoder.embed_tokens.weight will not be checked for deduplication.",
+            "Could not find ONNX initializer for torch parameter encoder.embed_tokens.weight. encoder.embed_tokens.weight will not be checked for deduplication.",
+            "Found different candidate ONNX initializers (likely duplicate) for the tied weights:",
+            "Could not find ONNX initializer for torch parameter decoder.embed_tokens.weight. decoder.embed_tokens.weight will not be checked for deduplication.",
+            "Could not find ONNX initializer for torch parameter encoder.embed_tokens.weight. encoder.embed_tokens.weight will not be checked for deduplication.",
+            "Found different candidate ONNX initializers (likely duplicate) for the tied weights:",
+            "Validation for the model artifacts_flan_t5_onnx/onnx_fp32/decoder_model_merged.onnx raised: The maximum absolute difference between the output of the reference model and the ONNX exported model is not within the set tolerance 1e-05:",
+            "The ONNX export succeeded with the warning: The maximum absolute difference between the output of the reference model and the ONNX exported model is not within the set tolerance 1e-05:",
+            "The exported model was saved at: artifacts_flan_t5_onnx/onnx_fp32",
+            "ONNX export bitti. Çıktılar:",
+            "['spiece.model', 'encoder_model.onnx', 'decoder_with_past_model.onnx', 'special_tokens_map.json', 'decoder_model_merged.onnx', 'generation_config.json', 'tokenizer_config.json', 'config.json', 'decoder_model.onnx', 'tokenizer.json']"
+          ]
+        },
+        {
+          "cell": 9,
+          "execution_count": 11,
+          "matched_output": [
+            "Quantizing → encoder_model.onnx → encoder_model_int8.onnx",
+            "WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md",
+            "Quantizing → decoder_model.onnx → decoder_model_int8.onnx",
+            "WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md",
+            "Quantizing → decoder_with_past_model.onnx → decoder_with_past_model_int8.onnx",
+            "WARNING:root:Please consider to run pre-processing before quantization. Refer to example: https://github.com/microsoft/onnxruntime-inference-examples/blob/main/quantization/image_classification/cpu/ReadMe.md",
+            "['encoder_model_int8.onnx', 'decoder_with_past_model_int8.onnx', 'decoder_model_int8.onnx']"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Primee/Models/My Class/Second Try/Geliştirme Dosyaları/metrics_llm_eval.ipynb",
+      "sha256": "5697a603dd2498cfdbf7c7d8b71cf7938f883d2d5c82c5529991ffaa9d1b0568",
+      "code_cells": 10,
+      "executed_code_cells": 0,
+      "evidence_cells": []
+    },
+    {
+      "source": "Primee/Models/My Class/Second Try/Geliştirme Dosyaları/train_code.ipynb",
+      "sha256": "7cc6cab3fb1638f3ca89d6f0b90d21de04b7b7c5cf0b4dda755b2f85f660a0b5",
+      "code_cells": 20,
+      "executed_code_cells": 20,
+      "evidence_cells": [
+        {
+          "cell": 3,
+          "execution_count": 4,
+          "matched_output": [
+            "trainable params: 18,284,544 || all params: 801,434,624 || trainable%: 2.2815"
+          ]
+        },
+        {
+          "cell": 5,
+          "execution_count": 6,
+          "matched_output": [
+            "Generating train split: 0 examples [00:00, ? examples/s]",
+            "Generating validation split: 0 examples [00:00, ? examples/s]",
+            "[split] Toplam=100000 -> Train=95000  Val=5000  (seed=42)",
+            "[split] TRAIN_FILE=flant5l_chat_rag_out/split_seed42/train.jsonl",
+            "train: Dataset({",
+            "validation: Dataset({"
+          ]
+        },
+        {
+          "cell": 6,
+          "execution_count": 7,
+          "matched_output": [
+            "Tokenizing train (num_proc=16):   0%|          | 0/95000 [00:00<?, ? examples/s]",
+            "Tokenizing validation (num_proc=16):   0%|          | 0/5000 [00:00<?, ? examples/s]"
+          ]
+        },
+        {
+          "cell": 9,
+          "execution_count": 10,
+          "matched_output": [
+            "/tmp/ipykernel_1840/3717400094.py:46: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `RDropWeightedTrainer.__init__`. Use `processing_class` instead.",
+            "trainer = RDropWeightedTrainer("
+          ]
+        },
+        {
+          "cell": 12,
+          "execution_count": 11,
+          "matched_output": [
+            "=== Eval Metrics ===",
+            "eval_loss: 1.093733549118042",
+            "eval_runtime: 80.7573",
+            "eval_samples_per_second: 61.914",
+            "eval_steps_per_second: 7.739",
+            "epoch: 0.9997473684210526"
+          ]
+        },
+        {
+          "cell": 14,
+          "execution_count": 11,
+          "matched_output": [
+            "Trainer.tokenizer is now deprecated. You should use `Trainer.processing_class = processing_class` instead.",
+            "Base + LoRA adapter yüklendi → google/flan-t5-large | flant5l_chat_rag_out/lora_adapter"
+          ]
+        },
+        {
+          "cell": 16,
+          "execution_count": 12,
+          "matched_output": [
+            "[eval] Tüm validation kullanılıyor: 5000 örnek"
+          ]
+        },
+        {
+          "cell": 19,
+          "execution_count": 23,
+          "matched_output": [
+            "=== CE & PPL (Unweighted) ===",
+            "overall: loss=1.093825  ppl=2.986",
+            "chat   : loss=2.018800  ppl=7.529",
+            "rag    : loss=0.182074  ppl=1.200",
+            "=== CE & PPL (Train-Weighted) ===",
+            "overall: loss=1.820991  ppl=6.178",
+            "chat   : loss=2.050367  ppl=7.771",
+            "rag    : loss=0.186560  ppl=1.205"
+          ]
+        },
+        {
+          "cell": 21,
+          "execution_count": 24,
+          "matched_output": [
+            "[fast-eval] chat=400, rag=400, toplam=800",
+            "overall: EM=0.4050  F1=0.5806  n=800",
+            "chat   : EM=0.0050  F1=0.2463  n=400",
+            "rag    : EM=0.8050  F1=0.9148  n=400"
+          ]
+        },
+        {
+          "cell": 23,
+          "execution_count": 26,
+          "matched_output": [
+            "=== ROUGE/BLEU ===",
+            "\"rougeL_overall\": 0.5632884781548436,",
+            "\"rougeL_chat\": 0.2264442040723283,",
+            "\"rougeL_rag\": 0.8999534778794118,"
+          ]
+        },
+        {
+          "cell": 26,
+          "execution_count": 30,
+          "matched_output": [
+            "LR: 0.0001 WARMUP_RATIO: 0.06 EPOCHS: 1.0",
+            "LoRA: True r: 16 alpha: 32 dropout: 0.05"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Primee/Models/My Class/TPU_xla.ipynb",
+      "sha256": "7979e08c5359554e99a15397a12a1762e2b3e8ea27c938821521f084353bfa86",
+      "code_cells": 13,
+      "executed_code_cells": 0,
+      "evidence_cells": []
+    },
+    {
+      "source": "Primee/passenger bot dataset/accelerate_custom_loop.ipynb",
+      "sha256": "9309e50d839e2ef0462015687d5d4b549e0d574d60fc36b5f7df1d7ebdaf36c1",
+      "code_cells": 0,
+      "executed_code_cells": 0,
+      "evidence_cells": []
+    },
+    {
+      "source": "Primee/passenger bot dataset/Flan_T5_large_instruction.ipynb",
+      "sha256": "24ea7440382e79c65946e44da77d152f6fb07af8b63c6c340ee67a30efcfc7d8",
+      "code_cells": 7,
+      "executed_code_cells": 5,
+      "evidence_cells": [
+        {
+          "cell": 2,
+          "execution_count": 3,
+          "matched_output": [
+            "Toplam örnek sayısı: {'train': 80000, 'validation': 10000, 'test': 10000}"
+          ]
+        },
+        {
+          "cell": 4,
+          "execution_count": 9,
+          "matched_output": [
+            "/tmp/ipykernel_6472/2474405142.py:39: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `Seq2SeqTrainer.__init__`. Use `processing_class` instead.",
+            "trainer = Seq2SeqTrainer("
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Primee/passenger bot dataset/Flan_T5_son - Kopya.ipynb",
+      "sha256": "58714361934fa128426e73b1247bc2a695d05f11e776cb0965bf36b9d7aafc3a",
+      "code_cells": 7,
+      "executed_code_cells": 4,
+      "evidence_cells": [
+        {
+          "cell": 2,
+          "execution_count": 5,
+          "matched_output": [
+            "Generating train split: 0 examples [00:00, ? examples/s]",
+            "Toplam örnek sayısı: {'train': 80000, 'validation': 10000, 'test': 10000}"
+          ]
+        },
+        {
+          "cell": 4,
+          "execution_count": null,
+          "matched_output": [
+            "/tmp/ipykernel_1852/4099651492.py:41: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `Seq2SeqTrainer.__init__`. Use `processing_class` instead.",
+            "trainer = Seq2SeqTrainer("
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Primee/passenger bot dataset/Flan_T5_son.ipynb",
+      "sha256": "58f6be339f1f0f061a22a3a9953f8e91f4d92b8685887278e386cc6d8befd712",
+      "code_cells": 7,
+      "executed_code_cells": 0,
+      "evidence_cells": []
+    },
+    {
+      "source": "Primee/passenger bot dataset/Hızlı Eğitim.ipynb",
+      "sha256": "38e536390255407938e8516373bf82859f833b84941e63462dcef66c916dd5e2",
+      "code_cells": 13,
+      "executed_code_cells": 12,
+      "evidence_cells": [
+        {
+          "cell": 7,
+          "execution_count": 3,
+          "matched_output": [
+            "train: Dataset({",
+            "validation: Dataset({"
+          ]
+        },
+        {
+          "cell": 9,
+          "execution_count": 4,
+          "matched_output": [
+            "train: Dataset({",
+            "validation: Dataset({"
+          ]
+        },
+        {
+          "cell": 17,
+          "execution_count": 9,
+          "matched_output": [
+            "trainable params: 4,718,592 || all params: 787,868,672 || trainable%: 0.5989"
+          ]
+        },
+        {
+          "cell": 21,
+          "execution_count": 12,
+          "matched_output": [
+            "Trainer is ready. Uncomment trainer.train() to start training."
+          ]
+        },
+        {
+          "cell": 25,
+          "execution_count": 14,
+          "matched_output": [
+            "Call truncation_stats(norm_datasets['train']) to check truncation on raw records (pre-tokenization)."
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Primee/passenger bot dataset/ready.ipynb",
+      "sha256": "048dba4b9aa0f0497ae7c22545ff17be5808f53ca7c3501531b9936b24afc53c",
+      "code_cells": 16,
+      "executed_code_cells": 0,
+      "evidence_cells": []
+    },
+    {
+      "source": "Primee/passenger bot dataset/tam eğitim full metrics.ipynb",
+      "sha256": "98192e373978952dfa5e715bb29a14e88569a754d4e11de6d3722f58475edd38",
+      "code_cells": 12,
+      "executed_code_cells": 10,
+      "evidence_cells": [
+        {
+          "cell": 7,
+          "execution_count": 4,
+          "matched_output": [
+            "train: Dataset({",
+            "validation: Dataset({"
+          ]
+        },
+        {
+          "cell": 9,
+          "execution_count": 5,
+          "matched_output": [
+            "train: Dataset({",
+            "validation: Dataset({"
+          ]
+        },
+        {
+          "cell": 17,
+          "execution_count": 9,
+          "matched_output": [
+            "trainable params: 4,718,592 || all params: 787,868,672 || trainable%: 0.5989"
+          ]
+        },
+        {
+          "cell": 25,
+          "execution_count": 12,
+          "matched_output": [
+            "Call truncation_stats(norm_datasets['train']) to check truncation on raw records (pre-tokenization)."
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Primee/passenger bot dataset/Train/Flan_T5_early_Base.ipynb",
+      "sha256": "601ee5aa6c6ccc6e8c8a073fb3d3f03a2080aedf73f039a08ee43a438345f859",
+      "code_cells": 8,
+      "executed_code_cells": 1,
+      "evidence_cells": []
+    },
+    {
+      "source": "Primee/passenger bot dataset/Train/Flan_T5_multitask_fully_updated.ipynb",
+      "sha256": "8e240ca7b42bb8cb063a579ca93779ffcacc739a993f8b5b2a5beea26bab596c",
+      "code_cells": 9,
+      "executed_code_cells": 0,
+      "evidence_cells": []
+    },
+    {
+      "source": "Primee/passenger bot dataset/Train/son hali/trainer_apı_hugging_face.ipynb",
+      "sha256": "b91f42ca03ea6463eb78df8aea16568f54804ba8de70efd4af35d5431cb28c6c",
+      "code_cells": 6,
+      "executed_code_cells": 0,
+      "evidence_cells": [
+        {
+          "cell": 1,
+          "execution_count": null,
+          "matched_output": [
+            "Toplam örnek sayısı: {'train': 80000, 'validation': 10000, 'test': 10000}"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Primee/passenger bot dataset/Train/t5_base.ipynb",
+      "sha256": "c6aa6244ecb430c4e6cf23391d0ab07809423582c2fe381ff1edeff2d6e3cbe7",
+      "code_cells": 13,
+      "executed_code_cells": 0,
+      "evidence_cells": []
+    },
+    {
+      "source": "Primee/passenger bot dataset/trainer_apı_hugging_face (1).ipynb",
+      "sha256": "ad035186d48071b9930a98b481f4f2c4547ad7e57c2212f6d39be557eba60007",
+      "code_cells": 6,
+      "executed_code_cells": 3,
+      "evidence_cells": [
+        {
+          "cell": 1,
+          "execution_count": 10,
+          "matched_output": [
+            "Toplam örnek sayısı: {'train': 80000, 'validation': 10000, 'test': 10000}"
+          ]
+        },
+        {
+          "cell": 3,
+          "execution_count": 14,
+          "matched_output": [
+            "/tmp/ipykernel_2660/4010104610.py:30: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `Seq2SeqTrainer.__init__`. Use `processing_class` instead.",
+            "trainer = Seq2SeqTrainer("
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Primee/PathFinder-Ship/Passenger-Bot/labelli/Flan_T5_early_Base.ipynb",
+      "sha256": "45e23a1a3cfe74fea2c534c1742c3cde94502c49894326263746d778f1747803",
+      "code_cells": 8,
+      "executed_code_cells": 4,
+      "evidence_cells": [
+        {
+          "cell": 15,
+          "execution_count": 7,
+          "matched_output": [
+            "Epoch 1/25:   0%|          | 0/600 [00:00<?, ?it/s]Passing a tuple of `past_key_values` is deprecated and will be removed in Transformers v4.48.0. You should pass an instance of `EncoderDecoderCache` instead, e.g. `past_key_values=EncoderDecoderCache.from_legacy_cache(past_key_values)`.",
+            "Epoch 1/25: 100%|██████████| 600/600 [07:13<00:00,  1.38it/s]",
+            "Epoch 1 Train Loss: 1.8624",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.22it/s]",
+            "Validation Loss: 1.5641",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 1.5641)",
+            "Epoch 2/25: 100%|██████████| 600/600 [07:16<00:00,  1.37it/s]",
+            "Epoch 2 Train Loss: 1.4846",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.26it/s]",
+            "Validation Loss: 1.3893",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 1.3893)",
+            "Epoch 3/25: 100%|██████████| 600/600 [07:16<00:00,  1.37it/s]",
+            "Epoch 3 Train Loss: 1.2243",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.25it/s]",
+            "Validation Loss: 1.2436",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 1.2436)",
+            "Epoch 4/25: 100%|██████████| 600/600 [07:17<00:00,  1.37it/s]",
+            "Epoch 4 Train Loss: 1.0044",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.24it/s]",
+            "Validation Loss: 1.1273",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 1.1273)",
+            "Epoch 5/25: 100%|██████████| 600/600 [07:16<00:00,  1.37it/s]",
+            "Epoch 5 Train Loss: 0.8233",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.18it/s]",
+            "Validation Loss: 1.0277",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 1.0277)",
+            "Epoch 6/25: 100%|██████████| 600/600 [07:18<00:00,  1.37it/s]",
+            "Epoch 6 Train Loss: 0.6740",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.27it/s]",
+            "Validation Loss: 0.9614",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 0.9614)",
+            "Epoch 7/25: 100%|██████████| 600/600 [07:15<00:00,  1.38it/s]",
+            "Epoch 7 Train Loss: 0.5545",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.22it/s]",
+            "Validation Loss: 0.8897",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 0.8897)",
+            "Epoch 8/25: 100%|██████████| 600/600 [07:15<00:00,  1.38it/s]",
+            "Epoch 8 Train Loss: 0.4570",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.20it/s]",
+            "Validation Loss: 0.8586",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 0.8586)",
+            "Epoch 9/25: 100%|██████████| 600/600 [07:15<00:00,  1.38it/s]",
+            "Epoch 9 Train Loss: 0.3804",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.22it/s]",
+            "Validation Loss: 0.8150",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 0.8150)",
+            "Epoch 10/25: 100%|██████████| 600/600 [07:15<00:00,  1.38it/s]",
+            "Epoch 10 Train Loss: 0.3180",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.28it/s]",
+            "Validation Loss: 0.8098",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 0.8098)",
+            "Epoch 11/25: 100%|██████████| 600/600 [07:13<00:00,  1.38it/s]",
+            "Epoch 11 Train Loss: 0.2670",
+            "Validating: 100%|██████████| 150/150 [00:34<00:00,  4.32it/s]",
+            "Validation Loss: 0.7878",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 0.7878)",
+            "Epoch 12/25: 100%|██████████| 600/600 [07:14<00:00,  1.38it/s]",
+            "Epoch 12 Train Loss: 0.2277",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.21it/s]",
+            "Validation Loss: 0.8106",
+            "Epoch 13/25: 100%|██████████| 600/600 [07:15<00:00,  1.38it/s]",
+            "Epoch 13 Train Loss: 0.1966",
+            "Validating: 100%|██████████| 150/150 [00:34<00:00,  4.29it/s]",
+            "Validation Loss: 0.7815",
+            "🎯 Yeni en iyi model kaydedildi! (Loss: 0.7815)",
+            "Epoch 14/25: 100%|██████████| 600/600 [07:13<00:00,  1.38it/s]",
+            "Epoch 14 Train Loss: 0.1685",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.20it/s]",
+            "Validation Loss: 0.7930",
+            "Epoch 15/25: 100%|██████████| 600/600 [07:15<00:00,  1.38it/s]",
+            "Epoch 15 Train Loss: 0.1485",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.26it/s]",
+            "Validation Loss: 0.8193",
+            "Epoch 16/25: 100%|██████████| 600/600 [07:15<00:00,  1.38it/s]",
+            "Epoch 16 Train Loss: 0.1324",
+            "Validating: 100%|██████████| 150/150 [00:35<00:00,  4.18it/s]",
+            "Validation Loss: 0.8305",
+            "🛑 Early stopping tetiklendi! Epoch 16"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Primee/SwiftHelm Rag System/rag kodları/deepseek.ipynb",
+      "sha256": "4e7d7f4b6bf7c1888c309f671f75fbedc6c8038514e17cf13c91fc6c46dda982",
+      "code_cells": 9,
+      "executed_code_cells": 0,
+      "evidence_cells": []
+    },
+    {
+      "source": "Primee/SwiftHelm Rag System/rag kodları/gpt.ipynb",
+      "sha256": "2eead8ab485fefce7674579b58229574583bd0184ea643d182a46e2203992568",
+      "code_cells": 14,
+      "executed_code_cells": 0,
+      "evidence_cells": []
+    },
+    {
+      "source": "Primee/SwiftHelm Rag System/rag kodları/İlk SwiftHelm_Rag_System.ipynb",
+      "sha256": "89fdb7f00b26afc6909751a823e80315a46069b3d7a2916a095d11fa2a71b47f",
+      "code_cells": 17,
+      "executed_code_cells": 0,
+      "evidence_cells": []
+    },
+    {
+      "source": "Primee/SwiftHelm Rag System/rag kodları/sonnet.ipynb",
+      "sha256": "3c5c93e38ae8e55ef6d9712859fb3885af349230d3159b20afa55d4008547920",
+      "code_cells": 8,
+      "executed_code_cells": 0,
+      "evidence_cells": []
+    },
+    {
+      "source": "Primee/SwiftHelm Rag System/SwiftHelm_RAG_System_Web_Search.ipynb",
+      "sha256": "0eae41b73f9fd9b730152ba7846e6454517475f3a876d5e969dc85081cfc8bd0",
+      "code_cells": 12,
+      "executed_code_cells": 0,
+      "evidence_cells": []
+    }
+  ]
+}

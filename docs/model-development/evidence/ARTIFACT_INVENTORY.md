@@ -1,0 +1,90 @@
+# Local Artifact Inventory
+
+- Relevant files: 459
+- Total relevant size: 18.46 GiB
+- Duplicate groups: 52
+- Absolute source paths are intentionally omitted from publishable outputs.
+
+## Categories
+
+- `configuration_or_metric`: 27
+- `dataset_or_tokenizer`: 181
+- `documentation_or_visual_evidence`: 96
+- `model_artifact`: 32
+- `training_or_test_code`: 107
+- `training_resume_state`: 16
+
+## Largest duplicate groups
+
+- `72b1de225620` — 944.47 MiB — 3 copies
+  - `Primee/PathFinder-Ship/Passenger-Bot/labelli/Passenger-Bot/model.safetensors`
+  - `Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/bin/Debug/net8.0-windows/Passenger-Bot/model.safetensors`
+  - `Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/Passenger-Bot/model.safetensors`
+- `47c3e4105ba2` — 110.47 MiB — 2 copies
+  - `Primee/LLM Datasets/BEST DATA/BEST_ever_Chat_Rag.jsonl`
+  - `Primee/Models/My Class/Second Try/Geliştirme Dosyaları/BEST_ever_Chat_Rag.jsonl`
+- `ef04bfa2085a` — 106.32 MiB — 2 copies
+  - `Primee/LLM Datasets/PASSENGER_BOT_DATA.json`
+  - `Primee/passenger bot dataset/karıştır/PASSENGER_BOT_DATA - Kopya.json`
+- `9867070f1193` — 98.38 MiB — 2 copies
+  - `Primee/LLM Datasets/data52.jsonl`
+  - `Primee/Models/2x rag/data52.jsonl`
+- `2235e9578b76` — 69.87 MiB — 2 copies
+  - `Primee/Models/1.2x chat/1980/adapter_model.safetensors`
+  - `Primee/Models/1.2x chat/Lora_1980/adapter_model.safetensors`
+- `34314db26422` — 69.87 MiB — 2 copies
+  - `Primee/Models/1.2x chat/1485/adapter_model.safetensors`
+  - `Primee/Models/1.2x chat/Lora_1485/adapter_model.safetensors`
+- `c511de89369b` — 69.87 MiB — 2 copies
+  - `Primee/Models/2x rag/checkpoint_1320/adapter_model.safetensors`
+  - `Primee/Models/2x rag/lora adaptor/adapter_model.safetensors`
+- `38b5fd7c0fc6` — 15.95 MiB — 2 copies
+  - `Primee/passenger bot dataset/karıştır/chat_dataset.json`
+  - `Primee/passenger bot dataset/rag required/updated_turn_dataset.json`
+- `27621b12a81d` — 14.21 MiB — 2 copies
+  - `Primee/LLM Datasets/Free Chat Daily/turn_kullanıldı.json`
+  - `Primee/passenger bot dataset/rag required/turn.json`
+- `48eb273f9443` — 8.17 MiB — 2 copies
+  - `Primee/passenger bot dataset/karıstır etiketleri/karisik_etiketler.json`
+  - `Primee/passenger bot dataset/karıştır/karisik_etiketler.json`
+- `48baa144e66b` — 2.48 MiB — 4 copies
+  - `NLPP/Multi Task Models/Flan T5 Base/passenger_bot_dataset.json`
+  - `NLPP/NLP Datasets/passenger_bot_dataset.json`
+  - `Primee/LLM Datasets/Eski kullanılan veri dosyaları/passenger_bot_dataset_rag_yok.json`
+  - `Primee/PathFinder-Ship/Passenger-Bot/passenger_bot_dataset_rag_yok.json`
+- `aac5188c0b6d` — 2.31 MiB — 6 copies
+  - `NLPP/Multi Task Models/Flan T5 Base/labelsiz/Passenger-Bot/tokenizer.json`
+  - `NLPP/Multi Task Models/Model Test and Run/T5 base,BatchSize64, L40S,10Epoch,1.2e-3/20_multi_task_flan_t5/tokenizer.json`
+  - `NLPP/Multi Task Models/Model Test and Run/T5 Small model 10 epoch,5e-4,16 batch,T4/multi_task_flan_t5/tokenizer.json`
+  - `Primee/PathFinder-Ship/Passenger-Bot/labelli/Passenger-Bot/tokenizer.json`
+  - `Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/bin/Debug/net8.0-windows/Passenger-Bot/tokenizer.json`
+  - `Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/Passenger-Bot/tokenizer.json`
+- `8c3804f01b14` — 2.31 MiB — 2 copies
+  - `Primee/Models/1.2x chat/1485/tokenizer.json`
+  - `Primee/Models/1.2x chat/1980/tokenizer.json`
+- `4d4b21a8cc7c` — 2.31 MiB — 7 copies
+  - `Primee/Models/1.2x chat/Lora_1485/tokenizer.json`
+  - `Primee/Models/1.2x chat/Lora_1980/tokenizer.json`
+  - `Primee/Models/1.2x chat/merged_1485/tokenizer.json`
+  - `Primee/Models/1.2x chat/merged_1980/tokenizer.json`
+  - `Primee/Models/2x rag/checkpoint_1320/tokenizer.json`
+  - `Primee/Models/My Class/Second Try/onnx/tokenizer.json`
+  - `Primee/Models/My Class/Second Try/tokenizer.json`
+- `457c826fed1a` — 2.00 MiB — 2 copies
+  - `NLPP/NLP Datasets/Datasets Create/Datasets Birleştirme/tırnaklı_Passenger_bot_dataset.json`
+  - `Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/veriler/tırnaklı_Passenger_bot_dataset.json`
+- `a4ef4362066a` — 2.00 MiB — 2 copies
+  - `Primee/LLM Datasets/Etiket veri seti hazırlama/close camera/close_camera_commands.json`
+  - `Primee/passenger bot dataset/karıstır etiketleri/close_camera_commands.json`
+- `75a55008261d` — 1.98 MiB — 2 copies
+  - `Primee/LLM Datasets/Etiket veri seti hazırlama/Örnek/NEW0pen_camera_commands.json`
+  - `Primee/passenger bot dataset/karıstır etiketleri/Open_camera_commands.json`
+- `976fe02b88ab` — 1.97 MiB — 2 copies
+  - `Primee/LLM Datasets/Etiket veri seti hazırlama/Detect/detect_commands.json`
+  - `Primee/passenger bot dataset/karıstır etiketleri/detect_commands.json`
+- `308960383ae0` — 1.87 MiB — 2 copies
+  - `Primee/LLM Datasets/Etiket veri seti hazırlama/take photo/take_photo_commands.json`
+  - `Primee/passenger bot dataset/karıstır etiketleri/take_photo_commands.json`
+- `8b40f7c37930` — 1.51 MiB — 2 copies
+  - `NLPP/NLP Datasets/Datasets Create/Datasets Birleştirme/yeni.json`
+  - `Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/veriler/yeni.json`

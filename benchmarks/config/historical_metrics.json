@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "policy": "historical_reported; not comparable to Benchmark v1",
+  "experiments": [
+    {
+      "id": "minilm_intent_int8",
+      "source": "Primee/Classification Model MiniLM-L6/intent_classifier_minilm_cpu.ipynb",
+      "metrics": {"test_examples": 600, "accuracy": 1.0, "macro_f1": 1.0, "train_loss": 0.412837, "test_loss": 0.1636007, "train_runtime_seconds": 318.8847},
+      "limitation": "Historical split contains normalized duplicates and cross-split overlaps."
+    },
+    {
+      "id": "flan_t5_base_early_stopping",
+      "source": "NLPP/Multi Task Models/Flan T5 Base/Flan_T5_early_Base.ipynb",
+      "metrics": {"planned_epochs": 25, "stopped_epoch": 16, "best_epoch": 13, "best_validation_loss": 0.7815},
+      "limitation": "Old command test scripts sampled only the first 20 rows and used an incorrect command denominator."
+    },
+    {
+      "id": "flan_large_lora_qv_failed",
+      "source": "Primee/Models/kötü",
+      "metrics": {"trainer_best_eval_loss": 1.843674, "separate_full_eval_loss": 32.133399963378906, "exact_match": 0.0, "rouge_l": 0.5187206389938939},
+      "limitation": "Adapter config is absent and must be reconstructed from the executed training notebook and tensor names."
+    },
+    {
+      "id": "flan_large_lora_rag2_step1320",
+      "source": "Primee/Models/2x rag",
+      "metrics": {"best_eval_loss": 0.984525, "train_loss": 1.12703, "train_runtime_seconds": 7024.7825, "pre_post_loss_improvement_percent": {"overall": 14.14, "chat": 14.43, "rag": 20.48}},
+      "limitation": "Historical preprocessing contains duplicated Assistant/Answer tags in some examples."
+    },
+    {
+      "id": "flan_large_lora_chat12_step1980",
+      "source": "Primee/Models/1.2x chat",
+      "metrics": {"eval_loss": 0.9585097, "overall_rouge_l": 0.513055, "chat_rouge_l": 0.168911, "rag_rouge_l": 0.85732, "rag_exact_match": 0.742, "rag_f1": 0.8609},
+      "limitation": "Historical validation was derived from the same 100k corpus and contains remaining duplicate-row leakage."
+    },
+    {
+      "id": "flan_large_lora_second_try",
+      "source": "Primee/Models/My Class/Second Try/Geliştirme Dosyaları",
+      "metrics": {"eval_loss": 1.0937335, "rag_loss": 0.182074, "rag_perplexity": 1.2, "quick_rag_exact_match": 0.805, "quick_rag_f1": 0.9148, "quick_chat_exact_match": 0.005, "quick_chat_f1": 0.2463, "chat_prediction_reference_length_ratio": 0.184},
+      "limitation": "The quick chat evaluation imposed max_time=1.2 seconds per batch and truncated outputs; it is diagnostic only."
+    }
+  ]
+}

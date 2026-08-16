@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "datasets": {
+    "minilm": {
+      "splits": {
+        "train": {
+          "rows": 4800,
+          "tasks": {
+            "close_camera": 800,
+            "chat": 1600,
+            "open_camera": 800,
+            "take_photo": 800,
+            "object_detect": 800
+          },
+          "exact_pair_duplicate_rows": 26,
+          "input_duplicate_rows": 26
+        },
+        "validation": {
+          "rows": 600,
+          "tasks": {
+            "chat": 200,
+            "open_camera": 100,
+            "close_camera": 100,
+            "take_photo": 100,
+            "object_detect": 100
+          },
+          "exact_pair_duplicate_rows": 2,
+          "input_duplicate_rows": 2
+        },
+        "test": {
+          "rows": 600,
+          "tasks": {
+            "chat": 200,
+            "object_detect": 100,
+            "close_camera": 100,
+            "take_photo": 100,
+            "open_camera": 100
+          },
+          "exact_pair_duplicate_rows": 1,
+          "input_duplicate_rows": 1
+        }
+      },
+      "overlaps": {
+        "train__validation": {
+          "exact_pair_overlap": 9,
+          "input_overlap": 9
+        },
+        "train__test": {
+          "exact_pair_overlap": 8,
+          "input_overlap": 8
+        },
+        "validation__test": {
+          "exact_pair_overlap": 4,
+          "input_overlap": 4
+        }
+      },
+      "missing": [],
+      "method": "explicit saved splits"
+    },
+    "flan_chat12": {
+      "splits": {
+        "corpus": {
+          "rows": 100000,
+          "tasks": {
+            "rag_qa": 50000,
+            "chat": 50000
+          },
+          "exact_pair_duplicate_rows": 71,
+          "input_duplicate_rows": 129
+        },
+        "validation": {
+          "rows": 5000,
+          "tasks": {
+            "chat": 2500,
+            "rag_qa": 2500
+          },
+          "exact_pair_duplicate_rows": 1,
+          "input_duplicate_rows": 1
+        },
+        "train_reconstructed": {
+          "rows": 95000,
+          "tasks": {
+            "note": "task counts are not reconstructed because validation rows are stored without source indices"
+          },
+          "exact_pair_duplicate_rows": 67,
+          "input_duplicate_rows": 119,
+          "reconstruction": "full corpus minus validation multiset"
+        }
+      },
+      "overlaps": {
+        "corpus__validation": {
+          "exact_pair_overlap": 4999,
+          "input_overlap": 4999
+        },
+        "corpus__train_reconstructed": {
+          "exact_pair_overlap": 94933,
+          "input_overlap": 94881
+        },
+        "validation__train_reconstructed": {
+          "exact_pair_overlap": 3,
+          "input_overlap": 9
+        }
+      },
+      "missing": [],
+      "method": "effective train reconstructed by subtracting the validation multiset from the saved full corpus"
+    },
+    "flan_rag2": {
+      "splits": {
+        "corpus": {
+          "rows": 100000,
+          "tasks": {
+            "chat": 50000,
+            "rag_qa": 50000
+          },
+          "exact_pair_duplicate_rows": 466,
+          "input_duplicate_rows": 842
+        },
+        "validation": {
+          "rows": 5000,
+          "tasks": {
+            "chat": 2500,
+            "rag_qa": 2500
+          },
+          "exact_pair_duplicate_rows": 1,
+          "input_duplicate_rows": 1
+        },
+        "train_reconstructed": {
+          "rows": 95000,
+          "tasks": {
+            "note": "task counts are not reconstructed because validation rows are stored without source indices"
+          },
+          "exact_pair_duplicate_rows": 426,
+          "input_duplicate_rows": 777,
+          "reconstruction": "full corpus minus validation multiset"
+        }
+      },
+      "overlaps": {
+        "corpus__validation": {
+          "exact_pair_overlap": 4999,
+          "input_overlap": 4999
+        },
+        "corpus__train_reconstructed": {
+          "exact_pair_overlap": 94574,
+          "input_overlap": 94223
+        },
+        "validation__train_reconstructed": {
+          "exact_pair_overlap": 39,
+          "input_overlap": 64
+        }
+      },
+      "missing": [],
+      "method": "effective train reconstructed by subtracting the validation multiset from the saved full corpus"
+    },
+    "flan_second_try": {
+      "splits": {
+        "corpus": {
+          "rows": 100000,
+          "tasks": {
+            "chat": 50000,
+            "rag_qa": 50000
+          },
+          "exact_pair_duplicate_rows": 73,
+          "input_duplicate_rows": 371
+        },
+        "validation": {
+          "rows": 5000,
+          "tasks": {
+            "rag_qa": 2518,
+            "chat": 2482
+          },
+          "exact_pair_duplicate_rows": 0,
+          "input_duplicate_rows": 0
+        },
+        "train_reconstructed": {
+          "rows": 95000,
+          "tasks": {
+            "note": "task counts are not reconstructed because validation rows are stored without source indices"
+          },
+          "exact_pair_duplicate_rows": 69,
+          "input_duplicate_rows": 348,
+          "reconstruction": "full corpus minus validation multiset"
+        }
+      },
+      "overlaps": {
+        "corpus__validation": {
+          "exact_pair_overlap": 5000,
+          "input_overlap": 5000
+        },
+        "corpus__train_reconstructed": {
+          "exact_pair_overlap": 94931,
+          "input_overlap": 94652
+        },
+        "validation__train_reconstructed": {
+          "exact_pair_overlap": 4,
+          "input_overlap": 23
+        }
+      },
+      "missing": [],
+      "method": "effective train reconstructed by subtracting the validation multiset from the saved full corpus"
+    }
+  }
+}

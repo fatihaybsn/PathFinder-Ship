@@ -20,6 +20,47 @@ PathFinderShip can also integrate with [Diagent](https://github.com/fatihaybsn/D
 - Browser-owned camera flow with backend-owned inference
 - Optional fail-open Diagent observability and policy checks
 
+## Model Development Evidence
+
+The local models used by this project were developed by fine-tuning pretrained checkpoints on project-curated datasets; they were **not trained from scratch**. The evidence package preserves successful, intermediate, and rejected runs instead of presenting only the best checkpoint.
+
+The read-only source audit currently records:
+
+- 459 relevant dataset, notebook, configuration, metric, model, and visual-evidence files (18.46 GiB)
+- 32 model artifacts and 16 training-resume artifacts
+- 34 training/evaluation notebooks, including executed outputs
+- 4 saved Trainer states and 52 SHA-256 duplicate groups
+- a frozen experiment registry with professional IDs mapped to the original folder names such as `kötü`, `1.2x chat`, `2x rag`, and `My Class`
+
+### Historical training record
+
+These values were recovered from executed notebooks and Trainer states. They are historical results, not the new Benchmark v1 leaderboard.
+
+| Experiment | Training change | Historical result | Important limitation |
+|---|---|---:|---|
+| MiniLM-L6 intent | 5 classes, 4 epochs, LR 2e-5, CPU training | accuracy 1.000; macro-F1 1.000 on 600 examples | Exact and normalized overlaps exist across the old train/validation/test splits; this score is not used as the clean headline result. |
+| Early Flan-T5 Base | Chat + four-bit command generation, early stopping | best validation loss 0.7815 at epoch 13; stopped at epoch 16 | The old 20-row command test used an incorrect denominator and is not reused. |
+| Flan-T5 Large LoRA q/v (`kötü`) | LoRA r=16/alpha=32 on q/v only; LR 1e-4 | best Trainer eval loss 1.8437; separate full eval loss 32.1334 | Rejected experiment; the missing adapter config is explicitly marked as reconstructed from code and tensor structure. |
+| Flan-T5 Large LoRA 2x RAG | Seven LoRA targets; RAG loss weight 2.0 | best eval loss 0.9845; historical task loss improved about 14–20% | Historical prompt construction contains known duplicated tags. |
+| Flan-T5 Large LoRA 1.2x Chat | Seven LoRA targets; Chat weight 1.2 | step 1980 eval loss 0.9585; historical RAG EM 0.742/F1 0.8609 | Validation was selected from the saved 100k corpus and contains a small number of duplicate-row overlaps. |
+| My Class Second Try | Chat weight 1.7, task smoothing, partial R-Drop | eval loss 1.0937; quick RAG EM 0.805/F1 0.9148 | The old chat evaluation imposed `max_time=1.2s`, truncating outputs to a 0.184 prediction/reference length ratio. |
+
+### Reproducible Benchmark v1
+
+Benchmark v1 is prepared for execution in Lightning AI. It evaluates every loadable unique model on compatible tasks, reports failures, and never combines unrelated tasks into a single score. The new suite contains:
+
+- 1,000 balanced project-authored intent stress examples
+- 600 Chat+Command examples covering all historically observed command-label combinations
+- 541 official IFEval prompts plus 300 project-authored chat-reference examples
+- 440 RAGBench test examples from 11 non-HotpotQA subsets plus 160 answerable/unanswerable project examples
+- COCO val2017 for pretrained YOLO11 integration and PyTorch/ONNX validation
+
+Known training inputs are represented by 316,486 unique exact/near-duplicate fingerprints. Public candidates matching them are rejected before the suite is frozen. New results include raw predictions, metrics JSON, confidence intervals, environment metadata, hashes, plots, and per-model failure records.
+
+See the [benchmark protocol](BENCHMARK_PLAN.md), [experiment record](docs/model-development/EXPERIMENTS.md), [dataset card](docs/model-development/DATASET_CARD.md), [artifact inventory](docs/model-development/evidence/ARTIFACT_INVENTORY.md), and [split-leakage audit](docs/model-development/evidence/TRAINING_DATA_AUDIT.md).
+
+> Benchmark v1 GPU results are intentionally not shown until the returned Lightning bundle passes schema and SHA-256 validation. Historical and new results will remain in separate tables.
+
 ## Architecture
 
 ```mermaid

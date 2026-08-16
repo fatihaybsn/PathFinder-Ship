@@ -1,0 +1,1000 @@
+{"text":"For this check identify the objects in the front camera view while the dashboard remains open","intent":"object_detect","id":"intent-d3d7998d5e8f","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the camera as a single action","intent":"take_photo","id":"intent-5753e03fef97","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how batteries work in two sentences for the passenger console.","intent":"chat","id":"intent-3e2132d4a07a","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about a simple pasta recipe without changing other settings.","intent":"chat","id":"intent-1b877dd19270","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the video feed after confirming the command","intent":"open_camera","id":"intent-88a819e545e1","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the video feed after confirming the command","intent":"take_photo","id":"intent-34031ea55258","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the video feed for the passenger console","intent":"open_camera","id":"intent-ea0a3ae14472","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the camera view before the inspection","intent":"object_detect","id":"intent-8a26aed5432d","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the camera during this session","intent":"close_camera","id":"intent-07b49f6377a1","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the front camera after confirming the command","intent":"take_photo","id":"intent-306a1ad1baae","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the video feed during this session","intent":"open_camera","id":"intent-a53aea9bc17e","source":"pathfinder_project_authored_v1"}
+{"text":"Explain why the sky changes color in two sentences right away.","intent":"chat","id":"intent-8fd835b60cc1","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the webcam when it is safe","intent":"take_photo","id":"intent-8e8bce3226d0","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the webcam view for the passenger console","intent":"object_detect","id":"intent-be4a477770da","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the video feed view without changing other settings","intent":"object_detect","id":"intent-25d8adec2fd4","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the camera for the next step","intent":"take_photo","id":"intent-f486f2b2f24d","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the webcam view before the inspection","intent":"object_detect","id":"intent-d6f9fbc7a3ee","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the ship camera right away","intent":"open_camera","id":"intent-ead4585f5553","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the video feed view without changing other settings","intent":"object_detect","id":"intent-cf7a89f0cef9","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the video feed while the dashboard remains open","intent":"close_camera","id":"intent-45d538239151","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the camera before the inspection","intent":"take_photo","id":"intent-1ea97d67dc74","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the ship camera view before the inspection","intent":"object_detect","id":"intent-92bab080da2d","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the camera before the inspection","intent":"close_camera","id":"intent-3291c5496eea","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the webcam as a single action","intent":"take_photo","id":"intent-2747aa375a6f","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the front camera view without changing other settings","intent":"object_detect","id":"intent-0d7a4088125e","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the front camera while the dashboard remains open","intent":"take_photo","id":"intent-9cd9ec86f531","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the webcam view during this session","intent":"object_detect","id":"intent-36122a104fac","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the camera during this session","intent":"take_photo","id":"intent-d08a8cc864cd","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the webcam for the passenger console","intent":"close_camera","id":"intent-1067f7900623","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the front camera view before the inspection","intent":"object_detect","id":"intent-d50927caee5a","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the video feed view before the inspection","intent":"object_detect","id":"intent-e108353ceed8","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about ways to stay focused before the inspection.","intent":"chat","id":"intent-d850649b6ad1","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the ship camera view as a single action","intent":"object_detect","id":"intent-2ad1d0aed276","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the ship camera while the dashboard remains open","intent":"take_photo","id":"intent-fbcb20e37663","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about a simple pasta recipe during this session.","intent":"chat","id":"intent-9328f2325576","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the webcam right away","intent":"close_camera","id":"intent-96541fd4a62b","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the ship camera while the dashboard remains open","intent":"take_photo","id":"intent-9cea61d41440","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the front camera view before the inspection","intent":"object_detect","id":"intent-b78b4baa5356","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the camera after confirming the command","intent":"open_camera","id":"intent-98da013a8f21","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the front camera while the dashboard remains open","intent":"take_photo","id":"intent-b5d758493ccb","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the camera while the dashboard remains open","intent":"open_camera","id":"intent-da07a09f624a","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the webcam during this session","intent":"close_camera","id":"intent-7b10809a232b","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the front camera view without changing other settings","intent":"object_detect","id":"intent-c60139dfb34f","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the video feed for the passenger console","intent":"open_camera","id":"intent-2194f46dfab3","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the webcam while the dashboard remains open","intent":"take_photo","id":"intent-1d51c153f219","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the video feed view right away","intent":"object_detect","id":"intent-5f0bf3a0eda1","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the front camera during this session","intent":"open_camera","id":"intent-f63a109c515e","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the camera before the inspection","intent":"open_camera","id":"intent-7ecd7852cf4b","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the ship camera view for the next step","intent":"object_detect","id":"intent-385ae77eeda8","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the webcam after confirming the command","intent":"open_camera","id":"intent-4dba07e49269","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the front camera when it is safe","intent":"take_photo","id":"intent-1ff3821e971f","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how rainbows form for the passenger console.","intent":"chat","id":"intent-35780c80c114","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the webcam when it is safe","intent":"open_camera","id":"intent-0e463d5503fb","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the video feed right away","intent":"open_camera","id":"intent-f2c1d0e1d711","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the webcam during this session","intent":"take_photo","id":"intent-78999aff628e","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the video feed right away","intent":"take_photo","id":"intent-9c2d1ffec0e2","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the webcam view while the dashboard remains open","intent":"object_detect","id":"intent-0b00ce937ce9","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the webcam view after confirming the command","intent":"object_detect","id":"intent-e7d283a8fcd4","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the front camera for the next step","intent":"close_camera","id":"intent-d5922d5c8d18","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the video feed while the dashboard remains open","intent":"take_photo","id":"intent-60a390f00e6d","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the video feed for the next step","intent":"take_photo","id":"intent-25ffa721f281","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the ship camera right away","intent":"close_camera","id":"intent-eb97d021ec33","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the video feed view when it is safe","intent":"object_detect","id":"intent-58df6b10de63","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the video feed while the dashboard remains open","intent":"close_camera","id":"intent-371d91820e81","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the webcam during this session","intent":"close_camera","id":"intent-0cf7fab6fc65","source":"pathfinder_project_authored_v1"}
+{"text":"Explain a beginner stretching routine in two sentences right away.","intent":"chat","id":"intent-470d78d309b3","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the video feed during this session","intent":"close_camera","id":"intent-8afd4a20200f","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the webcam while the dashboard remains open","intent":"open_camera","id":"intent-c1b263ab72c2","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the camera without changing other settings","intent":"close_camera","id":"intent-11295a95e7ef","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the camera for the next step","intent":"open_camera","id":"intent-fdc68cb5c52f","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the video feed when it is safe","intent":"open_camera","id":"intent-8747c7a40292","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the ship camera before the inspection","intent":"close_camera","id":"intent-ae0c90b38ff8","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the ship camera after confirming the command","intent":"take_photo","id":"intent-4c497188d1e3","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the ship camera as a single action","intent":"close_camera","id":"intent-67a961938f47","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the camera while the dashboard remains open","intent":"take_photo","id":"intent-c08e89a6fb2a","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how batteries work in two sentences while the dashboard remains open.","intent":"chat","id":"intent-a740a46d8eb1","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the webcam view after confirming the command","intent":"object_detect","id":"intent-acfbc4d0c961","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how batteries work in two sentences for the next step.","intent":"chat","id":"intent-eb82a4b1d93a","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the front camera while the dashboard remains open","intent":"open_camera","id":"intent-5f7764af31f4","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how to organize a short trip for the next step.","intent":"chat","id":"intent-f6020d6d7a06","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the ship camera view without changing other settings","intent":"object_detect","id":"intent-f35400ef8b8f","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the camera when it is safe","intent":"take_photo","id":"intent-914784e7eb54","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the front camera as a single action","intent":"open_camera","id":"intent-9ad0fd094803","source":"pathfinder_project_authored_v1"}
+{"text":"Explain ways to stay focused in two sentences without changing other settings.","intent":"chat","id":"intent-2817a908d0f4","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the camera before the inspection","intent":"close_camera","id":"intent-d455493663dc","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the webcam view for the passenger console","intent":"object_detect","id":"intent-b8a62b61b721","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about why the sky changes color right away.","intent":"chat","id":"intent-0b5c0d3159c8","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the ship camera after confirming the command","intent":"close_camera","id":"intent-3cae902c3853","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the video feed when it is safe","intent":"take_photo","id":"intent-69fa0c5aef81","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the front camera during this session","intent":"open_camera","id":"intent-c10fdca3c523","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the ship camera view during this session","intent":"object_detect","id":"intent-c548b79532c4","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the webcam before the inspection","intent":"close_camera","id":"intent-bbee7738625e","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the front camera during this session","intent":"take_photo","id":"intent-764cade96570","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the front camera when it is safe","intent":"take_photo","id":"intent-7b643a60a75e","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the video feed during this session","intent":"open_camera","id":"intent-91aa1064882e","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about a simple pasta recipe when it is safe.","intent":"chat","id":"intent-b3c77f90f0b3","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the ship camera when it is safe","intent":"close_camera","id":"intent-5d5f66d44e25","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the camera view as a single action","intent":"object_detect","id":"intent-6e9ee61202df","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the ship camera when it is safe","intent":"close_camera","id":"intent-a991fc21cfb7","source":"pathfinder_project_authored_v1"}
+{"text":"Explain ways to stay focused in two sentences when it is safe.","intent":"chat","id":"intent-35cdb1314020","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the webcam view when it is safe","intent":"object_detect","id":"intent-cfaf3668b2f8","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the video feed without changing other settings","intent":"close_camera","id":"intent-1590d5a56ede","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about the difference between RAM and storage right away.","intent":"chat","id":"intent-30cbb6309709","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about ways to stay focused during this session.","intent":"chat","id":"intent-73b50ad8b1d4","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the camera view while the dashboard remains open","intent":"object_detect","id":"intent-fd5dec98a62b","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about what a compass does right away.","intent":"chat","id":"intent-784faf6a8e4a","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about the difference between RAM and storage during this session.","intent":"chat","id":"intent-3f560e95aced","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the video feed view for the next step","intent":"object_detect","id":"intent-6611d6df1e53","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the video feed as a single action","intent":"close_camera","id":"intent-9373e709a113","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the front camera as a single action","intent":"take_photo","id":"intent-269b74dcd55c","source":"pathfinder_project_authored_v1"}
+{"text":"Explain why the sky changes color in two sentences as a single action.","intent":"chat","id":"intent-3b0be243ff9b","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the front camera right away","intent":"close_camera","id":"intent-e6d8bd910f71","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the video feed while the dashboard remains open","intent":"take_photo","id":"intent-c61fff8b455d","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the front camera when it is safe","intent":"open_camera","id":"intent-826845c8e24f","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the front camera during this session","intent":"close_camera","id":"intent-98cf83e9bf66","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how to organize a short trip in two sentences right away.","intent":"chat","id":"intent-844b1e6ffa26","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the webcam while the dashboard remains open","intent":"close_camera","id":"intent-ab35246e93c4","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the webcam before the inspection","intent":"take_photo","id":"intent-0b30715b298e","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the ship camera for the next step","intent":"close_camera","id":"intent-50f6c17dd929","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the ship camera right away","intent":"open_camera","id":"intent-df02e928a4ee","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the webcam while the dashboard remains open","intent":"take_photo","id":"intent-f1802ec5ada5","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the webcam as a single action","intent":"take_photo","id":"intent-d9e568b1aae3","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the webcam view before the inspection","intent":"object_detect","id":"intent-0dec5ddfdcea","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the ship camera when it is safe","intent":"open_camera","id":"intent-455b8b06d56b","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the video feed for the passenger console","intent":"take_photo","id":"intent-52ef0b43613e","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the front camera for the passenger console","intent":"close_camera","id":"intent-647bffc5509d","source":"pathfinder_project_authored_v1"}
+{"text":"Explain a simple pasta recipe in two sentences after confirming the command.","intent":"chat","id":"intent-23e9f831589e","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the camera view without changing other settings","intent":"object_detect","id":"intent-759642d29909","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about ways to stay focused right away.","intent":"chat","id":"intent-5dd20fc5b8e5","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the webcam for the passenger console","intent":"take_photo","id":"intent-8416ca75c2dc","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how rainbows form in two sentences during this session.","intent":"chat","id":"intent-15ac4f631bde","source":"pathfinder_project_authored_v1"}
+{"text":"Explain the difference between RAM and storage in two sentences while the dashboard remains open.","intent":"chat","id":"intent-f6951040ee94","source":"pathfinder_project_authored_v1"}
+{"text":"Explain a beginner stretching routine in two sentences as a single action.","intent":"chat","id":"intent-6c02b3eef104","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the camera right away","intent":"close_camera","id":"intent-c2ca95bd67b1","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the ship camera during this session","intent":"take_photo","id":"intent-e6f26d0ed3f2","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the video feed view when it is safe","intent":"object_detect","id":"intent-3cc98f7f9247","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the video feed when it is safe","intent":"open_camera","id":"intent-3ccf0b33b312","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the webcam while the dashboard remains open","intent":"open_camera","id":"intent-f749e8c088aa","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the camera for the passenger console","intent":"close_camera","id":"intent-42904bb4db30","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the ship camera view right away","intent":"object_detect","id":"intent-2a16484eb519","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about why the sky changes color without changing other settings.","intent":"chat","id":"intent-ac525f5d0eab","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about a simple pasta recipe before the inspection.","intent":"chat","id":"intent-cfacca0524dc","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about ways to stay focused without changing other settings.","intent":"chat","id":"intent-5e1a8129a00a","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the video feed before the inspection","intent":"close_camera","id":"intent-4e2e26f83a1c","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the front camera view as a single action","intent":"object_detect","id":"intent-54eb83ab0975","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the ship camera while the dashboard remains open","intent":"close_camera","id":"intent-0110488f1f0d","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the webcam after confirming the command","intent":"take_photo","id":"intent-9b53407f11f2","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the ship camera after confirming the command","intent":"close_camera","id":"intent-4b59883f2cae","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the webcam for the next step","intent":"close_camera","id":"intent-3e7e533e6d29","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the video feed view before the inspection","intent":"object_detect","id":"intent-d5deee4d9eba","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the ship camera view during this session","intent":"object_detect","id":"intent-64f3d433eab8","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about a simple pasta recipe for the next step.","intent":"chat","id":"intent-9927a9bbb590","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the webcam for the next step","intent":"take_photo","id":"intent-6e7eb58e8de1","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the front camera without changing other settings","intent":"take_photo","id":"intent-5798c7b1271f","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the video feed view for the next step","intent":"object_detect","id":"intent-df71bec4328b","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the ship camera before the inspection","intent":"take_photo","id":"intent-255e129ce2ef","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the ship camera for the passenger console","intent":"open_camera","id":"intent-e1c85e88d502","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the camera while the dashboard remains open","intent":"close_camera","id":"intent-5ac6e1ec6612","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the ship camera view after confirming the command","intent":"object_detect","id":"intent-e45b2d31318d","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the ship camera view before the inspection","intent":"object_detect","id":"intent-ce696f2bd712","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the front camera as a single action","intent":"take_photo","id":"intent-6dea3a3d3b58","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the camera as a single action","intent":"open_camera","id":"intent-9c71b5831a99","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the webcam view without changing other settings","intent":"object_detect","id":"intent-63066ec39fe6","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the ship camera without changing other settings","intent":"close_camera","id":"intent-b888cc0d9156","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how rainbows form right away.","intent":"chat","id":"intent-fc9942752df1","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the video feed view when it is safe","intent":"object_detect","id":"intent-7414d9083e22","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the webcam for the next step","intent":"close_camera","id":"intent-521025f8172c","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how to organize a short trip in two sentences while the dashboard remains open.","intent":"chat","id":"intent-2f16393eb3a8","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the camera for the next step","intent":"take_photo","id":"intent-aa264867d858","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the ship camera without changing other settings","intent":"open_camera","id":"intent-8c49a992b456","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how to organize a short trip as a single action.","intent":"chat","id":"intent-786e63b88f3d","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the video feed right away","intent":"take_photo","id":"intent-b86f25c803a0","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the camera for the next step","intent":"take_photo","id":"intent-20177aa3e36d","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the camera for the next step","intent":"close_camera","id":"intent-fdd807ae574b","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the camera view after confirming the command","intent":"object_detect","id":"intent-1abc635f97a3","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the webcam view right away","intent":"object_detect","id":"intent-14d453c644a5","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the front camera view before the inspection","intent":"object_detect","id":"intent-21a97118eb30","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the front camera right away","intent":"open_camera","id":"intent-ac0fc8cfc244","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the video feed view as a single action","intent":"object_detect","id":"intent-f4909f8ef289","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how batteries work for the next step.","intent":"chat","id":"intent-cc9831dc2472","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the ship camera without changing other settings","intent":"close_camera","id":"intent-32552fd0c7c0","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the camera when it is safe","intent":"close_camera","id":"intent-d9c9e45a3868","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the video feed while the dashboard remains open","intent":"open_camera","id":"intent-656e97f849ec","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the video feed when it is safe","intent":"open_camera","id":"intent-ce179237bb1b","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the front camera as a single action","intent":"close_camera","id":"intent-6ac605c04d35","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the front camera for the passenger console","intent":"take_photo","id":"intent-9c75c63164e0","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about why ships use radar for the next step.","intent":"chat","id":"intent-916558833acf","source":"pathfinder_project_authored_v1"}
+{"text":"Explain what a compass does in two sentences before the inspection.","intent":"chat","id":"intent-e02fb04067e3","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how batteries work in two sentences without changing other settings.","intent":"chat","id":"intent-b9bf800414ac","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the front camera for the passenger console","intent":"close_camera","id":"intent-0e864d2e8e9a","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the front camera when it is safe","intent":"open_camera","id":"intent-07ae251a2773","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the front camera while the dashboard remains open","intent":"open_camera","id":"intent-1176852f3dbd","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the ship camera right away","intent":"close_camera","id":"intent-8c24095c43d3","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the ship camera right away","intent":"take_photo","id":"intent-994c1db1d427","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the front camera during this session","intent":"take_photo","id":"intent-2b647460fc96","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the webcam view as a single action","intent":"object_detect","id":"intent-12271ce55a9d","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the ship camera view as a single action","intent":"object_detect","id":"intent-efca5c667be4","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the camera before the inspection","intent":"open_camera","id":"intent-694e86de2faf","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the webcam for the next step","intent":"close_camera","id":"intent-4caaae3dcede","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the video feed for the next step","intent":"close_camera","id":"intent-100c151e01bb","source":"pathfinder_project_authored_v1"}
+{"text":"Explain why ships use radar in two sentences after confirming the command.","intent":"chat","id":"intent-3c1e1d5b0b56","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the front camera after confirming the command","intent":"open_camera","id":"intent-cb3fd2cb7b17","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the ship camera as a single action","intent":"open_camera","id":"intent-d3afed9d4749","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the webcam right away","intent":"take_photo","id":"intent-36c7a1a24783","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how rainbows form for the next step.","intent":"chat","id":"intent-913d8958d2e2","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the ship camera when it is safe","intent":"open_camera","id":"intent-c3b6703ed4ee","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about a beginner stretching routine for the passenger console.","intent":"chat","id":"intent-4907030cec0d","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the front camera right away","intent":"open_camera","id":"intent-140922c40dd6","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the front camera view for the passenger console","intent":"object_detect","id":"intent-3c5370b228ee","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the camera without changing other settings","intent":"close_camera","id":"intent-0f8d057ebaa5","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how batteries work for the passenger console.","intent":"chat","id":"intent-327d2f125cf5","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the front camera for the passenger console","intent":"take_photo","id":"intent-4c0d537dc142","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the front camera view during this session","intent":"object_detect","id":"intent-1a782ea31b20","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the video feed for the next step","intent":"close_camera","id":"intent-2fef4de89d91","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the front camera view for the passenger console","intent":"object_detect","id":"intent-58b72778c3fa","source":"pathfinder_project_authored_v1"}
+{"text":"Explain why the sky changes color in two sentences before the inspection.","intent":"chat","id":"intent-b87be2520ff4","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the webcam for the next step","intent":"take_photo","id":"intent-a30c9629c294","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the camera right away","intent":"take_photo","id":"intent-232c5f93a9f4","source":"pathfinder_project_authored_v1"}
+{"text":"Explain ways to stay focused in two sentences before the inspection.","intent":"chat","id":"intent-b69c3774dc13","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the ship camera during this session","intent":"take_photo","id":"intent-e1dae5ed473c","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the webcam right away","intent":"open_camera","id":"intent-a5c53c0afc96","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the front camera as a single action","intent":"take_photo","id":"intent-aa983eb8e1ca","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the ship camera during this session","intent":"open_camera","id":"intent-cc4ae1753694","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the front camera right away","intent":"open_camera","id":"intent-7bcc4a95cf4d","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how to organize a short trip before the inspection.","intent":"chat","id":"intent-12512df8cb0e","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the front camera for the next step","intent":"open_camera","id":"intent-91988ee2d386","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the camera view for the passenger console","intent":"object_detect","id":"intent-a1f1176a5d05","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the webcam for the next step","intent":"open_camera","id":"intent-41a0f046c42f","source":"pathfinder_project_authored_v1"}
+{"text":"Explain a beginner stretching routine in two sentences for the next step.","intent":"chat","id":"intent-45343515cbd6","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the front camera without changing other settings","intent":"take_photo","id":"intent-7f7f28c040db","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the camera for the passenger console","intent":"open_camera","id":"intent-e8e56db87752","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about a simple pasta recipe while the dashboard remains open.","intent":"chat","id":"intent-391afa1a22a3","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the video feed view right away","intent":"object_detect","id":"intent-0e870bee47ac","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the video feed right away","intent":"take_photo","id":"intent-84043b5e38e5","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the front camera view right away","intent":"object_detect","id":"intent-8b067c661989","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the ship camera after confirming the command","intent":"open_camera","id":"intent-247bb8e30ccf","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the camera view without changing other settings","intent":"object_detect","id":"intent-1663519313ca","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the front camera view while the dashboard remains open","intent":"object_detect","id":"intent-33ed783425a9","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the front camera for the next step","intent":"take_photo","id":"intent-9b2d86bbd9d9","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the webcam as a single action","intent":"open_camera","id":"intent-0fd1d2fefd5c","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the ship camera view without changing other settings","intent":"object_detect","id":"intent-50f2a958c76d","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how to organize a short trip during this session.","intent":"chat","id":"intent-a9cac9ce5b6c","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the webcam before the inspection","intent":"take_photo","id":"intent-cb3f1a6dcc7c","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the front camera after confirming the command","intent":"take_photo","id":"intent-93afde1ed07a","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the video feed when it is safe","intent":"open_camera","id":"intent-1c899fa6874b","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the ship camera for the next step","intent":"open_camera","id":"intent-f6131ec184e5","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the camera during this session","intent":"open_camera","id":"intent-26a59ffba1a0","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the ship camera after confirming the command","intent":"take_photo","id":"intent-66d1f3dbfc3d","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the front camera before the inspection","intent":"open_camera","id":"intent-fba079663926","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the webcam after confirming the command","intent":"close_camera","id":"intent-6a9e99f51633","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the webcam during this session","intent":"open_camera","id":"intent-793aacf6496a","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the webcam for the next step","intent":"take_photo","id":"intent-cba691c6487a","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the camera for the next step","intent":"close_camera","id":"intent-d41b702a970c","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the video feed after confirming the command","intent":"close_camera","id":"intent-f039b15ce421","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the ship camera without changing other settings","intent":"open_camera","id":"intent-70816a3a06bb","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the webcam view during this session","intent":"object_detect","id":"intent-736909662fc9","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the webcam without changing other settings","intent":"close_camera","id":"intent-7b87d8718f00","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the ship camera view as a single action","intent":"object_detect","id":"intent-e4a0506c5592","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how to organize a short trip in two sentences before the inspection.","intent":"chat","id":"intent-b666d8a2aea0","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the video feed without changing other settings","intent":"close_camera","id":"intent-57e9ba101ab3","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the ship camera view for the passenger console","intent":"object_detect","id":"intent-7303094c408d","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the video feed view for the next step","intent":"object_detect","id":"intent-33b4b7157787","source":"pathfinder_project_authored_v1"}
+{"text":"Explain why the sky changes color in two sentences during this session.","intent":"chat","id":"intent-3c2d3f64ac7f","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the video feed without changing other settings","intent":"take_photo","id":"intent-9bd266e6311e","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the webcam before the inspection","intent":"close_camera","id":"intent-040172b928a6","source":"pathfinder_project_authored_v1"}
+{"text":"Explain the difference between RAM and storage in two sentences when it is safe.","intent":"chat","id":"intent-8bec8e4f3453","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the video feed while the dashboard remains open","intent":"close_camera","id":"intent-6221ad6dfb61","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the front camera view as a single action","intent":"object_detect","id":"intent-1f8c5047aafa","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about what a compass does as a single action.","intent":"chat","id":"intent-c68655ed8fd8","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the video feed without changing other settings","intent":"take_photo","id":"intent-e3e5910d51c3","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the front camera without changing other settings","intent":"close_camera","id":"intent-29452687ed14","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the camera for the next step","intent":"close_camera","id":"intent-3e16bcb92f1c","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the webcam after confirming the command","intent":"open_camera","id":"intent-885a221edb53","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the front camera as a single action","intent":"take_photo","id":"intent-b305a8f672d6","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the video feed right away","intent":"close_camera","id":"intent-4ae7a78e8233","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the video feed during this session","intent":"open_camera","id":"intent-aa3652303831","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the video feed without changing other settings","intent":"take_photo","id":"intent-93421063cd04","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the front camera without changing other settings","intent":"open_camera","id":"intent-c0e7affe63ee","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the video feed right away","intent":"close_camera","id":"intent-286500362913","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the video feed for the passenger console","intent":"take_photo","id":"intent-3b728e056a2e","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the front camera right away","intent":"close_camera","id":"intent-002c15fe745b","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the video feed view after confirming the command","intent":"object_detect","id":"intent-ae578214a169","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the webcam when it is safe","intent":"close_camera","id":"intent-dddd11592503","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the camera during this session","intent":"take_photo","id":"intent-ea5fc1a24fc2","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the ship camera right away","intent":"close_camera","id":"intent-c09ccd0bdea5","source":"pathfinder_project_authored_v1"}
+{"text":"Explain ways to stay focused in two sentences while the dashboard remains open.","intent":"chat","id":"intent-b4fcee0bede5","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the front camera right away","intent":"close_camera","id":"intent-5328179d2807","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the camera for the passenger console","intent":"take_photo","id":"intent-b573358c3ca1","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about why the sky changes color for the next step.","intent":"chat","id":"intent-b2d77582b7f2","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the webcam view for the next step","intent":"object_detect","id":"intent-800d2fb9b1e7","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the ship camera as a single action","intent":"take_photo","id":"intent-1e3a76d72f56","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the video feed before the inspection","intent":"open_camera","id":"intent-e6b27add4b6b","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the camera as a single action","intent":"take_photo","id":"intent-09e9d2bb89c3","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the front camera view when it is safe","intent":"object_detect","id":"intent-ba1f35af0dca","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the front camera after confirming the command","intent":"take_photo","id":"intent-646cb38a8234","source":"pathfinder_project_authored_v1"}
+{"text":"Explain ways to stay focused in two sentences after confirming the command.","intent":"chat","id":"intent-33cfd902b09c","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the webcam before the inspection","intent":"open_camera","id":"intent-200788955525","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the ship camera right away","intent":"open_camera","id":"intent-2cbcdde6a67c","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the front camera for the passenger console","intent":"take_photo","id":"intent-5851d259a4cd","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the video feed during this session","intent":"take_photo","id":"intent-03b28722a465","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the video feed for the next step","intent":"open_camera","id":"intent-d7a0d4f57099","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the front camera right away","intent":"take_photo","id":"intent-9153c7fc8411","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the camera during this session","intent":"take_photo","id":"intent-d3219784e990","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the front camera as a single action","intent":"close_camera","id":"intent-fcb162c1f74b","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the ship camera during this session","intent":"take_photo","id":"intent-fc71e34153fd","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the front camera view for the next step","intent":"object_detect","id":"intent-11e5a0c66288","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the front camera without changing other settings","intent":"close_camera","id":"intent-78b3fd1ef8fa","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the front camera view without changing other settings","intent":"object_detect","id":"intent-dc1aba3dd705","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the camera before the inspection","intent":"take_photo","id":"intent-55b300fdb75b","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the front camera when it is safe","intent":"open_camera","id":"intent-7daeb04f0698","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the video feed as a single action","intent":"take_photo","id":"intent-aeb38ead96d5","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the front camera for the passenger console","intent":"take_photo","id":"intent-2c3dfe21be81","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the ship camera when it is safe","intent":"take_photo","id":"intent-6a9f669ed176","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the webcam view before the inspection","intent":"object_detect","id":"intent-3eca5c05b0c3","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the ship camera for the next step","intent":"open_camera","id":"intent-c8ce5331a05b","source":"pathfinder_project_authored_v1"}
+{"text":"Explain why ships use radar in two sentences for the passenger console.","intent":"chat","id":"intent-4e2156ae5daf","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the video feed view without changing other settings","intent":"object_detect","id":"intent-587b83935ce8","source":"pathfinder_project_authored_v1"}
+{"text":"Explain what a compass does in two sentences when it is safe.","intent":"chat","id":"intent-17474c674a4b","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the video feed right away","intent":"open_camera","id":"intent-c148254382e2","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the video feed for the passenger console","intent":"close_camera","id":"intent-7f6735a8ab8a","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the camera while the dashboard remains open","intent":"take_photo","id":"intent-bf25027340a7","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about the difference between RAM and storage without changing other settings.","intent":"chat","id":"intent-7a8a2f559464","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how to organize a short trip in two sentences after confirming the command.","intent":"chat","id":"intent-32392532d663","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the ship camera before the inspection","intent":"open_camera","id":"intent-d42799763978","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the front camera view during this session","intent":"object_detect","id":"intent-237d68626d80","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the front camera before the inspection","intent":"close_camera","id":"intent-363ab695ea25","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the camera view when it is safe","intent":"object_detect","id":"intent-0170b5659e1a","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the camera as a single action","intent":"take_photo","id":"intent-d094162538ce","source":"pathfinder_project_authored_v1"}
+{"text":"Explain a beginner stretching routine in two sentences after confirming the command.","intent":"chat","id":"intent-d303edbc2207","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the front camera while the dashboard remains open","intent":"close_camera","id":"intent-b626ff938a37","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the front camera while the dashboard remains open","intent":"open_camera","id":"intent-8b9091d446e0","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the video feed without changing other settings","intent":"open_camera","id":"intent-c183060114c8","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how to organize a short trip in two sentences as a single action.","intent":"chat","id":"intent-5a64e1236a09","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the ship camera as a single action","intent":"close_camera","id":"intent-f7d3709b4f87","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how to organize a short trip for the passenger console.","intent":"chat","id":"intent-7d5c0ce8e9e2","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how batteries work after confirming the command.","intent":"chat","id":"intent-e961c55e4923","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the webcam for the passenger console","intent":"take_photo","id":"intent-1813a2ab763f","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the ship camera for the passenger console","intent":"take_photo","id":"intent-c0629810857e","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the camera when it is safe","intent":"close_camera","id":"intent-6c01fdd58d76","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the webcam after confirming the command","intent":"close_camera","id":"intent-17722cb1ee1e","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the camera right away","intent":"take_photo","id":"intent-40ab550cadfa","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the webcam without changing other settings","intent":"open_camera","id":"intent-7de21eb9253d","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the camera during this session","intent":"close_camera","id":"intent-0d7f18cd536f","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the video feed while the dashboard remains open","intent":"close_camera","id":"intent-3b1d4fbd6cf8","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the ship camera view during this session","intent":"object_detect","id":"intent-3c5dc81df428","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the video feed view for the passenger console","intent":"object_detect","id":"intent-0400fbd332c1","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the camera after confirming the command","intent":"close_camera","id":"intent-0fca58591db4","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the webcam when it is safe","intent":"open_camera","id":"intent-8fbaf0739d64","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the front camera view when it is safe","intent":"object_detect","id":"intent-65936d7b8546","source":"pathfinder_project_authored_v1"}
+{"text":"Explain the difference between RAM and storage in two sentences after confirming the command.","intent":"chat","id":"intent-8df2329375a1","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about the difference between RAM and storage for the passenger console.","intent":"chat","id":"intent-a2b67b5d6fca","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the front camera view right away","intent":"object_detect","id":"intent-f26b26b6f662","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the webcam view right away","intent":"object_detect","id":"intent-6c35c0c65c7b","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the video feed as a single action","intent":"close_camera","id":"intent-e9d33072d2d2","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the webcam for the passenger console","intent":"close_camera","id":"intent-ebe1668e4bfd","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the ship camera before the inspection","intent":"open_camera","id":"intent-b49965068206","source":"pathfinder_project_authored_v1"}
+{"text":"Explain the difference between RAM and storage in two sentences for the passenger console.","intent":"chat","id":"intent-0945c2f1eefb","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how rainbows form in two sentences without changing other settings.","intent":"chat","id":"intent-d4086c3b5cae","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the camera during this session","intent":"open_camera","id":"intent-7939af7874bf","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the camera view as a single action","intent":"object_detect","id":"intent-bc84867d7557","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about ways to stay focused after confirming the command.","intent":"chat","id":"intent-3c06b9573131","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the camera while the dashboard remains open","intent":"take_photo","id":"intent-4ed9047eaee8","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the video feed before the inspection","intent":"close_camera","id":"intent-1b3f45e547a8","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the front camera during this session","intent":"open_camera","id":"intent-846f9b6c7441","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the ship camera for the next step","intent":"take_photo","id":"intent-7e637f8e492f","source":"pathfinder_project_authored_v1"}
+{"text":"Explain why the sky changes color in two sentences without changing other settings.","intent":"chat","id":"intent-cee22304faea","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about why the sky changes color before the inspection.","intent":"chat","id":"intent-f28c5d575a92","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the video feed before the inspection","intent":"take_photo","id":"intent-0474d125230a","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about ways to stay focused for the passenger console.","intent":"chat","id":"intent-029f0c9488df","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the camera view after confirming the command","intent":"object_detect","id":"intent-4e0e85ba7222","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the ship camera during this session","intent":"close_camera","id":"intent-f0b9102c21ee","source":"pathfinder_project_authored_v1"}
+{"text":"Explain a beginner stretching routine in two sentences when it is safe.","intent":"chat","id":"intent-75a573709257","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the webcam without changing other settings","intent":"close_camera","id":"intent-9fac1483fd71","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how to organize a short trip when it is safe.","intent":"chat","id":"intent-71f6d208a226","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the video feed as a single action","intent":"open_camera","id":"intent-49058cc8c9b7","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how rainbows form in two sentences before the inspection.","intent":"chat","id":"intent-706e8f5bd320","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how batteries work in two sentences when it is safe.","intent":"chat","id":"intent-5ba7f22ebc1f","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the front camera for the passenger console","intent":"open_camera","id":"intent-43aa5f30144f","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the front camera after confirming the command","intent":"open_camera","id":"intent-a47aafcb46b3","source":"pathfinder_project_authored_v1"}
+{"text":"Explain the difference between RAM and storage in two sentences right away.","intent":"chat","id":"intent-db13a03a2704","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about a beginner stretching routine while the dashboard remains open.","intent":"chat","id":"intent-922bd35801b8","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the camera for the next step","intent":"open_camera","id":"intent-b584aafca8f1","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the webcam for the passenger console","intent":"open_camera","id":"intent-3beeeeddd4c7","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the video feed for the passenger console","intent":"take_photo","id":"intent-ead86d471adb","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about what a compass does before the inspection.","intent":"chat","id":"intent-95516c2d15c6","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the front camera before the inspection","intent":"open_camera","id":"intent-69d4d1e93532","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the video feed during this session","intent":"close_camera","id":"intent-bc6b106cca4b","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the ship camera as a single action","intent":"open_camera","id":"intent-902409fee49d","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the front camera for the next step","intent":"open_camera","id":"intent-8dccdc9fe5c2","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the webcam as a single action","intent":"close_camera","id":"intent-2b7d90975027","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the front camera during this session","intent":"close_camera","id":"intent-28eb7963bdc2","source":"pathfinder_project_authored_v1"}
+{"text":"Explain why ships use radar in two sentences before the inspection.","intent":"chat","id":"intent-6b5714263810","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the webcam after confirming the command","intent":"close_camera","id":"intent-3a629c32bf78","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the ship camera for the passenger console","intent":"open_camera","id":"intent-eda8015926da","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the ship camera after confirming the command","intent":"open_camera","id":"intent-c9578a32b30a","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the camera during this session","intent":"take_photo","id":"intent-c287b432cd25","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the video feed while the dashboard remains open","intent":"open_camera","id":"intent-b0fbfa48c495","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the front camera while the dashboard remains open","intent":"close_camera","id":"intent-b2dccefaf1a3","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the video feed before the inspection","intent":"take_photo","id":"intent-7c8693276eb2","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about why ships use radar during this session.","intent":"chat","id":"intent-9b49945eaad5","source":"pathfinder_project_authored_v1"}
+{"text":"Explain what a compass does in two sentences for the next step.","intent":"chat","id":"intent-eb3ba4fc9428","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the ship camera for the passenger console","intent":"close_camera","id":"intent-747144aa3be1","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the camera after confirming the command","intent":"take_photo","id":"intent-748de3fe1500","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the front camera while the dashboard remains open","intent":"close_camera","id":"intent-138066d7ddbb","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about why ships use radar as a single action.","intent":"chat","id":"intent-dcfa00fe6722","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the webcam during this session","intent":"open_camera","id":"intent-f21cac0c56bb","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the video feed for the passenger console","intent":"close_camera","id":"intent-89afe53fb9fd","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the camera view before the inspection","intent":"object_detect","id":"intent-8140e87c1ec1","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how to organize a short trip while the dashboard remains open.","intent":"chat","id":"intent-a92d3475b08b","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the front camera without changing other settings","intent":"take_photo","id":"intent-e40ace744d91","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the ship camera as a single action","intent":"take_photo","id":"intent-b841906e0f5b","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the camera as a single action","intent":"open_camera","id":"intent-b599694309a0","source":"pathfinder_project_authored_v1"}
+{"text":"Explain what a compass does in two sentences while the dashboard remains open.","intent":"chat","id":"intent-4d5c6d6c4289","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the camera for the passenger console","intent":"open_camera","id":"intent-9a297bd2e7ae","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the camera when it is safe","intent":"take_photo","id":"intent-ba00e7470bf2","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the video feed before the inspection","intent":"close_camera","id":"intent-364fca0374e5","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the camera as a single action","intent":"close_camera","id":"intent-524ec861cb82","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the camera during this session","intent":"open_camera","id":"intent-f540dba4a464","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the video feed as a single action","intent":"take_photo","id":"intent-9b8bd0302fad","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the camera view as a single action","intent":"object_detect","id":"intent-4404165e3bd0","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about why ships use radar for the passenger console.","intent":"chat","id":"intent-76d17f9d259e","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the video feed after confirming the command","intent":"close_camera","id":"intent-17e890303b83","source":"pathfinder_project_authored_v1"}
+{"text":"Explain why the sky changes color in two sentences for the next step.","intent":"chat","id":"intent-3447361db763","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the ship camera view when it is safe","intent":"object_detect","id":"intent-9fd90b689803","source":"pathfinder_project_authored_v1"}
+{"text":"Explain why the sky changes color in two sentences while the dashboard remains open.","intent":"chat","id":"intent-75d2bd8be3a3","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the video feed while the dashboard remains open","intent":"take_photo","id":"intent-d75bf686a7ab","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the camera after confirming the command","intent":"take_photo","id":"intent-32a20ac4bdf2","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the video feed view as a single action","intent":"object_detect","id":"intent-8284dbd5cc0a","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the camera right away","intent":"take_photo","id":"intent-406ca4f4793f","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the ship camera during this session","intent":"take_photo","id":"intent-d93262e074fa","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the camera while the dashboard remains open","intent":"close_camera","id":"intent-f2c013ff1edd","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the camera while the dashboard remains open","intent":"close_camera","id":"intent-c8727e22c7f6","source":"pathfinder_project_authored_v1"}
+{"text":"Explain why ships use radar in two sentences when it is safe.","intent":"chat","id":"intent-0e9a19eca8b8","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the webcam view for the next step","intent":"object_detect","id":"intent-a069e34d065a","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the webcam view for the next step","intent":"object_detect","id":"intent-49c9d90371de","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the video feed for the next step","intent":"take_photo","id":"intent-7b97ca37ea6d","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the camera right away","intent":"close_camera","id":"intent-9a3d23c14093","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the camera after confirming the command","intent":"open_camera","id":"intent-7fb8cb172246","source":"pathfinder_project_authored_v1"}
+{"text":"Explain what a compass does in two sentences without changing other settings.","intent":"chat","id":"intent-996d74d5fd53","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the webcam after confirming the command","intent":"open_camera","id":"intent-8365ac8aef18","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the video feed during this session","intent":"take_photo","id":"intent-9465cd49e1a9","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the video feed right away","intent":"close_camera","id":"intent-aa8bb7cbdc4a","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the webcam after confirming the command","intent":"take_photo","id":"intent-6cc478be1b29","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the ship camera view when it is safe","intent":"object_detect","id":"intent-113b035e1f09","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the video feed as a single action","intent":"take_photo","id":"intent-217dc24ee383","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the front camera during this session","intent":"take_photo","id":"intent-88cdda55422f","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how batteries work in two sentences after confirming the command.","intent":"chat","id":"intent-faab5b6d11c2","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about what a compass does without changing other settings.","intent":"chat","id":"intent-5fc14e0492c2","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the video feed while the dashboard remains open","intent":"open_camera","id":"intent-d58c99d0d236","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the front camera view after confirming the command","intent":"object_detect","id":"intent-83bb8ca3acfc","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the ship camera after confirming the command","intent":"close_camera","id":"intent-5ae083b0e2ab","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the front camera as a single action","intent":"close_camera","id":"intent-5eb0b64d6938","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about why the sky changes color after confirming the command.","intent":"chat","id":"intent-b54d4ab5e49d","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the webcam when it is safe","intent":"close_camera","id":"intent-323aac754d15","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the webcam when it is safe","intent":"take_photo","id":"intent-115d5fea4577","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the front camera for the passenger console","intent":"close_camera","id":"intent-7257f0f4964c","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the ship camera view before the inspection","intent":"object_detect","id":"intent-1eb4450abfa7","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the webcam while the dashboard remains open","intent":"close_camera","id":"intent-bde4ded9b061","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the video feed view without changing other settings","intent":"object_detect","id":"intent-38ac7668e303","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about the difference between RAM and storage as a single action.","intent":"chat","id":"intent-d23f5f3af34b","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the video feed after confirming the command","intent":"take_photo","id":"intent-b022a91560f2","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the front camera without changing other settings","intent":"open_camera","id":"intent-9a761e404bed","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the ship camera without changing other settings","intent":"take_photo","id":"intent-bdc0f2ebb690","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the ship camera as a single action","intent":"open_camera","id":"intent-8266cacce57b","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the ship camera for the passenger console","intent":"close_camera","id":"intent-375686cce2be","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the webcam before the inspection","intent":"take_photo","id":"intent-d2cb95dc2aa7","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the ship camera as a single action","intent":"open_camera","id":"intent-02fdc5dbcfd2","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the camera view as a single action","intent":"object_detect","id":"intent-dac165125527","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the webcam for the next step","intent":"close_camera","id":"intent-86533024a18e","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the webcam before the inspection","intent":"close_camera","id":"intent-9290a84c5dd0","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about a beginner stretching routine right away.","intent":"chat","id":"intent-3f2cd8f7c533","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the webcam before the inspection","intent":"open_camera","id":"intent-14cd34809014","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the camera without changing other settings","intent":"take_photo","id":"intent-f0ef6c67c2f9","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the video feed right away","intent":"take_photo","id":"intent-783b5059b445","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the front camera while the dashboard remains open","intent":"open_camera","id":"intent-8a3977a91945","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the front camera view while the dashboard remains open","intent":"object_detect","id":"intent-bbe638c4ed4c","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the ship camera view after confirming the command","intent":"object_detect","id":"intent-03cdb228e2cf","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how to organize a short trip in two sentences when it is safe.","intent":"chat","id":"intent-26e1486b3d1b","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the front camera view when it is safe","intent":"object_detect","id":"intent-9fdbbffd7cf2","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the camera view while the dashboard remains open","intent":"object_detect","id":"intent-d815a3eb44bc","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the ship camera as a single action","intent":"close_camera","id":"intent-408c0b38c8c8","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the ship camera for the next step","intent":"open_camera","id":"intent-15e5e7adc666","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about a simple pasta recipe right away.","intent":"chat","id":"intent-576ed38e0de8","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the ship camera right away","intent":"take_photo","id":"intent-514913053ef8","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the ship camera view for the passenger console","intent":"object_detect","id":"intent-c803a3221436","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the webcam during this session","intent":"open_camera","id":"intent-96026ac9ee13","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the video feed before the inspection","intent":"take_photo","id":"intent-f96f281fe701","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how batteries work while the dashboard remains open.","intent":"chat","id":"intent-76d98e3a7e53","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how rainbows form in two sentences when it is safe.","intent":"chat","id":"intent-d5ac4ff22815","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the video feed for the next step","intent":"take_photo","id":"intent-a8fe93a2bdc3","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the ship camera view for the passenger console","intent":"object_detect","id":"intent-03975bdea7fe","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the camera without changing other settings","intent":"take_photo","id":"intent-e79f037dad27","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the webcam before the inspection","intent":"close_camera","id":"intent-574f692844dc","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the front camera when it is safe","intent":"close_camera","id":"intent-6c89f8e34451","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the front camera right away","intent":"open_camera","id":"intent-6663047140cf","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the webcam during this session","intent":"take_photo","id":"intent-bdb99f4b05df","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the ship camera for the passenger console","intent":"close_camera","id":"intent-59aeddecc8bf","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the ship camera for the passenger console","intent":"take_photo","id":"intent-dc558f347803","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the video feed for the passenger console","intent":"open_camera","id":"intent-47f2fb8cfd81","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the ship camera without changing other settings","intent":"take_photo","id":"intent-14c9ad4d6a04","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about a simple pasta recipe as a single action.","intent":"chat","id":"intent-a55d54c73a36","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the camera view right away","intent":"object_detect","id":"intent-cd070e0273f0","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the video feed view while the dashboard remains open","intent":"object_detect","id":"intent-bc83b79b396b","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the ship camera when it is safe","intent":"open_camera","id":"intent-0e3bba40b883","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the video feed as a single action","intent":"close_camera","id":"intent-53f080e51ebc","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the webcam without changing other settings","intent":"open_camera","id":"intent-4be816e35d75","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the video feed view during this session","intent":"object_detect","id":"intent-4046572d9e80","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the webcam while the dashboard remains open","intent":"open_camera","id":"intent-9a677b8ef568","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the ship camera while the dashboard remains open","intent":"take_photo","id":"intent-fec5ee683a6b","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the camera as a single action","intent":"take_photo","id":"intent-db67a23ab816","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how to organize a short trip in two sentences for the passenger console.","intent":"chat","id":"intent-bc2049cf0cce","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the webcam without changing other settings","intent":"close_camera","id":"intent-cff32c819b37","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the camera when it is safe","intent":"close_camera","id":"intent-2d8c5c87cf45","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the front camera for the next step","intent":"take_photo","id":"intent-9d293d2e678e","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the camera during this session","intent":"close_camera","id":"intent-ff98436f8136","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the front camera as a single action","intent":"close_camera","id":"intent-5a4f8eedcbd4","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the video feed for the next step","intent":"take_photo","id":"intent-a68e0bda6c5f","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the video feed right away","intent":"open_camera","id":"intent-7be521abc484","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the ship camera for the next step","intent":"close_camera","id":"intent-8583710173e0","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the webcam before the inspection","intent":"open_camera","id":"intent-94d14bfa6b17","source":"pathfinder_project_authored_v1"}
+{"text":"Explain the difference between RAM and storage in two sentences without changing other settings.","intent":"chat","id":"intent-8a789d63eef7","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how to organize a short trip in two sentences without changing other settings.","intent":"chat","id":"intent-b139428045aa","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how rainbows form without changing other settings.","intent":"chat","id":"intent-be81924cb4e8","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the front camera for the next step","intent":"take_photo","id":"intent-e1e29493d824","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the ship camera before the inspection","intent":"close_camera","id":"intent-c8d9dcdb28ca","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the video feed after confirming the command","intent":"open_camera","id":"intent-743c3a6d3e32","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how batteries work as a single action.","intent":"chat","id":"intent-fbb9248b29d3","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the front camera without changing other settings","intent":"take_photo","id":"intent-20a2f622ca4f","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the video feed for the next step","intent":"open_camera","id":"intent-25794b496c5d","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about why the sky changes color during this session.","intent":"chat","id":"intent-589138892b48","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how rainbows form in two sentences for the next step.","intent":"chat","id":"intent-06a8e692d53b","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the ship camera view right away","intent":"object_detect","id":"intent-c22453c62f71","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the ship camera view for the passenger console","intent":"object_detect","id":"intent-f1cc670f0ecd","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the camera view before the inspection","intent":"object_detect","id":"intent-b51d27c60009","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the camera for the passenger console","intent":"open_camera","id":"intent-bc16e3cfd22c","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how to organize a short trip right away.","intent":"chat","id":"intent-4dc74afa148b","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the camera view for the next step","intent":"object_detect","id":"intent-22aaf3f00d31","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the webcam while the dashboard remains open","intent":"close_camera","id":"intent-986115069cd3","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the webcam view right away","intent":"object_detect","id":"intent-908412fdb69f","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about why the sky changes color for the passenger console.","intent":"chat","id":"intent-847217b5462b","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the webcam for the passenger console","intent":"close_camera","id":"intent-d29cec22a549","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the ship camera without changing other settings","intent":"open_camera","id":"intent-f000198886e2","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the video feed before the inspection","intent":"open_camera","id":"intent-362b0d06ef04","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the ship camera before the inspection","intent":"take_photo","id":"intent-cc3042ada48c","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the camera for the next step","intent":"open_camera","id":"intent-74e3ac28fe8f","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the video feed when it is safe","intent":"take_photo","id":"intent-356f17698066","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the video feed while the dashboard remains open","intent":"open_camera","id":"intent-01c4ed2a7a1a","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the camera without changing other settings","intent":"open_camera","id":"intent-227b074a49b3","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the front camera view while the dashboard remains open","intent":"object_detect","id":"intent-9fb34d669620","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how rainbows form before the inspection.","intent":"chat","id":"intent-d1fed91c338c","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the camera view for the next step","intent":"object_detect","id":"intent-b3defca2d867","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the video feed as a single action","intent":"take_photo","id":"intent-6428ba92de3c","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the camera without changing other settings","intent":"take_photo","id":"intent-e5b39142f67e","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the video feed view for the passenger console","intent":"object_detect","id":"intent-7353d53fdb3c","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the webcam when it is safe","intent":"close_camera","id":"intent-8abfb1365b4e","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the video feed after confirming the command","intent":"open_camera","id":"intent-3484c46b717b","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the ship camera for the next step","intent":"close_camera","id":"intent-367323bc10b8","source":"pathfinder_project_authored_v1"}
+{"text":"Explain why the sky changes color in two sentences after confirming the command.","intent":"chat","id":"intent-26d23f170700","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the ship camera for the passenger console","intent":"open_camera","id":"intent-5da96d4f4dcb","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the video feed after confirming the command","intent":"close_camera","id":"intent-da375369ff5d","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the camera view without changing other settings","intent":"object_detect","id":"intent-e124e1a9edc6","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about ways to stay focused when it is safe.","intent":"chat","id":"intent-06f7b860b755","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the camera without changing other settings","intent":"open_camera","id":"intent-ae9d9d5f1901","source":"pathfinder_project_authored_v1"}
+{"text":"Explain a simple pasta recipe in two sentences for the next step.","intent":"chat","id":"intent-048fb2dfd159","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the front camera view right away","intent":"object_detect","id":"intent-2869e2f74a8d","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about a beginner stretching routine as a single action.","intent":"chat","id":"intent-85a9dd427a67","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the ship camera right away","intent":"take_photo","id":"intent-58ca563f26b2","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the camera when it is safe","intent":"close_camera","id":"intent-fc84c5cda9ac","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the camera for the next step","intent":"close_camera","id":"intent-1f8025e85b09","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the webcam for the passenger console","intent":"close_camera","id":"intent-9e974c5c78e6","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the video feed when it is safe","intent":"close_camera","id":"intent-7d6bb1f8497c","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the front camera when it is safe","intent":"close_camera","id":"intent-280dd41d1355","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about what a compass does after confirming the command.","intent":"chat","id":"intent-e7d3775713db","source":"pathfinder_project_authored_v1"}
+{"text":"Explain a simple pasta recipe in two sentences before the inspection.","intent":"chat","id":"intent-b349612ab748","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the camera right away","intent":"open_camera","id":"intent-78ed54a06877","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the webcam when it is safe","intent":"open_camera","id":"intent-64febf4458de","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about ways to stay focused for the next step.","intent":"chat","id":"intent-c968c8e42072","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the video feed as a single action","intent":"open_camera","id":"intent-f090716717a3","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the camera while the dashboard remains open","intent":"open_camera","id":"intent-f82f835a3bcc","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the camera while the dashboard remains open","intent":"close_camera","id":"intent-98d4f4967650","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about a beginner stretching routine without changing other settings.","intent":"chat","id":"intent-3cc854637112","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the camera when it is safe","intent":"open_camera","id":"intent-f977daacb931","source":"pathfinder_project_authored_v1"}
+{"text":"Explain a simple pasta recipe in two sentences without changing other settings.","intent":"chat","id":"intent-b7488e79cb39","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the camera right away","intent":"close_camera","id":"intent-072959b6edea","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the camera while the dashboard remains open","intent":"take_photo","id":"intent-b3afaddf3981","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the ship camera view after confirming the command","intent":"object_detect","id":"intent-82e0b390f1bd","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the video feed view during this session","intent":"object_detect","id":"intent-9b6afaa92006","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the ship camera for the next step","intent":"close_camera","id":"intent-7d2f809a4939","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the front camera when it is safe","intent":"close_camera","id":"intent-eb361a882210","source":"pathfinder_project_authored_v1"}
+{"text":"Explain why ships use radar in two sentences right away.","intent":"chat","id":"intent-a74d4444a913","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the front camera view right away","intent":"object_detect","id":"intent-51cd6f924751","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the camera as a single action","intent":"close_camera","id":"intent-56493941029f","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the webcam view without changing other settings","intent":"object_detect","id":"intent-d5f8c827c403","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the front camera view before the inspection","intent":"object_detect","id":"intent-fefccf5b8ddb","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the webcam when it is safe","intent":"take_photo","id":"intent-68defcdb1777","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the webcam view without changing other settings","intent":"object_detect","id":"intent-374b66a102c8","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the camera before the inspection","intent":"take_photo","id":"intent-c2004303184b","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the front camera for the passenger console","intent":"open_camera","id":"intent-181c9f806485","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the camera without changing other settings","intent":"open_camera","id":"intent-daefc2bdc7c1","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the front camera while the dashboard remains open","intent":"take_photo","id":"intent-3a79a48c2c0f","source":"pathfinder_project_authored_v1"}
+{"text":"Explain what a compass does in two sentences as a single action.","intent":"chat","id":"intent-3f4970aa0d80","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the camera right away","intent":"open_camera","id":"intent-2b6ab767ef7d","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the front camera during this session","intent":"open_camera","id":"intent-eaf250a05f9b","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about what a compass does for the next step.","intent":"chat","id":"intent-d7424d286f59","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the webcam when it is safe","intent":"take_photo","id":"intent-5cd95756bee7","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the camera as a single action","intent":"close_camera","id":"intent-9cde29ca897a","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the video feed during this session","intent":"open_camera","id":"intent-6286c7e02743","source":"pathfinder_project_authored_v1"}
+{"text":"Explain what a compass does in two sentences right away.","intent":"chat","id":"intent-c8a84fed288e","source":"pathfinder_project_authored_v1"}
+{"text":"Explain why ships use radar in two sentences during this session.","intent":"chat","id":"intent-d5d15b15c515","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the ship camera during this session","intent":"close_camera","id":"intent-324c6ef2c382","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the ship camera view for the next step","intent":"object_detect","id":"intent-d9c4de231d21","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the camera right away","intent":"close_camera","id":"intent-b0d48a35ce91","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the webcam as a single action","intent":"close_camera","id":"intent-f4dbb9f3a709","source":"pathfinder_project_authored_v1"}
+{"text":"Explain a beginner stretching routine in two sentences before the inspection.","intent":"chat","id":"intent-72f5794b8f2e","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the video feed for the passenger console","intent":"take_photo","id":"intent-052b830c5591","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the front camera when it is safe","intent":"take_photo","id":"intent-4d74743d29f7","source":"pathfinder_project_authored_v1"}
+{"text":"Explain ways to stay focused in two sentences for the passenger console.","intent":"chat","id":"intent-8231fa3b8b6c","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how rainbows form when it is safe.","intent":"chat","id":"intent-a3ab153201a4","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the video feed after confirming the command","intent":"open_camera","id":"intent-8d8947c3da7a","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the ship camera before the inspection","intent":"open_camera","id":"intent-80d0e8eb5e41","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the camera view when it is safe","intent":"object_detect","id":"intent-aa0c8e1184f0","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the ship camera without changing other settings","intent":"take_photo","id":"intent-e90f907b9a37","source":"pathfinder_project_authored_v1"}
+{"text":"Explain what a compass does in two sentences after confirming the command.","intent":"chat","id":"intent-97213eb77d89","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the video feed after confirming the command","intent":"take_photo","id":"intent-174bdf4c013c","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the front camera without changing other settings","intent":"open_camera","id":"intent-409a46b4dae7","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the webcam after confirming the command","intent":"take_photo","id":"intent-0e1361f2e334","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the ship camera before the inspection","intent":"close_camera","id":"intent-6ceb672dab65","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the front camera view after confirming the command","intent":"object_detect","id":"intent-bc49ba7da79b","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the camera view right away","intent":"object_detect","id":"intent-70a74685bc52","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the webcam view while the dashboard remains open","intent":"object_detect","id":"intent-fdb47decd6ae","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the ship camera before the inspection","intent":"open_camera","id":"intent-ec8fef641457","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the video feed without changing other settings","intent":"open_camera","id":"intent-0e643a628ca8","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the front camera before the inspection","intent":"take_photo","id":"intent-fe05c6484b2f","source":"pathfinder_project_authored_v1"}
+{"text":"Explain a beginner stretching routine in two sentences while the dashboard remains open.","intent":"chat","id":"intent-a1e9100ad7d1","source":"pathfinder_project_authored_v1"}
+{"text":"Explain why the sky changes color in two sentences for the passenger console.","intent":"chat","id":"intent-6a70696a3e08","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the video feed view after confirming the command","intent":"object_detect","id":"intent-7dc719fecdb2","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the webcam during this session","intent":"take_photo","id":"intent-aa142cf3ddd1","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the video feed when it is safe","intent":"take_photo","id":"intent-33fdcbe41fba","source":"pathfinder_project_authored_v1"}
+{"text":"Explain ways to stay focused in two sentences as a single action.","intent":"chat","id":"intent-b2e840e8ba78","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the front camera view without changing other settings","intent":"object_detect","id":"intent-837209f88270","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the camera when it is safe","intent":"open_camera","id":"intent-009a50ec1234","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the front camera for the next step","intent":"close_camera","id":"intent-ec6ef055728b","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the ship camera view for the next step","intent":"object_detect","id":"intent-c434283a1668","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the camera for the passenger console","intent":"take_photo","id":"intent-a42f99792b24","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the ship camera after confirming the command","intent":"take_photo","id":"intent-e4b1ce4cd00a","source":"pathfinder_project_authored_v1"}
+{"text":"Explain the difference between RAM and storage in two sentences as a single action.","intent":"chat","id":"intent-a6f33cd2ffee","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the front camera without changing other settings","intent":"close_camera","id":"intent-2b1fbe49c85f","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the camera after confirming the command","intent":"close_camera","id":"intent-5c727f4fd835","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the webcam view while the dashboard remains open","intent":"object_detect","id":"intent-731f172e911a","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the camera when it is safe","intent":"open_camera","id":"intent-bc2ddc41d39a","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the ship camera when it is safe","intent":"take_photo","id":"intent-3a00e55c8f08","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the webcam right away","intent":"take_photo","id":"intent-7535bbaf86c2","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how batteries work in two sentences as a single action.","intent":"chat","id":"intent-04caac4f53e4","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the ship camera without changing other settings","intent":"close_camera","id":"intent-6fea7422e0d6","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the webcam for the passenger console","intent":"take_photo","id":"intent-f59e47260777","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about why ships use radar when it is safe.","intent":"chat","id":"intent-445f1d8694f5","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the ship camera right away","intent":"close_camera","id":"intent-4a2b19ac025d","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the camera without changing other settings","intent":"open_camera","id":"intent-1bbe28762338","source":"pathfinder_project_authored_v1"}
+{"text":"Explain why ships use radar in two sentences while the dashboard remains open.","intent":"chat","id":"intent-a2939fef49c5","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the webcam when it is safe","intent":"open_camera","id":"intent-8ace0c19bbfb","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the front camera view for the passenger console","intent":"object_detect","id":"intent-185f9599ebf2","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how rainbows form in two sentences right away.","intent":"chat","id":"intent-785913e4a76a","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the webcam when it is safe","intent":"close_camera","id":"intent-2975934efe1b","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the ship camera without changing other settings","intent":"take_photo","id":"intent-fd2dab750dd8","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the webcam view for the passenger console","intent":"object_detect","id":"intent-74b9f50263ab","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the camera view for the next step","intent":"object_detect","id":"intent-fdae7c7cba07","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the front camera before the inspection","intent":"open_camera","id":"intent-b3e94744aeaf","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the ship camera without changing other settings","intent":"close_camera","id":"intent-321a437ea7f5","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about why ships use radar before the inspection.","intent":"chat","id":"intent-2287a671ca24","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the webcam for the passenger console","intent":"open_camera","id":"intent-76f2af34ee57","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the camera after confirming the command","intent":"take_photo","id":"intent-20e2684f6761","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the webcam view as a single action","intent":"object_detect","id":"intent-87216f632318","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the camera for the next step","intent":"open_camera","id":"intent-96f3be55f1e0","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about why ships use radar right away.","intent":"chat","id":"intent-622a5e8df2fa","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the webcam after confirming the command","intent":"take_photo","id":"intent-cabf8ccae657","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the camera after confirming the command","intent":"take_photo","id":"intent-1139ccbdbb77","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the front camera as a single action","intent":"open_camera","id":"intent-61baac93cb60","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the camera for the passenger console","intent":"close_camera","id":"intent-1d63476b5539","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how to organize a short trip without changing other settings.","intent":"chat","id":"intent-bca9adcc9799","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the webcam view as a single action","intent":"object_detect","id":"intent-16c37dbd1529","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the video feed as a single action","intent":"open_camera","id":"intent-f103b47362a6","source":"pathfinder_project_authored_v1"}
+{"text":"Explain a simple pasta recipe in two sentences right away.","intent":"chat","id":"intent-9efa69e2161b","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the ship camera after confirming the command","intent":"open_camera","id":"intent-d8f2ea23eee1","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how rainbows form while the dashboard remains open.","intent":"chat","id":"intent-bf33e5c4b567","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how to organize a short trip in two sentences during this session.","intent":"chat","id":"intent-7b1d085a10ec","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the camera view for the passenger console","intent":"object_detect","id":"intent-6530caad6a7d","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about a simple pasta recipe after confirming the command.","intent":"chat","id":"intent-293a871492c5","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the camera during this session","intent":"close_camera","id":"intent-341ab3653ec3","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the webcam for the next step","intent":"open_camera","id":"intent-b6dc03c8c038","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the ship camera as a single action","intent":"close_camera","id":"intent-80778421a92f","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the webcam without changing other settings","intent":"take_photo","id":"intent-636336dbcea0","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the webcam without changing other settings","intent":"open_camera","id":"intent-bbfbb3a4135c","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the camera before the inspection","intent":"open_camera","id":"intent-9e6aeff77cd5","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the webcam view for the next step","intent":"object_detect","id":"intent-c677fe73e9b0","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the webcam view right away","intent":"object_detect","id":"intent-1e3d8cf674d8","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the video feed view right away","intent":"object_detect","id":"intent-e93665dc3deb","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the camera for the passenger console","intent":"open_camera","id":"intent-48675b6c30cd","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the front camera when it is safe","intent":"take_photo","id":"intent-2e52afb48a16","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the front camera before the inspection","intent":"take_photo","id":"intent-56936efd59ee","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the camera view for the passenger console","intent":"object_detect","id":"intent-9a87794cb484","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the webcam without changing other settings","intent":"close_camera","id":"intent-f0bf43d16339","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the ship camera for the next step","intent":"take_photo","id":"intent-19d506265703","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the front camera view during this session","intent":"object_detect","id":"intent-e7d2d4f97610","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about ways to stay focused while the dashboard remains open.","intent":"chat","id":"intent-fa9da597ab02","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the ship camera while the dashboard remains open","intent":"open_camera","id":"intent-587ffabeb25b","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the ship camera during this session","intent":"open_camera","id":"intent-5842c46be26c","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the webcam while the dashboard remains open","intent":"take_photo","id":"intent-5f19fd9e21f8","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the camera view right away","intent":"object_detect","id":"intent-9886835c9687","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the ship camera when it is safe","intent":"close_camera","id":"intent-8eadc8580bd2","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the video feed during this session","intent":"take_photo","id":"intent-744d9dcce9ed","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the ship camera before the inspection","intent":"take_photo","id":"intent-760aca914390","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the video feed during this session","intent":"take_photo","id":"intent-ff31b8d432c2","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the video feed for the passenger console","intent":"open_camera","id":"intent-fee6b9fc3b9f","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the camera view after confirming the command","intent":"object_detect","id":"intent-0c4a2b03b6ff","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the webcam right away","intent":"close_camera","id":"intent-e6a0cb069ac7","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the webcam view as a single action","intent":"object_detect","id":"intent-b6a6cdb4e6ca","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the video feed view for the passenger console","intent":"object_detect","id":"intent-75e72f9e9d4c","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the video feed for the passenger console","intent":"close_camera","id":"intent-df006d5c1ddf","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the ship camera after confirming the command","intent":"close_camera","id":"intent-2ecfd7977247","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the front camera while the dashboard remains open","intent":"take_photo","id":"intent-655af0bce893","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the front camera view when it is safe","intent":"object_detect","id":"intent-3137791ff4d0","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the video feed when it is safe","intent":"close_camera","id":"intent-cf598323d0e4","source":"pathfinder_project_authored_v1"}
+{"text":"Explain a beginner stretching routine in two sentences without changing other settings.","intent":"chat","id":"intent-0c28f90bee12","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the webcam right away","intent":"open_camera","id":"intent-f319a940c23f","source":"pathfinder_project_authored_v1"}
+{"text":"Explain a beginner stretching routine in two sentences during this session.","intent":"chat","id":"intent-b78c20ab1b0e","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the webcam before the inspection","intent":"open_camera","id":"intent-1cffbb007cbb","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the ship camera view while the dashboard remains open","intent":"object_detect","id":"intent-345572494016","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the front camera view during this session","intent":"object_detect","id":"intent-3df2082aab52","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the front camera without changing other settings","intent":"open_camera","id":"intent-45dd0f92b3e7","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the camera as a single action","intent":"open_camera","id":"intent-20d4ee4485da","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how rainbows form as a single action.","intent":"chat","id":"intent-2e6b4ef2b356","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the video feed view during this session","intent":"object_detect","id":"intent-b97738469e16","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the video feed for the passenger console","intent":"close_camera","id":"intent-a2bb792ddf9f","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the webcam as a single action","intent":"take_photo","id":"intent-54ec0aa8b695","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the camera view without changing other settings","intent":"object_detect","id":"intent-1397253c16f1","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the front camera for the next step","intent":"open_camera","id":"intent-aee5df15d632","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the ship camera while the dashboard remains open","intent":"close_camera","id":"intent-e277717015fe","source":"pathfinder_project_authored_v1"}
+{"text":"Explain a simple pasta recipe in two sentences as a single action.","intent":"chat","id":"intent-87179371712d","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the video feed before the inspection","intent":"close_camera","id":"intent-426b61f3092b","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the camera after confirming the command","intent":"close_camera","id":"intent-9bbbf108d52b","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the front camera after confirming the command","intent":"open_camera","id":"intent-2066aa4fa30d","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the webcam without changing other settings","intent":"take_photo","id":"intent-ad761de3c678","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the front camera right away","intent":"take_photo","id":"intent-1614a019de73","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the ship camera when it is safe","intent":"take_photo","id":"intent-c807bd0cedcb","source":"pathfinder_project_authored_v1"}
+{"text":"Explain the difference between RAM and storage in two sentences for the next step.","intent":"chat","id":"intent-6006fc9f0b2c","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about a beginner stretching routine for the next step.","intent":"chat","id":"intent-85ce2a1a2d21","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the video feed view as a single action","intent":"object_detect","id":"intent-ab253b5f36c9","source":"pathfinder_project_authored_v1"}
+{"text":"Explain ways to stay focused in two sentences during this session.","intent":"chat","id":"intent-df4f79a662b9","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the webcam right away","intent":"close_camera","id":"intent-652fd1bae5e6","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the video feed view before the inspection","intent":"object_detect","id":"intent-adf6cb387b73","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the camera for the passenger console","intent":"close_camera","id":"intent-301f2a731647","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the camera view while the dashboard remains open","intent":"object_detect","id":"intent-6f59cfc80c71","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about the difference between RAM and storage when it is safe.","intent":"chat","id":"intent-d219ee768acb","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the video feed view during this session","intent":"object_detect","id":"intent-a731c46d7437","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how rainbows form in two sentences while the dashboard remains open.","intent":"chat","id":"intent-aa97991a6c93","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the video feed after confirming the command","intent":"take_photo","id":"intent-e099b4897a5d","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the front camera view for the next step","intent":"object_detect","id":"intent-f70597504b7d","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the ship camera before the inspection","intent":"take_photo","id":"intent-b4059477490d","source":"pathfinder_project_authored_v1"}
+{"text":"Explain what a compass does in two sentences for the passenger console.","intent":"chat","id":"intent-a01662e8a879","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the webcam right away","intent":"open_camera","id":"intent-ab0ac0dbdf83","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the webcam without changing other settings","intent":"take_photo","id":"intent-5f9ec508b1e9","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the video feed while the dashboard remains open","intent":"take_photo","id":"intent-2072973e59db","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the front camera view for the passenger console","intent":"object_detect","id":"intent-8fd237626839","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the video feed for the next step","intent":"open_camera","id":"intent-4bbf2792832d","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the front camera when it is safe","intent":"open_camera","id":"intent-d3c404131475","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the ship camera for the passenger console","intent":"take_photo","id":"intent-bf8fb836b6e0","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the front camera before the inspection","intent":"open_camera","id":"intent-657f07ae1c10","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the ship camera as a single action","intent":"take_photo","id":"intent-39a50d586f63","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the ship camera view right away","intent":"object_detect","id":"intent-9121e15780a9","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the video feed as a single action","intent":"open_camera","id":"intent-95678e1d02a7","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about the difference between RAM and storage after confirming the command.","intent":"chat","id":"intent-6ba92705daba","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how rainbows form in two sentences for the passenger console.","intent":"chat","id":"intent-5dafcf1f3f7b","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the ship camera while the dashboard remains open","intent":"close_camera","id":"intent-419658be1ebc","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the camera right away","intent":"open_camera","id":"intent-475976cfa1d4","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the ship camera for the passenger console","intent":"close_camera","id":"intent-e2c5c3c6dee6","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the webcam during this session","intent":"close_camera","id":"intent-862713346f5b","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the front camera for the next step","intent":"close_camera","id":"intent-0441cd449517","source":"pathfinder_project_authored_v1"}
+{"text":"Explain why the sky changes color in two sentences when it is safe.","intent":"chat","id":"intent-48102e03ead1","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the webcam right away","intent":"open_camera","id":"intent-3a840e4bf29b","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the camera before the inspection","intent":"take_photo","id":"intent-acaafa53298a","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the video feed for the next step","intent":"close_camera","id":"intent-c040ee8ed650","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the webcam view after confirming the command","intent":"object_detect","id":"intent-23e318bb1623","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the camera before the inspection","intent":"open_camera","id":"intent-316f65291a57","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the ship camera after confirming the command","intent":"take_photo","id":"intent-b6d02029c8a2","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the camera without changing other settings","intent":"take_photo","id":"intent-7e7079b735b8","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the webcam for the passenger console","intent":"open_camera","id":"intent-224b5b1f4a24","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the ship camera view when it is safe","intent":"object_detect","id":"intent-3a95a06dd322","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the video feed without changing other settings","intent":"close_camera","id":"intent-a3401becc918","source":"pathfinder_project_authored_v1"}
+{"text":"Explain the difference between RAM and storage in two sentences during this session.","intent":"chat","id":"intent-8def92c901ed","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about a beginner stretching routine after confirming the command.","intent":"chat","id":"intent-59f10687e96f","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how batteries work in two sentences during this session.","intent":"chat","id":"intent-0cbfa5afecef","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the ship camera view while the dashboard remains open","intent":"object_detect","id":"intent-2adbb8eeef41","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how batteries work right away.","intent":"chat","id":"intent-84ade030f3a0","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the camera for the passenger console","intent":"close_camera","id":"intent-a650ab1c0708","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the ship camera view before the inspection","intent":"object_detect","id":"intent-6870f0513fa9","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the camera when it is safe","intent":"open_camera","id":"intent-8e07a3cdb604","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the webcam right away","intent":"take_photo","id":"intent-43cf72f983eb","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the video feed without changing other settings","intent":"open_camera","id":"intent-6003f0931e40","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the video feed view before the inspection","intent":"object_detect","id":"intent-ae8cf0872bcd","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the webcam without changing other settings","intent":"take_photo","id":"intent-1bc8538717dc","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about the difference between RAM and storage before the inspection.","intent":"chat","id":"intent-e4318b19216d","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the video feed view while the dashboard remains open","intent":"object_detect","id":"intent-ab4995f515ae","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the video feed view right away","intent":"object_detect","id":"intent-8a471442ca17","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the camera after confirming the command","intent":"open_camera","id":"intent-c76601458878","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about why the sky changes color when it is safe.","intent":"chat","id":"intent-ceaef02d8d0e","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the webcam for the next step","intent":"open_camera","id":"intent-5b36bd3985f5","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the ship camera for the passenger console","intent":"take_photo","id":"intent-10d940774040","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about the difference between RAM and storage for the next step.","intent":"chat","id":"intent-e53d0417c97c","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how batteries work when it is safe.","intent":"chat","id":"intent-e1f5bbc9d19e","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about what a compass does for the passenger console.","intent":"chat","id":"intent-d2421738c0a4","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the camera view while the dashboard remains open","intent":"object_detect","id":"intent-6694fc0320c4","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the video feed view as a single action","intent":"object_detect","id":"intent-eabc51c8401e","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how batteries work in two sentences right away.","intent":"chat","id":"intent-d159a03774a4","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the webcam view when it is safe","intent":"object_detect","id":"intent-561597b023e1","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about the difference between RAM and storage while the dashboard remains open.","intent":"chat","id":"intent-945a5bec5219","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the ship camera view when it is safe","intent":"object_detect","id":"intent-030eb38461b8","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the webcam as a single action","intent":"open_camera","id":"intent-c72be9fa3ff9","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the video feed view when it is safe","intent":"object_detect","id":"intent-7a7d09186753","source":"pathfinder_project_authored_v1"}
+{"text":"Explain the difference between RAM and storage in two sentences before the inspection.","intent":"chat","id":"intent-fcdfb821df1d","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the webcam for the next step","intent":"open_camera","id":"intent-73cac6bd446d","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the webcam while the dashboard remains open","intent":"take_photo","id":"intent-0db44f87f814","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the camera as a single action","intent":"close_camera","id":"intent-0a9dd4bd3223","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the ship camera for the next step","intent":"take_photo","id":"intent-e0872c3e6a13","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the front camera right away","intent":"take_photo","id":"intent-f9fe872baa3c","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how rainbows form after confirming the command.","intent":"chat","id":"intent-a8477549d5e5","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the ship camera before the inspection","intent":"close_camera","id":"intent-637427d20e64","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the ship camera during this session","intent":"close_camera","id":"intent-9369164c1127","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the webcam for the passenger console","intent":"open_camera","id":"intent-5fee0556dfeb","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the webcam view before the inspection","intent":"object_detect","id":"intent-f32770e85dba","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about what a compass does while the dashboard remains open.","intent":"chat","id":"intent-add448b6636d","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the ship camera view while the dashboard remains open","intent":"object_detect","id":"intent-1ef5d40dbd48","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how to organize a short trip in two sentences for the next step.","intent":"chat","id":"intent-6d6e51a76b84","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about what a compass does when it is safe.","intent":"chat","id":"intent-815745ab8e2f","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the ship camera view without changing other settings","intent":"object_detect","id":"intent-a595ca3045f6","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the camera while the dashboard remains open","intent":"open_camera","id":"intent-bd899ef9c44a","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the webcam without changing other settings","intent":"open_camera","id":"intent-a36e961bee76","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the ship camera when it is safe","intent":"open_camera","id":"intent-a59c8ebef5c4","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the front camera view after confirming the command","intent":"object_detect","id":"intent-e589ea896455","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the ship camera after confirming the command","intent":"open_camera","id":"intent-095035ba4249","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the camera for the passenger console","intent":"take_photo","id":"intent-3ba48a197879","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the front camera for the next step","intent":"take_photo","id":"intent-b306ec38c2f6","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the ship camera for the next step","intent":"open_camera","id":"intent-b90c6ea2c445","source":"pathfinder_project_authored_v1"}
+{"text":"Explain why ships use radar in two sentences for the next step.","intent":"chat","id":"intent-1ba658ccb196","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about a simple pasta recipe for the passenger console.","intent":"chat","id":"intent-ca0ad2653ae2","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the camera when it is safe","intent":"take_photo","id":"intent-2e0f23f4896f","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the ship camera as a single action","intent":"take_photo","id":"intent-6615d7e61d2b","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the video feed when it is safe","intent":"take_photo","id":"intent-de655a576c6c","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the ship camera when it is safe","intent":"take_photo","id":"intent-9fb490ee311d","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the webcam view during this session","intent":"object_detect","id":"intent-2d8b23ff9d76","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the webcam right away","intent":"close_camera","id":"intent-c1302b5e3ef9","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the camera for the next step","intent":"take_photo","id":"intent-929c2c2f64bd","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about a beginner stretching routine during this session.","intent":"chat","id":"intent-3e12b526a67b","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the webcam view without changing other settings","intent":"object_detect","id":"intent-4169d748c4df","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the camera without changing other settings","intent":"close_camera","id":"intent-a440cbb0b2b2","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how batteries work without changing other settings.","intent":"chat","id":"intent-9ad51439aebe","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the front camera for the next step","intent":"close_camera","id":"intent-e12451e84544","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the ship camera while the dashboard remains open","intent":"open_camera","id":"intent-c1310f57b2ae","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the webcam right away","intent":"take_photo","id":"intent-861ae51fbd1e","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the camera view when it is safe","intent":"object_detect","id":"intent-b51c18cf21ca","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the camera for the passenger console","intent":"take_photo","id":"intent-55e73419f7f8","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the webcam for the next step","intent":"take_photo","id":"intent-8afdbb8573a7","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the front camera view for the next step","intent":"object_detect","id":"intent-c62103035073","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the webcam as a single action","intent":"close_camera","id":"intent-f91541e9a9f1","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the front camera without changing other settings","intent":"close_camera","id":"intent-b7f3c81a3bbf","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the video feed view for the passenger console","intent":"object_detect","id":"intent-e1f2c713ad03","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the video feed before the inspection","intent":"take_photo","id":"intent-78c988e4ee77","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the webcam while the dashboard remains open","intent":"close_camera","id":"intent-a049a8692c85","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the webcam as a single action","intent":"open_camera","id":"intent-23132413f15f","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the front camera during this session","intent":"close_camera","id":"intent-513cf24613c4","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the webcam before the inspection","intent":"take_photo","id":"intent-8adcfafafa32","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the front camera after confirming the command","intent":"close_camera","id":"intent-5aefd000b92d","source":"pathfinder_project_authored_v1"}
+{"text":"Explain a simple pasta recipe in two sentences during this session.","intent":"chat","id":"intent-2f2d72405641","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about why ships use radar without changing other settings.","intent":"chat","id":"intent-041a118f2dfa","source":"pathfinder_project_authored_v1"}
+{"text":"Explain ways to stay focused in two sentences for the next step.","intent":"chat","id":"intent-b2a5bc213b20","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the video feed during this session","intent":"close_camera","id":"intent-8e6f027a7fec","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the camera as a single action","intent":"open_camera","id":"intent-65587dd8ee6a","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the ship camera view during this session","intent":"object_detect","id":"intent-bfa0984c5a5e","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the video feed view while the dashboard remains open","intent":"object_detect","id":"intent-fadc280c6ba9","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how rainbows form in two sentences after confirming the command.","intent":"chat","id":"intent-81e438577fb8","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the video feed without changing other settings","intent":"close_camera","id":"intent-5d1892ab2f76","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the camera view for the next step","intent":"object_detect","id":"intent-ad1b4897c2af","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the front camera during this session","intent":"close_camera","id":"intent-aae5da13a981","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the front camera before the inspection","intent":"take_photo","id":"intent-0d6c66f36812","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the camera view during this session","intent":"object_detect","id":"intent-54968cdc7e63","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the camera view for the passenger console","intent":"object_detect","id":"intent-5bbf06d2e918","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the front camera while the dashboard remains open","intent":"close_camera","id":"intent-c8e6090c947d","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the video feed when it is safe","intent":"close_camera","id":"intent-b4b578ea4e84","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the front camera after confirming the command","intent":"take_photo","id":"intent-3fc4df67f7a5","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the webcam as a single action","intent":"open_camera","id":"intent-678cf5db5970","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how batteries work during this session.","intent":"chat","id":"intent-2215af417ff2","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the ship camera view while the dashboard remains open","intent":"object_detect","id":"intent-07ff701522a0","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the ship camera while the dashboard remains open","intent":"take_photo","id":"intent-a21c3acc84b1","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the front camera for the passenger console","intent":"open_camera","id":"intent-86a3a7e63064","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about why the sky changes color as a single action.","intent":"chat","id":"intent-a502b806f881","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the front camera view after confirming the command","intent":"object_detect","id":"intent-27b62752b15a","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the front camera after confirming the command","intent":"open_camera","id":"intent-d071cf98931c","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the webcam view after confirming the command","intent":"object_detect","id":"intent-f662fef63c85","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the ship camera view right away","intent":"object_detect","id":"intent-7b98ea2612b2","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about a beginner stretching routine before the inspection.","intent":"chat","id":"intent-8c24ba785af1","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the front camera after confirming the command","intent":"close_camera","id":"intent-1bdbc73b9f4c","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the video feed view while the dashboard remains open","intent":"object_detect","id":"intent-2581cd1fb4a5","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the webcam during this session","intent":"close_camera","id":"intent-ba5b72ea40a6","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the webcam after confirming the command","intent":"close_camera","id":"intent-bdc4ed213ff9","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the front camera right away","intent":"close_camera","id":"intent-6e6717b6efc6","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the webcam while the dashboard remains open","intent":"open_camera","id":"intent-5ff9e8a93e98","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the front camera after confirming the command","intent":"close_camera","id":"intent-4c698b231695","source":"pathfinder_project_authored_v1"}
+{"text":"Explain what a compass does in two sentences during this session.","intent":"chat","id":"intent-ed817ed0bcdf","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the camera view before the inspection","intent":"object_detect","id":"intent-43eb3bfd516b","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the webcam during this session","intent":"take_photo","id":"intent-312ec2a34349","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about what a compass does during this session.","intent":"chat","id":"intent-dc35ae441efb","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about ways to stay focused as a single action.","intent":"chat","id":"intent-52cdd7c2832c","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the camera after confirming the command","intent":"open_camera","id":"intent-3158f9ec864a","source":"pathfinder_project_authored_v1"}
+{"text":"Explain why ships use radar in two sentences as a single action.","intent":"chat","id":"intent-719c011090f3","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about a beginner stretching routine when it is safe.","intent":"chat","id":"intent-a8d5b487e721","source":"pathfinder_project_authored_v1"}
+{"text":"Explain a beginner stretching routine in two sentences for the passenger console.","intent":"chat","id":"intent-50c216637413","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the video feed for the next step","intent":"open_camera","id":"intent-3008814bee5d","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the ship camera while the dashboard remains open","intent":"close_camera","id":"intent-43985591cd82","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the ship camera view for the next step","intent":"object_detect","id":"intent-1ef97953f3fe","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the video feed after confirming the command","intent":"close_camera","id":"intent-71d095335c9c","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the front camera view as a single action","intent":"object_detect","id":"intent-e67425f2df8c","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the ship camera while the dashboard remains open","intent":"open_camera","id":"intent-08e3ca518e9e","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the front camera for the next step","intent":"open_camera","id":"intent-07a07cc8e184","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the front camera view for the next step","intent":"object_detect","id":"intent-48a491ee5643","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the ship camera while the dashboard remains open","intent":"open_camera","id":"intent-4323e05848aa","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the ship camera for the next step","intent":"take_photo","id":"intent-e446cec06016","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the front camera before the inspection","intent":"close_camera","id":"intent-80df0d643273","source":"pathfinder_project_authored_v1"}
+{"text":"Explain why ships use radar in two sentences without changing other settings.","intent":"chat","id":"intent-46f258ceba44","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about why the sky changes color while the dashboard remains open.","intent":"chat","id":"intent-e305d0c014ab","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the video feed view after confirming the command","intent":"object_detect","id":"intent-1d4886d579e4","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the ship camera view after confirming the command","intent":"object_detect","id":"intent-aabf7497cf3c","source":"pathfinder_project_authored_v1"}
+{"text":"Explain ways to stay focused in two sentences right away.","intent":"chat","id":"intent-311c2d51e455","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the camera before the inspection","intent":"close_camera","id":"intent-60c5301f33e2","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the webcam for the passenger console","intent":"take_photo","id":"intent-ae3099f68274","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the video feed before the inspection","intent":"open_camera","id":"intent-b562d1923ce5","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the video feed as a single action","intent":"close_camera","id":"intent-6151c8c6dabf","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the front camera as a single action","intent":"open_camera","id":"intent-e1038795f2b4","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the ship camera right away","intent":"take_photo","id":"intent-da309ae38350","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the front camera before the inspection","intent":"take_photo","id":"intent-49823b9cd414","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the ship camera view as a single action","intent":"object_detect","id":"intent-2e5c227b4d6a","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the ship camera during this session","intent":"open_camera","id":"intent-a131ae2686e8","source":"pathfinder_project_authored_v1"}
+{"text":"Explain a simple pasta recipe in two sentences while the dashboard remains open.","intent":"chat","id":"intent-1689fe0344cc","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the front camera before the inspection","intent":"close_camera","id":"intent-4743f71d79c1","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the webcam view when it is safe","intent":"object_detect","id":"intent-b7598c9a0508","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the camera without changing other settings","intent":"close_camera","id":"intent-b3d1c5831306","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how rainbows form in two sentences as a single action.","intent":"chat","id":"intent-bb1600229a8b","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the webcam as a single action","intent":"close_camera","id":"intent-888cefbf179a","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the ship camera right away","intent":"open_camera","id":"intent-686b6947d3a5","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn off the video feed right away","intent":"close_camera","id":"intent-2d60bf9d8a6d","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the ship camera during this session","intent":"open_camera","id":"intent-54fc2d6899b2","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how batteries work before the inspection.","intent":"chat","id":"intent-7908f1bdcf92","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the ship camera during this session","intent":"close_camera","id":"intent-8397452ec6c6","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the video feed view for the next step","intent":"object_detect","id":"intent-56d02bb8f47b","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the front camera before the inspection","intent":"close_camera","id":"intent-6e8356ff66c0","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the camera right away","intent":"open_camera","id":"intent-02bf73b14f0c","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how rainbows form during this session.","intent":"chat","id":"intent-892e5897cc43","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn off the ship camera when it is safe","intent":"close_camera","id":"intent-54726185d443","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about why ships use radar after confirming the command.","intent":"chat","id":"intent-a6605dfd7d0e","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the webcam view during this session","intent":"object_detect","id":"intent-8f305d7c9025","source":"pathfinder_project_authored_v1"}
+{"text":"For this check turn on the webcam after confirming the command","intent":"open_camera","id":"intent-a673b3bc0a53","source":"pathfinder_project_authored_v1"}
+{"text":"Explain a simple pasta recipe in two sentences for the passenger console.","intent":"chat","id":"intent-ab6e17ff2b37","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the front camera view as a single action","intent":"object_detect","id":"intent-3323f55876f5","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the camera while the dashboard remains open","intent":"open_camera","id":"intent-8cbd6370c911","source":"pathfinder_project_authored_v1"}
+{"text":"Explain how batteries work in two sentences before the inspection.","intent":"chat","id":"intent-3e5a176a48a3","source":"pathfinder_project_authored_v1"}
+{"text":"Explain a simple pasta recipe in two sentences when it is safe.","intent":"chat","id":"intent-7c252948cae5","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the video feed during this session","intent":"close_camera","id":"intent-2958b3c2cae8","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the camera view after confirming the command","intent":"object_detect","id":"intent-b16bceda90a3","source":"pathfinder_project_authored_v1"}
+{"text":"Could you take a photo with the camera right away","intent":"take_photo","id":"intent-d0ea7f50ea87","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the front camera for the passenger console","intent":"close_camera","id":"intent-6f2f067aa4e7","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the front camera right away","intent":"take_photo","id":"intent-3da0dd77e6e1","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about why ships use radar while the dashboard remains open.","intent":"chat","id":"intent-7728808e2800","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the webcam view when it is safe","intent":"object_detect","id":"intent-43e6f9214fc8","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the webcam view for the passenger console","intent":"object_detect","id":"intent-7fbc1f2d30c1","source":"pathfinder_project_authored_v1"}
+{"text":"Now identify the objects in the video feed view after confirming the command","intent":"object_detect","id":"intent-8b41333d15ce","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the camera after confirming the command","intent":"close_camera","id":"intent-a4d3b72a74e6","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the front camera during this session","intent":"take_photo","id":"intent-f92a1996ba57","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the front camera as a single action","intent":"open_camera","id":"intent-49c2902aa08a","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the webcam view while the dashboard remains open","intent":"object_detect","id":"intent-b2676f9164be","source":"pathfinder_project_authored_v1"}
+{"text":"Now take a photo with the webcam as a single action","intent":"take_photo","id":"intent-977347dcaa9c","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the video feed when it is safe","intent":"close_camera","id":"intent-e3dad3dff2b9","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the front camera after confirming the command","intent":"close_camera","id":"intent-8b44ce682539","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the ship camera for the passenger console","intent":"open_camera","id":"intent-5ad7d6a9b56d","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the video feed before the inspection","intent":"open_camera","id":"intent-fa1ba42c888a","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the video feed without changing other settings","intent":"open_camera","id":"intent-6a67c3e4ecb7","source":"pathfinder_project_authored_v1"}
+{"text":"Please take a photo with the video feed without changing other settings","intent":"take_photo","id":"intent-61606159b75a","source":"pathfinder_project_authored_v1"}
+{"text":"Please identify the objects in the camera view during this session","intent":"object_detect","id":"intent-82e95a3aa3fb","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn on the video feed right away","intent":"open_camera","id":"intent-3ef010853dc2","source":"pathfinder_project_authored_v1"}
+{"text":"For this check take a photo with the camera when it is safe","intent":"take_photo","id":"intent-5bf38aea8a89","source":"pathfinder_project_authored_v1"}
+{"text":"Give me one practical fact about how to organize a short trip after confirming the command.","intent":"chat","id":"intent-96e11226c55b","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the camera view when it is safe","intent":"object_detect","id":"intent-8773c9416497","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the ship camera view without changing other settings","intent":"object_detect","id":"intent-d963bb930b94","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the camera during this session","intent":"open_camera","id":"intent-58059a18fd0a","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the camera view during this session","intent":"object_detect","id":"intent-71078979879e","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the ship camera without changing other settings","intent":"open_camera","id":"intent-9df36a86e46d","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn off the front camera when it is safe","intent":"close_camera","id":"intent-b9b67d18786a","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the camera before the inspection","intent":"close_camera","id":"intent-2741e656085a","source":"pathfinder_project_authored_v1"}
+{"text":"Could you turn off the video feed for the next step","intent":"close_camera","id":"intent-f0e28166b580","source":"pathfinder_project_authored_v1"}
+{"text":"For this check identify the objects in the camera view right away","intent":"object_detect","id":"intent-3e83e43b7a7c","source":"pathfinder_project_authored_v1"}
+{"text":"Please turn on the front camera for the passenger console","intent":"open_camera","id":"intent-1ed4b5c7ef6b","source":"pathfinder_project_authored_v1"}
+{"text":"Now turn on the webcam during this session","intent":"open_camera","id":"intent-869b3cd296a4","source":"pathfinder_project_authored_v1"}
+{"text":"Could you identify the objects in the camera view during this session","intent":"object_detect","id":"intent-c8e0dedd43b7","source":"pathfinder_project_authored_v1"}

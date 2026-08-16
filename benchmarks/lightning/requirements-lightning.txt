@@ -1,0 +1,25 @@
+# Torch is intentionally not pinned: use the CUDA-compatible Torch preinstalled by Lightning AI.
+transformers==4.55.0
+peft==0.17.0
+accelerate==1.10.0
+datasets==4.0.0
+evaluate==0.4.5
+optimum-onnx[onnxruntime-gpu]==0.0.3
+onnxruntime-gpu==1.22.0
+sentencepiece==0.2.0
+numpy==2.2.6
+pandas==2.3.1
+scikit-learn==1.7.1
+matplotlib==3.10.5
+seaborn==0.13.2
+sacrebleu==2.5.1
+rouge-score==0.1.2
+bert-score==0.3.13
+PyYAML==6.0.2
+psutil==7.0.0
+ultralytics==8.3.203
+pycocotools==2.0.10
+absl-py==2.3.1
+immutabledict==4.2.1
+langdetect==1.0.9
+nltk==3.9.1

@@ -1,0 +1,460 @@
+relative_path,category,size_bytes,sha256,modified_utc
+NLPP/Multi Task Models/Flan T5 Base/Flan_T5_early_Base.ipynb,training_or_test_code,28417,6c4abb512b0c992e603f19906da8054e961da4174493f68d32ebb0ac5f1bfff1,2025-06-01T12:24:24.547141+00:00
+NLPP/Multi Task Models/Flan T5 Base/labelsiz/Flan_T5_early_Base.ipynb,training_or_test_code,19309,e449a347b586784de94c64e1769c2d5e10c3d3dc7c1fa360ecd3494e8354a5b1,2025-05-30T08:50:44.045965+00:00
+NLPP/Multi Task Models/Flan T5 Base/labelsiz/model_test.py,training_or_test_code,6056,9a926cc4722c9b0de182d22b66de228f04537a241eb9b3956d8dc3cb3f13b923,2025-05-30T09:01:41.450309+00:00
+NLPP/Multi Task Models/Flan T5 Base/labelsiz/Passenger-Bot/config.json,configuration_or_metric,1515,1016ce796f281c28ad2199ea00e874ed377f2b7e95150373866ffc0bacd7a0f2,2025-05-29T15:49:31.549433+00:00
+NLPP/Multi Task Models/Flan T5 Base/labelsiz/Passenger-Bot/generation_config.json,dataset_or_tokenizer,142,583dc31745e69566cac194201257704f53f9565d93fe3a62d3924c2cfc50432b,2025-05-29T15:49:34.098712+00:00
+NLPP/Multi Task Models/Flan T5 Base/labelsiz/Passenger-Bot/model.safetensors,model_artifact,990345064,09b1ba6a32ae2537c5ec6af69378be06d046d279b3e1abfb1a35a5fb0ca5e17c,2025-05-29T17:03:28.602275+00:00
+NLPP/Multi Task Models/Flan T5 Base/labelsiz/Passenger-Bot/special_tokens_map.json,dataset_or_tokenizer,2543,7a1985a994c41886db38c719d2a3d2f40606663cc19d7c5d6a85d349320e06d2,2025-05-29T15:49:37.519054+00:00
+NLPP/Multi Task Models/Flan T5 Base/labelsiz/Passenger-Bot/tokenizer.json,dataset_or_tokenizer,2422497,aac5188c0b6d0d4374883794f5779519cca08d0b8253a8213ab98cc165ca1469,2025-05-29T15:49:50.368037+00:00
+NLPP/Multi Task Models/Flan T5 Base/labelsiz/Passenger-Bot/tokenizer_config.json,dataset_or_tokenizer,20830,26c1243c486c113e7017520b95ef2e82a7fc64d2b79f857759b4d51de0fb8b70,2025-05-29T15:49:45.756801+00:00
+NLPP/Multi Task Models/Flan T5 Base/labelsiz/test.json,dataset_or_tokenizer,394322,51d16461407f802948f2898d2e6ed76951bb1b22ead61cd702e12f4b06a89eaa,2025-05-25T18:19:16.464360+00:00
+NLPP/Multi Task Models/Flan T5 Base/passenger_bot_dataset.json,dataset_or_tokenizer,2599200,48baa144e66ba4d72fb203fba447b1df45fc077c4122b2d6a8bbfe7b12105f2a,2025-05-29T09:46:30.160027+00:00
+"NLPP/Multi Task Models/Model Test and Run/T5 base,BatchSize64, L40S,10Epoch,1.2e-3/20_multi_task_flan_t5/config.json",configuration_or_metric,1515,1016ce796f281c28ad2199ea00e874ed377f2b7e95150373866ffc0bacd7a0f2,2025-05-25T21:01:13.531338+00:00
+"NLPP/Multi Task Models/Model Test and Run/T5 base,BatchSize64, L40S,10Epoch,1.2e-3/20_multi_task_flan_t5/generation_config.json",dataset_or_tokenizer,142,583dc31745e69566cac194201257704f53f9565d93fe3a62d3924c2cfc50432b,2025-05-25T21:01:17.292182+00:00
+"NLPP/Multi Task Models/Model Test and Run/T5 base,BatchSize64, L40S,10Epoch,1.2e-3/20_multi_task_flan_t5/model.safetensors",model_artifact,990345064,897f2d9b54318b834557432fda833a9bc44dc579f3d84de508a00b1081a96a00,2025-05-25T21:15:15.712775+00:00
+"NLPP/Multi Task Models/Model Test and Run/T5 base,BatchSize64, L40S,10Epoch,1.2e-3/20_multi_task_flan_t5/special_tokens_map.json",dataset_or_tokenizer,2543,7a1985a994c41886db38c719d2a3d2f40606663cc19d7c5d6a85d349320e06d2,2025-05-25T21:09:40.305790+00:00
+"NLPP/Multi Task Models/Model Test and Run/T5 base,BatchSize64, L40S,10Epoch,1.2e-3/20_multi_task_flan_t5/tokenizer.json",dataset_or_tokenizer,2422497,aac5188c0b6d0d4374883794f5779519cca08d0b8253a8213ab98cc165ca1469,2025-05-25T21:10:38.806530+00:00
+"NLPP/Multi Task Models/Model Test and Run/T5 base,BatchSize64, L40S,10Epoch,1.2e-3/20_multi_task_flan_t5/tokenizer_config.json",dataset_or_tokenizer,20830,26c1243c486c113e7017520b95ef2e82a7fc64d2b79f857759b4d51de0fb8b70,2025-05-25T21:10:32.418014+00:00
+"NLPP/Multi Task Models/Model Test and Run/T5 base,BatchSize64, L40S,10Epoch,1.2e-3/model_test.py",training_or_test_code,3455,798aaa05f34c3a774f9f124250ce59768ed26b1a6149aafa746b6ce0e312bd7b,2025-05-25T21:21:09.024048+00:00
+"NLPP/Multi Task Models/Model Test and Run/T5 base,BatchSize64, L40S,10Epoch,1.2e-3/test.json",dataset_or_tokenizer,394322,51d16461407f802948f2898d2e6ed76951bb1b22ead61cd702e12f4b06a89eaa,2025-05-25T18:19:16.464360+00:00
+"NLPP/Multi Task Models/Model Test and Run/T5 Small model 10 epoch,5e-4,16 batch,T4/model_test.py",training_or_test_code,3449,db2bedeb3545f4834b5af5ca56e37fc61b95eac6033d8e006f0a25dca77d6fcd,2025-05-25T18:25:26.463463+00:00
+"NLPP/Multi Task Models/Model Test and Run/T5 Small model 10 epoch,5e-4,16 batch,T4/multi_task_flan_t5/config.json",configuration_or_metric,1512,d3fa7b11fb27213b15e67ac9921ca97bf07ead4b911efce65b9958d55f85c5be,2025-05-25T15:59:54.353547+00:00
+"NLPP/Multi Task Models/Model Test and Run/T5 Small model 10 epoch,5e-4,16 batch,T4/multi_task_flan_t5/generation_config.json",dataset_or_tokenizer,142,583dc31745e69566cac194201257704f53f9565d93fe3a62d3924c2cfc50432b,2025-05-25T15:59:58.235509+00:00
+"NLPP/Multi Task Models/Model Test and Run/T5 Small model 10 epoch,5e-4,16 batch,T4/multi_task_flan_t5/model.safetensors",model_artifact,307867048,b1ad5fb111d7c2e167767ae33d7afadf0b5736f74f81f9bf831d8db7d0af478d,2025-05-25T16:02:57.637685+00:00
+"NLPP/Multi Task Models/Model Test and Run/T5 Small model 10 epoch,5e-4,16 batch,T4/multi_task_flan_t5/special_tokens_map.json",dataset_or_tokenizer,2543,7a1985a994c41886db38c719d2a3d2f40606663cc19d7c5d6a85d349320e06d2,2025-05-25T16:01:38.585981+00:00
+"NLPP/Multi Task Models/Model Test and Run/T5 Small model 10 epoch,5e-4,16 batch,T4/multi_task_flan_t5/tokenizer.json",dataset_or_tokenizer,2422497,aac5188c0b6d0d4374883794f5779519cca08d0b8253a8213ab98cc165ca1469,2025-05-25T16:01:54.898104+00:00
+"NLPP/Multi Task Models/Model Test and Run/T5 Small model 10 epoch,5e-4,16 batch,T4/multi_task_flan_t5/tokenizer_config.json",dataset_or_tokenizer,20830,26c1243c486c113e7017520b95ef2e82a7fc64d2b79f857759b4d51de0fb8b70,2025-05-25T16:01:47.806799+00:00
+"NLPP/Multi Task Models/Model Test and Run/T5 Small model 10 epoch,5e-4,16 batch,T4/test.json",dataset_or_tokenizer,394322,51d16461407f802948f2898d2e6ed76951bb1b22ead61cd702e12f4b06a89eaa,2025-05-25T18:19:16.464360+00:00
+NLPP/Multi Task Models/Model Train/Flan T5 Base/Flan_T5_Base.ipynb,training_or_test_code,12146,9af515b71887ce36e37c8ae7af0723b55835281ab1114ae8d7b28adf29cf62bb,2025-05-25T16:22:21.099445+00:00
+NLPP/Multi Task Models/Model Train/Flan T5 Base/passenger_bot_dataset.json,dataset_or_tokenizer,2204532,94c5697457d1fef31568f8d82a43cc49e15c1135866497d191df6f3edb50a1c4,2025-05-25T17:05:36.243240+00:00
+NLPP/Multi Task Models/Model Train/Flan T5 Small/Flan_T5_small.ipynb,training_or_test_code,12042,9e0432b71ddad5f5f10e72fec00c62a15fb21fd9375c06c70a146cbb4a938013,2025-05-25T14:02:39.961433+00:00
+NLPP/NLP Datasets/chat_dataset.json,dataset_or_tokenizer,17631341,9650707ce40ed0490c8b54e9a84771f74f46cea08fe476df749c9510727df800,2025-05-23T18:17:16.547989+00:00
+NLPP/NLP Datasets/Datasets Create/dailydialog_kendi_formatım.py,training_or_test_code,1416,7f872303e046385d4536d6e980340baba981aa8fc62bdd95393c47f7e99ca5ff,2025-05-23T16:28:32.342241+00:00
+NLPP/NLP Datasets/Datasets Create/Datasets Birleştirme/birlestir_veri.py,training_or_test_code,2271,794355510b773ed8d38bbbf7ca86c5ba85ecdafb8421b5e469a43abedb463680,2025-05-25T12:57:43.515294+00:00
+NLPP/NLP Datasets/Datasets Create/Datasets Birleştirme/komutlar/command_1.json,dataset_or_tokenizer,112759,73d46cc0efa16c662dcf5a81bda333a60f5061fbf7eaad0180b051d4195a8206,2025-05-24T21:16:11.025123+00:00
+NLPP/NLP Datasets/Datasets Create/Datasets Birleştirme/komutlar/command_2.json,dataset_or_tokenizer,71260,1da119171e4c9c066371c5a5e7221bab5c4621b75eb44b7c939d6882fdc81523,2025-05-24T21:17:16.176461+00:00
+NLPP/NLP Datasets/Datasets Create/Datasets Birleştirme/komutlar/command_3.json,dataset_or_tokenizer,94016,eba103c1ea015ecc125311b3192f112dd26870866c835204825eca5cfe93b13a,2025-05-24T21:19:19.788146+00:00
+NLPP/NLP Datasets/Datasets Create/Datasets Birleştirme/komutlar/command_4.json,dataset_or_tokenizer,99961,f9863e8fd5113587f814f64d8e6f3c92828c1f110628f897fb806dc1fa408ce1,2025-05-24T21:20:09.685836+00:00
+NLPP/NLP Datasets/Datasets Create/Datasets Birleştirme/komutlar/command_5.json,dataset_or_tokenizer,47670,4c38f9790c172952672712373a822a040848853344254c8727600001c692aa6e,2025-05-11T18:12:10.618473+00:00
+NLPP/NLP Datasets/Datasets Create/Datasets Birleştirme/komutlar/command_6.json,dataset_or_tokenizer,42362,dc91ad523d85c784ff8881c794e2d7f4369acdf5ebb2e927d25fd676fcde23b2,2025-05-11T18:16:56.384031+00:00
+NLPP/NLP Datasets/Datasets Create/Datasets Birleştirme/komutlar/command_7.json,dataset_or_tokenizer,42978,27c272a7598fbc3ae74f1c54c773795bf1bc80137fbde6ca96785dcf3a820fb2,2025-05-11T18:12:43.373301+00:00
+NLPP/NLP Datasets/Datasets Create/Datasets Birleştirme/komutlar/command_8.json,dataset_or_tokenizer,44992,ba8a50bc78c0b3dce588d44827d5a3d61a127e89497c642fdf5d75ffe7da3b60,2025-05-11T18:50:09.898356+00:00
+NLPP/NLP Datasets/Datasets Create/Datasets Birleştirme/tırnak işareti kaldır.py,training_or_test_code,659,1e56b8ee619dd5272b0deaeb5f335d28aaed4befab7d6269d61d927cdf8a2805,2025-05-25T12:57:24.514094+00:00
+NLPP/NLP Datasets/Datasets Create/Datasets Birleştirme/tırnaklı_Passenger_bot_dataset.json,dataset_or_tokenizer,2102067,457c826fed1ac5952f4304d896f215cab3a1213b6fd36f45555ba340fd976cba,2025-05-25T11:34:08.822813+00:00
+NLPP/NLP Datasets/Datasets Create/Datasets Birleştirme/yeni.json,dataset_or_tokenizer,1584862,8b40f7c37930a456cbb3d36178328e7896f89bddcc4b4421a93983d5643f9789,2025-05-25T11:14:37.599389+00:00
+NLPP/NLP Datasets/Datasets Create/Datasets Birleştirme/önemli.txt,documentation_or_visual_evidence,435,43f6f503f6d37feeb6ba866b3242aa142430f7bb4b9a3cb396d5547bf50d4243,2025-05-11T20:29:33.043401+00:00
+NLPP/NLP Datasets/Datasets Create/Labels data create with code/camera_dataset.json,dataset_or_tokenizer,42294,7bb4367067dd9ce747ad02a59245f7cc5e10edcf824a23a5b8e176b6175cda04,2025-05-24T20:51:42.658840+00:00
+NLPP/NLP Datasets/Datasets Create/Labels data create with code/detect.py,training_or_test_code,1736,097e5d31167aeaab04ec4de9bd77d48c95285e33e64486ff17bb031daa0a5355,2025-05-24T21:10:44.212169+00:00
+NLPP/NLP Datasets/Datasets Create/Labels data create with code/object_detection_dataset.json,dataset_or_tokenizer,50543,71c367687875b541cbc5823e9238c3716a9aa02beff86ab1882d4e03ba37764d,2025-05-24T21:11:13.921003+00:00
+NLPP/NLP Datasets/Datasets Create/Labels data create with code/open_close_camera.py,training_or_test_code,1836,21ddc568be6d286fcc45ddbbd977f535ac8844569b7cfea6939e7e4bcd0cb489,2025-05-24T20:50:46.316723+00:00
+NLPP/NLP Datasets/Datasets Create/Labels data create with code/photo_dataset.json,dataset_or_tokenizer,46145,8c7c46d486a2427db0094d541fab6b1895b96f7cd607a76fd8b42ec7531e3c28,2025-05-24T21:04:32.379069+00:00
+NLPP/NLP Datasets/Datasets Create/Labels data create with code/take_photo.py,training_or_test_code,1560,d2ff72563ac3bcb7838c94d62bb5be9cc6025e1cb532ef248f40ea54b096c004,2025-05-24T21:04:30.630512+00:00
+NLPP/NLP Datasets/komutlar/command_1.json,dataset_or_tokenizer,112759,73d46cc0efa16c662dcf5a81bda333a60f5061fbf7eaad0180b051d4195a8206,2025-05-24T21:16:11.025123+00:00
+NLPP/NLP Datasets/komutlar/command_2.json,dataset_or_tokenizer,71260,1da119171e4c9c066371c5a5e7221bab5c4621b75eb44b7c939d6882fdc81523,2025-05-24T21:17:16.176461+00:00
+NLPP/NLP Datasets/komutlar/command_3.json,dataset_or_tokenizer,94016,eba103c1ea015ecc125311b3192f112dd26870866c835204825eca5cfe93b13a,2025-05-24T21:19:19.788146+00:00
+NLPP/NLP Datasets/komutlar/command_4.json,dataset_or_tokenizer,99961,f9863e8fd5113587f814f64d8e6f3c92828c1f110628f897fb806dc1fa408ce1,2025-05-24T21:20:09.685836+00:00
+NLPP/NLP Datasets/komutlar/command_5.json,dataset_or_tokenizer,47670,4c38f9790c172952672712373a822a040848853344254c8727600001c692aa6e,2025-05-11T18:12:10.618473+00:00
+NLPP/NLP Datasets/komutlar/command_6.json,dataset_or_tokenizer,42362,dc91ad523d85c784ff8881c794e2d7f4369acdf5ebb2e927d25fd676fcde23b2,2025-05-11T18:16:56.384031+00:00
+NLPP/NLP Datasets/komutlar/command_7.json,dataset_or_tokenizer,42978,27c272a7598fbc3ae74f1c54c773795bf1bc80137fbde6ca96785dcf3a820fb2,2025-05-11T18:12:43.373301+00:00
+NLPP/NLP Datasets/komutlar/command_8.json,dataset_or_tokenizer,44992,ba8a50bc78c0b3dce588d44827d5a3d61a127e89497c642fdf5d75ffe7da3b60,2025-05-11T18:50:09.898356+00:00
+NLPP/NLP Datasets/passenger_bot_dataset.json,dataset_or_tokenizer,2599200,48baa144e66ba4d72fb203fba447b1df45fc077c4122b2d6a8bbfe7b12105f2a,2025-05-29T09:46:30.160027+00:00
+NLPP/NLP Datasets/test komutları/command_1.json,dataset_or_tokenizer,9957,a03a63f34a093c2f3882e5cf672b036d7d35a789d029533c8f18e50532b353e2,2025-05-25T17:27:40.640359+00:00
+NLPP/NLP Datasets/test komutları/command_2.json,dataset_or_tokenizer,11996,de852820f1ade5dfbc51e854787efdce0486c5ea34d750eb7d38f56537d502f2,2025-05-25T17:32:08.466865+00:00
+NLPP/NLP Datasets/test komutları/command_3.json,dataset_or_tokenizer,11375,69dab710278ed7b8d602c83d2d6bc063e82695ec41ef8a664383e662b90dc7e1,2025-05-25T17:46:00.884446+00:00
+NLPP/NLP Datasets/test komutları/command_4.json,dataset_or_tokenizer,26049,4118d182bb61801f2d83a48060e997b82671b6bf45654aaf7fb7d74499a0358e,2025-05-25T17:58:30.284162+00:00
+NLPP/NLP Datasets/test komutları/command_5.json,dataset_or_tokenizer,16610,cdc6226cd3ed21571b05e45cb148054a608080c3943d6c388bccea4918584783,2025-05-25T18:11:23.459561+00:00
+NLPP/NLP Datasets/test.json,dataset_or_tokenizer,394322,51d16461407f802948f2898d2e6ed76951bb1b22ead61cd702e12f4b06a89eaa,2025-05-25T18:19:16.464360+00:00
+NLPP/NLPP_DOSYA_VE_GOREV_REHBERI.md,documentation_or_visual_evidence,23104,ab9298e5820c2aca3647dae2e0ff0c9ac7a68a877a2cf737090e270516e62572,2026-08-15T16:26:22.188209+00:00
+Passenger Prompt System/chrome_launcher.py,training_or_test_code,804,4b036571d3e7cc1318385f2ae9d7f7a56d5197efc8e17e404dcbaf0d1ea18682,2026-02-26T11:36:59.987684+00:00
+Passenger Prompt System/config.json,configuration_or_metric,876,f41febaa6fd2831568248730a0d775f7753a1bb8afb6344b48eda6f47c6aaf32,2026-02-26T12:15:09.896376+00:00
+Passenger Prompt System/main.py,training_or_test_code,767,9ef5e1f22eb3c9ee45277606451a9112256333071dc2f4fa4fd8ea6dc39b63b5,2026-02-26T11:58:24.761591+00:00
+Passenger Prompt System/orchestrator.py,training_or_test_code,5916,ec67891a2500e53f034c2cd86f5e4b7cafdee9a7d549ad76f146dacdb6815308,2026-02-26T12:19:58.664940+00:00
+Passenger Prompt System/PASSENGER_PROMPT_SYSTEM_REHBERI.md,documentation_or_visual_evidence,15856,e230ea920f07a8b14f54c257c8176752ed46eff15c4770db38f3912444cebf5d,2026-08-15T16:32:18.351507+00:00
+Passenger Prompt System/proje/chrome_launcher.py,training_or_test_code,804,4b036571d3e7cc1318385f2ae9d7f7a56d5197efc8e17e404dcbaf0d1ea18682,2026-02-26T11:36:59.987684+00:00
+Passenger Prompt System/proje/config.json,configuration_or_metric,876,f41febaa6fd2831568248730a0d775f7753a1bb8afb6344b48eda6f47c6aaf32,2026-02-26T12:15:09.896376+00:00
+Passenger Prompt System/proje/main.py,training_or_test_code,767,9ef5e1f22eb3c9ee45277606451a9112256333071dc2f4fa4fd8ea6dc39b63b5,2026-02-26T11:58:24.761591+00:00
+Passenger Prompt System/proje/orchestrator.py,training_or_test_code,4591,568407c2c1d5841162c6a74212a7f80ce319589ca65d6bcd52369de412a01607,2026-02-26T12:15:05.921032+00:00
+Passenger Prompt System/proje/readme.txt,documentation_or_visual_evidence,103,45e55178b4d2875560fe0d0cf18ca47371df7af6a3a76e034d892018d17e6350,2026-02-26T10:44:04.580203+00:00
+Passenger Prompt System/proje/requirements.txt,documentation_or_visual_evidence,51,134da2f9738addebf1b6e6fc330ed99a6a121088f93a25fd7b5713bf80b08afa,2026-02-26T11:07:07.402909+00:00
+Passenger Prompt System/proje/server.py,training_or_test_code,1377,be16e803db31dd5ff1173dfb914a2f96bc6916fb4a6c45f03d343663a8c1db32,2026-02-26T10:19:09.325186+00:00
+Passenger Prompt System/proje/utils.py,training_or_test_code,378,1f4f186d7957e8f6af14a2f683de1edb0a8035bd4f0d24bc074cdf57ad3c5f66,2026-02-26T10:16:37.119988+00:00
+Passenger Prompt System/readme.txt,documentation_or_visual_evidence,103,45e55178b4d2875560fe0d0cf18ca47371df7af6a3a76e034d892018d17e6350,2026-02-26T10:44:04.580203+00:00
+Passenger Prompt System/requirements.txt,documentation_or_visual_evidence,51,134da2f9738addebf1b6e6fc330ed99a6a121088f93a25fd7b5713bf80b08afa,2026-02-26T11:07:07.402909+00:00
+Passenger Prompt System/server.py,training_or_test_code,1377,be16e803db31dd5ff1173dfb914a2f96bc6916fb4a6c45f03d343663a8c1db32,2026-02-26T10:19:09.325186+00:00
+Passenger Prompt System/utils.py,training_or_test_code,378,1f4f186d7957e8f6af14a2f683de1edb0a8035bd4f0d24bc074cdf57ad3c5f66,2026-02-26T10:16:37.119988+00:00
+Primee/Classification Model MiniLM-L6/dataset/labels.json,dataset_or_tokenizer,118,28a08469574d85d89fef59cc7a5ce75eb94adc18a736fff33a2ed3ab581af78d,2025-09-11T20:41:50.861782+00:00
+Primee/Classification Model MiniLM-L6/dataset/test.jsonl,dataset_or_tokenizer,60233,49bcf6ac16d9a9fc0d3ec9eb16ad2ae44443813fdaeeff876adc97e11f9bd086,2025-09-11T20:41:50.861782+00:00
+Primee/Classification Model MiniLM-L6/dataset/train-valid-test-ayırma_kodu.py,training_or_test_code,3774,32e33c63c3abccdab565e0938401687807dc7c04ef82407ce73460ffa04596cf,2025-09-11T20:41:43.870686+00:00
+Primee/Classification Model MiniLM-L6/dataset/train.jsonl,dataset_or_tokenizer,483783,923fc9524ff70b417d5cb86f150029f03da5bdca606d91a671e90d65c6bfec01,2025-09-11T20:42:42.015464+00:00
+Primee/Classification Model MiniLM-L6/dataset/valid.jsonl,dataset_or_tokenizer,59979,47445f5b761824ab2c85262945a902489a60a62fa24ddf37690fedb48602f697,2025-09-11T20:41:50.859778+00:00
+Primee/Classification Model MiniLM-L6/intent_classifier_minilm_cpu.ipynb,training_or_test_code,65281,b47f08f06e0438f0d2db0aa79e1a61d0de683b192cfd756f8d6e88f69272849d,2025-09-12T08:04:10.780111+00:00
+Primee/Classification Model MiniLM-L6/model/best/config.json,configuration_or_metric,946,9767f19f9fdb9513405e5609056c7d27133077a0dd0d250c3ca503bbd6b85fdd,2025-09-11T20:57:01.343469+00:00
+Primee/Classification Model MiniLM-L6/model/best/special_tokens_map.json,dataset_or_tokenizer,125,b6d346be366a7d1d48332dbc9fdf3bf8960b5d879522b7799ddba59e76237ee3,2025-09-11T20:57:07.555571+00:00
+Primee/Classification Model MiniLM-L6/model/best/tokenizer.json,dataset_or_tokenizer,711493,d542861653d0d204783c94395fdf32eef9e800d5fa565a2892c3f1375aa835e9,2025-09-11T20:57:10.115004+00:00
+Primee/Classification Model MiniLM-L6/model/best/tokenizer_config.json,dataset_or_tokenizer,1272,7b082b48a08a0b5c5939d99472e33addce3d96202155e33f7928cecd171186a0,2025-09-11T20:57:08.925193+00:00
+Primee/Classification Model MiniLM-L6/model/best/vocab.txt,documentation_or_visual_evidence,231508,07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3,2025-09-11T20:57:11.994331+00:00
+Primee/Classification Model MiniLM-L6/model/inference_minilm-l6.py,training_or_test_code,1759,0f0c02006ded50590d9ba7fb270e6879d65d3bdea0b97570f8c0ff08ec907ca9,2025-09-11T21:14:47.993612+00:00
+Primee/Classification Model MiniLM-L6/model/intent-minilm-int8.onnx,model_artifact,23723120,d7f85b2e936c3f70539297162af47944af8559216cc5419ea38398ece0693b1d,2025-09-11T20:56:20.102801+00:00
+Primee/Classification Model MiniLM-L6/model/Results/Loss and metrics.txt,documentation_or_visual_evidence,748,50a1d4bf899706064d0e3d902ba5903c659fa29003a8120b529a88c3bc829c29,2025-09-12T08:05:28.790085+00:00
+Primee/Classification Model MiniLM-L6/model/Results/output.png,documentation_or_visual_evidence,32941,887a010aa712ee08c118f599f1347f26742a14a72166a6c185a72c8f8872d015,2025-09-12T08:05:36.450042+00:00
+Primee/Classification Model MiniLM-L6/model/Results/Train valid loss.png,documentation_or_visual_evidence,21097,5e39ac44c358170905f5cddc74e4978fcbaf882a8c964c2a0e767c193617092c,2025-09-12T08:06:26.806160+00:00
+Primee/Classification Model MiniLM-L6/onnx çalıştırmak için gerekli.png,documentation_or_visual_evidence,73731,85de4cae0922ce9829f888d421e0bb0cb8968e7017a6ca3453b66a1a748a3358,2025-09-11T19:26:50.474017+00:00
+Primee/Classification Model MiniLM-L6/onnx_and_int8-quantization_for_MiniLM-L6.py,training_or_test_code,4157,54674ddde3a327863579c50110dcf2c07c5b79a184fa4a4d69464a19ea851db3,2025-09-11T17:29:10.012017+00:00
+Primee/DOSYA_VE_KLASOR_GOREV_REHBERI.md,documentation_or_visual_evidence,23314,d6919cdd77e3649a3ba3c2afae3ab2fca014afbe061623accd6a791f0f83b393,2026-08-15T16:36:57.291828+00:00
+Primee/gmail.png,documentation_or_visual_evidence,90357,3f9dc183db70cfa2b51088f7b7f1041957c5e1b0d62bdc2e39cbec1b76dba634,2025-09-24T15:38:40.618881+00:00
+Primee/LLM Datasets/BEST DATA/BEST_ever_Chat_Rag.jsonl,dataset_or_tokenizer,115839790,47c3e4105ba2aabb925b5c9c9dcc7977275599b55a8d7038e0ba998b72f971a0,2025-08-13T18:02:15.379401+00:00
+Primee/LLM Datasets/BEST DATA/BEST_mix_chat_50k.jsonl,dataset_or_tokenizer,62285126,b312a7cf006c92b7deb8a835e88747bc7ca83c9bccffda6c08e5acccf0ccf34d,2025-08-13T14:03:31.441327+00:00
+Primee/LLM Datasets/BEST DATA/converted_chat.jsonl,dataset_or_tokenizer,286403295,c423974744227c2eb1567665358318af31434a928a68f08a33ec4c2debf969db,2025-08-13T00:57:07.807340+00:00
+Primee/LLM Datasets/BEST DATA/data_rag.jsonl,dataset_or_tokenizer,53794711,5945e3b1d5b179012d9936ef1b511681385e0d5ff352e86a314f10ec7877521e,2025-08-13T00:42:46.602741+00:00
+Primee/LLM Datasets/BEST DATA/merged_no_tables_100k.jsonl,dataset_or_tokenizer,111048688,0062ab9c8e688e6b29bc5008964c0a1a97c06aa97593270fbcade3c4e1104712,2025-08-13T01:07:00.122720+00:00
+Primee/LLM Datasets/BEST DATA/mixed chat veri özellikleri/77161b4b-20d9-4d13-8198-4025b8549dfa.png,documentation_or_visual_evidence,80099,05e8300325053dc46f69914fd8ec47d7ec30d009a622772b8c76734d42aa5dc2,2025-08-13T14:32:17.898787+00:00
+Primee/LLM Datasets/BEST DATA/mixed chat veri özellikleri/8dad54ff-c0a2-4c61-84c0-4be0eeecf62d.png,documentation_or_visual_evidence,72456,52ecb9e86db6b784158c1402d785651a4628702f571dd06d628cc661aaa0cab4,2025-08-13T14:32:23.495013+00:00
+Primee/LLM Datasets/BEST DATA/mixed chat veri özellikleri/f186b392-1634-4878-8242-75e91d01e4e9.png,documentation_or_visual_evidence,81728,acaf418b82001517a050a2690201dac7331cb7d8d76887bd151ab8271e92eb3b,2025-08-13T14:32:08.322258+00:00
+Primee/LLM Datasets/BEST DATA/mixed chat veri özellikleri/mix_chat_50k_audit__first_200_rows_.csv,dataset_or_tokenizer,11017,b2e5a1cbc3751fcf8e7625d4def11e1cf4da95471b4153685f4983bb814325c8,2025-08-13T14:08:04.436053+00:00
+Primee/LLM Datasets/BEST DATA/mixed chat veri özellikleri/mix_chat_50k_audit_summary.json,dataset_or_tokenizer,994,040957afeb690699a84dc2cf0434b0f62bfccf6937ca548cb10fd8da5215c9ce,2025-08-13T14:09:21.492319+00:00
+Primee/LLM Datasets/BEST DATA/mixed chat veri özellikleri/mix_chat_50k_outliers.csv,dataset_or_tokenizer,11528,7aad1ce8655e4375276280d7f84d197bee5c77f3993c9b8f23e4139bac9d17bf,2025-08-13T14:09:15.007834+00:00
+Primee/LLM Datasets/BEST DATA/mixed chat veri özellikleri/open.py,training_or_test_code,12564,cc83c9442ff9d03a7eb6a4464be09b5cb7e8bc18c0c34624793aa8741f517d18,2025-08-13T13:51:48.767023+00:00
+Primee/LLM Datasets/BEST DATA/mixed chat veri özellikleri/özet.txt,documentation_or_visual_evidence,1046,db9090bb0684f987d270b065b12c5abed45095cc205cee2e89d7ce71f01429fb,2025-08-13T14:31:27.230242+00:00
+Primee/LLM Datasets/BEST DATA/s.py,training_or_test_code,5649,905906ed8d085ccb8bcb2a7ee10d767018bfa1259c242045ac86f5058bab3411,2025-08-13T14:38:34.732617+00:00
+Primee/LLM Datasets/chit_chat.py,training_or_test_code,3810,b5a4c9b84f947618ca521089ad7a111a534e5070a3b5bad98f06496a36399599,2025-08-05T16:04:19.321506+00:00
+Primee/LLM Datasets/data52.jsonl,dataset_or_tokenizer,103155693,9867070f119386b9e6df7a6a735f62a4bb2e7c2db05913289b4b46603186603a,2025-08-11T18:18:31.565402+00:00
+Primee/LLM Datasets/dataset_MiniLM-L6/chat.jsonl,dataset_or_tokenizer,186714,953c1dce54f82a884cef58b724f9a9ecf83c96f58d07b6e456ed752e4ab36d29,2025-09-11T14:44:02.849530+00:00
+Primee/LLM Datasets/dataset_MiniLM-L6/close_camera.jsonl,dataset_or_tokenizer,100179,bc7578eb66d3aa2b1f42b0069083f41f02c6c425d96397e5d9289af7a2f5d582,2025-09-11T20:24:50.310788+00:00
+Primee/LLM Datasets/dataset_MiniLM-L6/object_detect.jsonl,dataset_or_tokenizer,111023,9802994a7a741c5815f1b42e8ad7b3bda7075e50e66ac2f06262801ad1862e66,2025-09-11T20:31:47.802857+00:00
+Primee/LLM Datasets/dataset_MiniLM-L6/open_camera.jsonl,dataset_or_tokenizer,97254,5ddac63fc2b53f74c9ddf9c4f2a71a79b01116c2b78771f9be327fdab3ee4637,2025-09-11T20:26:58.716755+00:00
+Primee/LLM Datasets/dataset_MiniLM-L6/take_photo.jsonl,dataset_or_tokenizer,106818,8810b13401e92f71f0d77c9c4610fd3fd85e43cd54d6fcf999b3da5e2bfe7402,2025-09-11T20:29:22.275551+00:00
+Primee/LLM Datasets/ddd.py,training_or_test_code,5336,e80b723813803fdeb64b67fdbea089155ccdea4048145a25e9099b1b29c52151,2025-08-08T13:14:46.316770+00:00
+Primee/LLM Datasets/deepseek_python_20250805_9be091.py,training_or_test_code,3769,13715092a9a30e9b8e75d7e6457b6f5b90485592c185be3b7d5abd18a602e218,2025-08-05T14:36:39.309227+00:00
+Primee/LLM Datasets/Eski kullanılan veri dosyaları/passenger_bot_dataset_rag_yok.json,dataset_or_tokenizer,2599200,48baa144e66ba4d72fb203fba447b1df45fc077c4122b2d6a8bbfe7b12105f2a,2025-07-23T10:53:24.996057+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/close camera/close_camera_commands.json,dataset_or_tokenizer,2096795,a4ef4362066a0c54186efcfebc3f835456a231c09c5ed43d120134dcce4b074b,2025-07-23T14:51:56.155553+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/close camera/command_only_one.py,training_or_test_code,5886,8efdbc9897079f91a6b319b4a7804fa3745c2d868a5408d67d531e90f6093bd7,2025-07-23T14:51:53.691910+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/close camera/mevcut_close.txt,documentation_or_visual_evidence,3607,c47f83f36f595c575af567daaa866e2ecad9cff32c410bd43cf989503c56c539,2025-07-23T13:37:27.930515+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/close camera/objects_close.txt,documentation_or_visual_evidence,3616,f62e7f4e914c0f1e152b879e0d65a2b213675541eb8d66dccdc5a1263830b68f,2025-07-23T13:25:59.690234+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/close camera/response_close.txt,documentation_or_visual_evidence,4998,1c9387cac4289b5fb8d7b057d00e6840fd846cc880388dbd0deaf385f4a64e4b,2025-07-23T13:21:05.759835+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/close camera/templates_close.txt,documentation_or_visual_evidence,6769,b62a86d091e6e74bc6cf8d183f5469926f648edcd00ea3ad6357624a4ebd5de5,2025-07-23T13:22:39.637619+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/close camera/verbs_close.txt,documentation_or_visual_evidence,3117,9ce250cffa679c2e87eb6d971abd78c4e15c5bc201d06c868a14e31ebabddc85,2025-07-23T13:35:09.970432+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/Detect/command_only_one.py,training_or_test_code,6034,9d02e488c04be3745d4e5ae9671d9e1efcd5aa13bc0ccbc2cc09b92e2e43a61b,2025-07-23T14:52:47.268079+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/Detect/detect_commands.json,dataset_or_tokenizer,2068132,976fe02b88ab65c8d89a6646e20dc9448938e3d8b47c20b63927ef7b33be2c2a,2025-07-23T14:52:50.382033+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/Detect/mevcut_detect.txt,documentation_or_visual_evidence,3488,c801d05a22da0dfa4c029f1a96591f17a8dd6631b18afd5d73ca9353b3d76b54,2025-07-23T13:45:13.567501+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/Detect/objects_detect.txt,documentation_or_visual_evidence,2226,f9dfae3ecb72d6ef994e413b03ef5b568d5726737eac2338cd236120d28b95a8,2025-07-23T14:32:51.704727+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/Detect/response_detect.txt,documentation_or_visual_evidence,23621,70d80e6df1c84576683ab63497af3ab96b3c40de03d3fcbdb97d37a05c45c8ee,2025-07-23T13:47:34.628356+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/Detect/templates_detect.txt,documentation_or_visual_evidence,6859,95a7cdf795b9037daf27839b34a4bd799fa30e4635c164d9625180df827fc9d0,2025-07-23T13:49:54.502982+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/Detect/verbs_detect.txt,documentation_or_visual_evidence,2539,507a580501a147d0d3afb8758846e7d5a9431661be431b26110de7f2f683072b,2025-07-23T14:29:37.938454+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/diğer yöntem/command.py,training_or_test_code,2827,a2153aac4eaec539a82f3974b440148264699dfdc23324197dfd92f4aa1d666d,2025-07-22T15:40:34.841287+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/README.txt,documentation_or_visual_evidence,611,b20535689c3b4c51cc3a522a5165cb3bb2417b4123b22b95eb94ed86ab932ac8,2025-07-23T14:59:33.971773+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/take photo/command_only_one.py,training_or_test_code,5698,54aa682a10fc0f70d4819fd49eda6d8b6550bde87b5d18b4c41e16efa8a1ef36,2025-07-23T14:54:52.872204+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/take photo/mevcut_take.txt,documentation_or_visual_evidence,4688,e3b7b74e3fe16324e7a18adee83a71604b2fb21c226cba71e56705190b5b4042,2025-07-23T12:10:25.139361+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/take photo/objects_take.txt,documentation_or_visual_evidence,2057,38dce9bc098441a70858faba5cdb920669ac2917708967076c1f1acdd9f93d21,2025-07-23T12:21:15.474029+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/take photo/response_take.txt,documentation_or_visual_evidence,12699,d12472492d86168827656f0b3839f9261872ce2f64a0ca03fa03a8632ad6d425,2025-07-23T12:26:12.019135+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/take photo/take_photo_commands.json,dataset_or_tokenizer,1958642,308960383ae0ee35ad485c0622db2e91249a2c194a4bc973133ed1cac2b73421,2025-07-23T14:55:03.297862+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/take photo/templates_take.txt,documentation_or_visual_evidence,6498,2aa2aba3378c83a122e7707d05f7a4deb04859b75898fc2bbf86d8b04875090b,2025-07-23T12:31:04.457660+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/take photo/verbs_take.txt,documentation_or_visual_evidence,2739,25e82d390c076c2cc07b0246d8b22af22ea992d684ef955a7c784c90c8f97087,2025-07-23T12:35:56.470155+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/Örnek/command_only_one.py,training_or_test_code,5945,96df8934d41d3a2d051264d3e868c7edcd9777d830db7c5674211d994f3ad037,2025-07-22T17:09:46.502600+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/Örnek/mevcut_open.txt,documentation_or_visual_evidence,5481,5e6644e26968e5bb6eacc252cf5c4f45a9fe03afd1ac3bedb5cbc4ae58a85116,2025-07-23T12:10:44.825896+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/Örnek/NEW0pen_camera_commands.json,dataset_or_tokenizer,2080268,75a55008261d0720f1c96e848f5c80bb3bc56a5432d86593b5a36d323032c75a,2025-07-22T17:09:54.511615+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/Örnek/objects_open.txt,documentation_or_visual_evidence,3853,2cfcb5f7e0a0397bf9782761dda770c8f3bbb6078eb0d421ee844c7c73bf6dd9,2025-07-22T16:26:47.548684+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/Örnek/response_open.txt,documentation_or_visual_evidence,3456,e5d5c6c3afbabb285a805f0c2a95cef9e356753c50d3bab6b501e50813e374b1,2025-07-22T16:27:40.338457+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/Örnek/templates_open.txt,documentation_or_visual_evidence,4822,77bd34b89778db387d011eb7fc334cedfa80fb98c11ee020250ee9738028ee0f,2025-07-22T16:27:10.090447+00:00
+Primee/LLM Datasets/Etiket veri seti hazırlama/Örnek/verbs_open.txt,documentation_or_visual_evidence,3120,87d512b486798d91c33035d74e8885d25929b50d1ff19c357d041e1a60cc999d,2025-07-22T16:26:34.565602+00:00
+Primee/LLM Datasets/Free Chat Daily/daily.py,training_or_test_code,1168,99d45b6f01084eb8beefb09ad3076c02e19ab214dee212c676f5a05878d5eb36,2025-07-21T22:09:54.308183+00:00
+Primee/LLM Datasets/Free Chat Daily/dailychat_test.json,dataset_or_tokenizer,1176922,e7a652c513140c2363905efcd3521b3607eac66e2a25e512aaeee2d2ac26afbd,2025-07-21T22:10:25.600411+00:00
+Primee/LLM Datasets/Free Chat Daily/dailychat_train_kullanıldı.json,dataset_or_tokenizer,13147500,5b2d59754aecdd8cbd5b09e23aa8d9e8851a9a9651b618b3252b4e8ddac69c31,2025-07-22T18:15:12.957562+00:00
+Primee/LLM Datasets/Free Chat Daily/dailychat_valid.json,dataset_or_tokenizer,1218197,35903f589feb70cd75f7a1af5fe59ff7e16009711aef8c435e650e4e8d77c18f,2025-07-21T22:10:25.578641+00:00
+Primee/LLM Datasets/Free Chat Daily/turn_free_chat.py,training_or_test_code,582,f188955b02702531ae122b2703d0a082091e2b662ca4c91045bad2e54e44cd9b,2025-07-23T11:32:47.174819+00:00
+Primee/LLM Datasets/Free Chat Daily/turn_kullanıldı.json,dataset_or_tokenizer,14896701,27621b12a81d13b7d5b37676ee60489a0ecffeb14f9db990d05133591b0b4496,2025-07-23T11:32:49.580530+00:00
+Primee/LLM Datasets/hotpotqa_converted_kullanılmadı.json,dataset_or_tokenizer,19789308,229a4da9b2ccfc3053aeb716746f51ee1c7c16d544241b53eb0b23b6442005f0,2025-07-21T20:15:13.491749+00:00
+Primee/LLM Datasets/kısa_rag_cevapları_output.jsonl,dataset_or_tokenizer,43853001,07deabfde53696fd4401c2b4bf7ec0756549e77c578588367d22d00cb59aa025,2025-08-05T17:44:36.478465+00:00
+Primee/LLM Datasets/mix_chat_50k.jsonl,dataset_or_tokenizer,60996123,7e91b8f4410f18cd6397240f82a05e926ff93c31da88b1c6a2e90c4938491000,2025-08-13T13:57:41.360226+00:00
+Primee/LLM Datasets/oasst_chat_clean_512.jsonl,dataset_or_tokenizer,8551623,2875f86a646a1a3c046a3349a9d78c3e69028cb02dc337c4cb5907321cac94b7,2025-08-13T13:34:53.170073+00:00
+Primee/LLM Datasets/open_camerakullanılmadı.json,dataset_or_tokenizer,1205478,129aeaacfe201eb7d68ae6af278dcf4118cccee9a3233f85177aca3973339400,2025-07-22T16:24:18.765027+00:00
+Primee/LLM Datasets/openassistant_chat.jsonl,dataset_or_tokenizer,9847931,8d8ae0133b6583577c43a27285914aeece133588fb70114f38b5317a65bb77f2,2025-08-05T16:05:16.357653+00:00
+Primee/LLM Datasets/PASSENGER_BOT_DATA.json,dataset_or_tokenizer,111484847,ef04bfa2085a6ec882b2d54ee161bdf457d0ba25b5ce5d6d9013ff5fde008ddb,2025-08-01T14:28:05.606295+00:00
+Primee/LLM Datasets/passenger_chat_rag_large.jsonl,dataset_or_tokenizer,83445588,cc9d2abae17f0d0c9909b504e102c3d144b0b7631f2dcf5e895cd0c52c9670db,2025-08-05T18:11:21.898744+00:00
+Primee/LLM Datasets/qa_veri.py,training_or_test_code,6356,4cdde9ac6bbfd6958c12716dcbea09454ef7cd01f2e9e4f7bdaf18c644873491,2025-08-08T16:07:38.237985+00:00
+Primee/LLM Datasets/ultrachat_chat.jsonl,dataset_or_tokenizer,235558381,577c3863a1b445dd32236e543dd736d2caf89453b2328a85f86f384d1190812c,2025-08-13T00:36:06.773577+00:00
+Primee/LLM Datasets/yedek.jsonl,dataset_or_tokenizer,101456148,9c3d527eeda98efad323f75856048f721372487bd4065e4b7848ed801ab6030b,2025-08-10T17:49:04.674710+00:00
+Primee/Models/1.2x chat/1.2x chat kullanıldı L40S 48 GB VRAM.ipynb,training_or_test_code,51875,f8edcd92c6294f125aef85f3b772815affb54a750a2d9fd93a632467ad5674e9,2025-08-13T01:33:33.888231+00:00
+Primee/Models/1.2x chat/1.3x chat kullanıldı L40S 48 GB VRAM.ipynb,training_or_test_code,79438,8309894bab5f96aec8929befda1e5178563bb14fc0d70c35ce52c83090030004,2025-08-13T05:38:31.168654+00:00
+Primee/Models/1.2x chat/1485/adapter_config.json,configuration_or_metric,900,ee6c0f388babe85f7253486cd0adc4812243437cb797fdd3a5810f886a9afa9e,2025-08-13T05:38:52.366541+00:00
+Primee/Models/1.2x chat/1485/adapter_model.safetensors,model_artifact,73262464,34314db2642223c1e262bfc920bf8d6b06919abf0545e3b7065d2c74c42c5ac3,2025-08-13T05:39:47.283664+00:00
+Primee/Models/1.2x chat/1485/optimizer.pt,training_resume_state,147004867,28d059ffd0cd5f8ff2cb5adbce8f41b646fa88c9c9d9cdaf91b873900e432be7,2025-08-13T05:40:50.328572+00:00
+Primee/Models/1.2x chat/1485/README.md,documentation_or_visual_evidence,5164,33fda34dd7363a345997b8f7e9d885beeb530f1d0a0ecb744d423b06531fa94b,2025-08-13T05:40:21.669054+00:00
+Primee/Models/1.2x chat/1485/rng_state.pth,training_resume_state,14645,3b37188b8d35f75b31ef4601159cde1bacc0cbc246fa56402ff337430057e4f5,2025-08-13T05:40:28.154850+00:00
+Primee/Models/1.2x chat/1485/scheduler.pt,training_resume_state,1465,1956c54554e77e3cb1965fecde4a381b67720cb6716f5dbb0dd9e93117fc0f3e,2025-08-13T05:40:33.848364+00:00
+Primee/Models/1.2x chat/1485/special_tokens_map.json,dataset_or_tokenizer,2543,7a1985a994c41886db38c719d2a3d2f40606663cc19d7c5d6a85d349320e06d2,2025-08-13T05:40:39.439896+00:00
+Primee/Models/1.2x chat/1485/tokenizer.json,dataset_or_tokenizer,2422332,8c3804f01b141a4f28649b2ff899f7eb3bedad28fd898f8c38b7dbc70db700bf,2025-08-13T05:40:56.176131+00:00
+Primee/Models/1.2x chat/1485/tokenizer_config.json,dataset_or_tokenizer,20830,26c1243c486c113e7017520b95ef2e82a7fc64d2b79f857759b4d51de0fb8b70,2025-08-13T05:40:44.932894+00:00
+Primee/Models/1.2x chat/1485/trainer_state.json,configuration_or_metric,6680,d2b1f3b812bb71921ee6560c4841731946e3b28ae5f7d8dcff769022790f1a29,2025-08-13T05:41:03.190112+00:00
+Primee/Models/1.2x chat/1485/training_args.bin,training_resume_state,5905,bccae7798867151a927d9272629d76d208ce58a2e3068b348c174a9fdf1d9cc1,2025-08-13T05:41:08.940584+00:00
+Primee/Models/1.2x chat/1980/adapter_config.json,configuration_or_metric,900,ee6c0f388babe85f7253486cd0adc4812243437cb797fdd3a5810f886a9afa9e,2025-08-13T05:35:38.449598+00:00
+Primee/Models/1.2x chat/1980/adapter_model.safetensors,model_artifact,73262464,2235e9578b76bd36d7224e2136a1985dbec3d7c995859748ab5929552cd09562,2025-08-13T05:36:20.058486+00:00
+Primee/Models/1.2x chat/1980/optimizer.pt,training_resume_state,147004867,2b1813b0d4ea43f095563d7d8ae7b214d0fb42a4d8cf780e7bf462be3f5c99fd,2025-08-13T05:37:43.385779+00:00
+Primee/Models/1.2x chat/1980/README.md,documentation_or_visual_evidence,5164,33fda34dd7363a345997b8f7e9d885beeb530f1d0a0ecb744d423b06531fa94b,2025-08-13T05:37:12.446739+00:00
+Primee/Models/1.2x chat/1980/rng_state.pth,training_resume_state,14645,e9e8902d9fa7c15ca2568b35a67cc588108108325f426a23cf2b229a5ccb36b1,2025-08-13T05:37:18.496040+00:00
+Primee/Models/1.2x chat/1980/scheduler.pt,training_resume_state,1465,d56714ef97f7af117622a66f56ccaa4b75fb574a36dafce143d05bec065eebc3,2025-08-13T05:37:26.274625+00:00
+Primee/Models/1.2x chat/1980/special_tokens_map.json,dataset_or_tokenizer,2543,7a1985a994c41886db38c719d2a3d2f40606663cc19d7c5d6a85d349320e06d2,2025-08-13T05:37:32.899120+00:00
+Primee/Models/1.2x chat/1980/tokenizer.json,dataset_or_tokenizer,2422332,8c3804f01b141a4f28649b2ff899f7eb3bedad28fd898f8c38b7dbc70db700bf,2025-08-13T05:38:11.240436+00:00
+Primee/Models/1.2x chat/1980/tokenizer_config.json,dataset_or_tokenizer,20830,26c1243c486c113e7017520b95ef2e82a7fc64d2b79f857759b4d51de0fb8b70,2025-08-13T05:37:38.148263+00:00
+Primee/Models/1.2x chat/1980/trainer_state.json,configuration_or_metric,8654,d22f38ad1917262b1e13cd8a090c634c229836f177fa66cd0049935aca795181,2025-08-13T05:38:17.443429+00:00
+Primee/Models/1.2x chat/1980/training_args.bin,training_resume_state,5905,bccae7798867151a927d9272629d76d208ce58a2e3068b348c174a9fdf1d9cc1,2025-08-13T05:38:22.229517+00:00
+Primee/Models/1.2x chat/checkpoint_to_lora.py,training_or_test_code,781,e2001b1aa61c2b8529b0abec8f20561007920edd820b1e16da76f53d1d7c04c7,2025-08-13T06:32:51.126932+00:00
+Primee/Models/1.2x chat/Lora_1485/adapter_config.json,configuration_or_metric,941,40a2a4fff925e2c930b14ccf809039edcad8d5993bf2a455f884f856fc8a4b84,2025-08-13T06:32:55.339646+00:00
+Primee/Models/1.2x chat/Lora_1485/adapter_model.safetensors,model_artifact,73262464,34314db2642223c1e262bfc920bf8d6b06919abf0545e3b7065d2c74c42c5ac3,2025-08-13T06:32:55.339646+00:00
+Primee/Models/1.2x chat/Lora_1485/README.md,documentation_or_visual_evidence,5164,33fda34dd7363a345997b8f7e9d885beeb530f1d0a0ecb744d423b06531fa94b,2025-08-13T06:32:54.672118+00:00
+Primee/Models/1.2x chat/Lora_1485/special_tokens_map.json,dataset_or_tokenizer,2668,65d84a9271d68f1230ab99518c00f0f7eaef95c7b363001595ba6fa662d434b1,2025-08-13T06:32:55.355472+00:00
+Primee/Models/1.2x chat/Lora_1485/tokenizer.json,dataset_or_tokenizer,2422234,4d4b21a8cc7c0407dafd8ac6215269cd05c8e49a521c3580479b567879526160,2025-08-13T06:32:55.355472+00:00
+Primee/Models/1.2x chat/Lora_1485/tokenizer_config.json,dataset_or_tokenizer,21770,f0f4630efa94e1d9e93c877ecdf2e45a8b9685037f752eddf0611508425b967b,2025-08-13T06:32:55.355472+00:00
+Primee/Models/1.2x chat/Lora_1980/adapter_config.json,configuration_or_metric,941,d3a783b578a9fbe9fcdf559974b050a12d29581bca246d018786963d35187b74,2025-08-13T06:03:36.334005+00:00
+Primee/Models/1.2x chat/Lora_1980/adapter_model.safetensors,model_artifact,73262464,2235e9578b76bd36d7224e2136a1985dbec3d7c995859748ab5929552cd09562,2025-08-13T06:03:36.334005+00:00
+Primee/Models/1.2x chat/Lora_1980/README.md,documentation_or_visual_evidence,5164,33fda34dd7363a345997b8f7e9d885beeb530f1d0a0ecb744d423b06531fa94b,2025-08-13T06:03:35.667976+00:00
+Primee/Models/1.2x chat/Lora_1980/sonuçlar/metrics hesaplama.ipynb,training_or_test_code,19409,d112be77f8780655da9ddf0981b44ab21544e0a2ec7773dc409db43979215713,2025-08-13T18:43:25.763031+00:00
+Primee/Models/1.2x chat/Lora_1980/special_tokens_map.json,dataset_or_tokenizer,2668,65d84a9271d68f1230ab99518c00f0f7eaef95c7b363001595ba6fa662d434b1,2025-08-13T06:03:36.334005+00:00
+Primee/Models/1.2x chat/Lora_1980/tokenizer.json,dataset_or_tokenizer,2422234,4d4b21a8cc7c0407dafd8ac6215269cd05c8e49a521c3580479b567879526160,2025-08-13T06:03:36.349496+00:00
+Primee/Models/1.2x chat/Lora_1980/tokenizer_config.json,dataset_or_tokenizer,21770,f0f4630efa94e1d9e93c877ecdf2e45a8b9685037f752eddf0611508425b967b,2025-08-13T06:03:36.334005+00:00
+Primee/Models/1.2x chat/merged_1485/config.json,configuration_or_metric,806,7f5b49a8a1c0d2873b19e7db09fe694e4a785d371d381f0800b44d66d023e284,2025-08-13T06:32:56.370513+00:00
+Primee/Models/1.2x chat/merged_1485/generation_config.json,dataset_or_tokenizer,149,8711ddd65c490af6114375eaf4dd103eaa422414e172ef12165df20eafbcdbdb,2025-08-13T06:32:56.370513+00:00
+Primee/Models/1.2x chat/merged_1485/model.safetensors,model_artifact,1566368768,19ab94f15becc59fa38344e80525461d70d6ca7872586955c6da8e3a0e61cea6,2025-08-13T06:32:57.606425+00:00
+Primee/Models/1.2x chat/merged_1485/special_tokens_map.json,dataset_or_tokenizer,2668,65d84a9271d68f1230ab99518c00f0f7eaef95c7b363001595ba6fa662d434b1,2025-08-13T06:32:57.707352+00:00
+Primee/Models/1.2x chat/merged_1485/tokenizer.json,dataset_or_tokenizer,2422234,4d4b21a8cc7c0407dafd8ac6215269cd05c8e49a521c3580479b567879526160,2025-08-13T06:32:57.717525+00:00
+Primee/Models/1.2x chat/merged_1485/tokenizer_config.json,dataset_or_tokenizer,21770,f0f4630efa94e1d9e93c877ecdf2e45a8b9685037f752eddf0611508425b967b,2025-08-13T06:32:57.707352+00:00
+Primee/Models/1.2x chat/merged_1980/config.json,configuration_or_metric,806,7f5b49a8a1c0d2873b19e7db09fe694e4a785d371d381f0800b44d66d023e284,2025-08-13T06:03:37.649966+00:00
+Primee/Models/1.2x chat/merged_1980/generation_config.json,dataset_or_tokenizer,149,8711ddd65c490af6114375eaf4dd103eaa422414e172ef12165df20eafbcdbdb,2025-08-13T06:03:37.650207+00:00
+Primee/Models/1.2x chat/merged_1980/model.safetensors,model_artifact,1566368768,0aa37b08261b82efe389d7c3ee2038539b7a2ac662222d81963b3e1afafd79ae,2025-08-13T06:03:38.704181+00:00
+Primee/Models/1.2x chat/merged_1980/special_tokens_map.json,dataset_or_tokenizer,2668,65d84a9271d68f1230ab99518c00f0f7eaef95c7b363001595ba6fa662d434b1,2025-08-13T06:03:38.819218+00:00
+Primee/Models/1.2x chat/merged_1980/tokenizer.json,dataset_or_tokenizer,2422234,4d4b21a8cc7c0407dafd8ac6215269cd05c8e49a521c3580479b567879526160,2025-08-13T06:03:38.819218+00:00
+Primee/Models/1.2x chat/merged_1980/tokenizer_config.json,dataset_or_tokenizer,21770,f0f4630efa94e1d9e93c877ecdf2e45a8b9685037f752eddf0611508425b967b,2025-08-13T06:03:38.819218+00:00
+Primee/Models/1.2x chat/merged_no_tables_100k.jsonl,dataset_or_tokenizer,111048686,9bfbe2aa158ebc59dfa4b831ff006bcb550d3e158d7a1dca5510c94a6371c861,2025-08-13T01:12:43.443146+00:00
+Primee/Models/1.2x chat/metrics hesaplama.ipynb,training_or_test_code,19352,e47297eb343cbd7966bc829e14dc336ae7cca242b4c0db0d5eaa81edd7d5303f,2025-08-13T21:19:14.297434+00:00
+Primee/Models/1.2x chat/prompt açıklama.txt,documentation_or_visual_evidence,4833,6b3d636daa4b82cc7c12819ca8addbd0451f8b32a9477f78b2a0067251458b62,2025-08-12T22:09:49.760767+00:00
+Primee/Models/1.2x chat/README.txt,documentation_or_visual_evidence,581,0bb9deebf55275cc237933056cb535a97fd60b6df46fb6dce3010b30ed802cd6,2025-09-07T16:51:58.222658+00:00
+Primee/Models/1.2x chat/validation_5K_merged.jsonl,dataset_or_tokenizer,5522615,414bf7a52213ab6074d0432afc35dbaf73e7afa16d28ca51db5e1241b7e32bef,2025-08-13T11:02:10.661981+00:00
+Primee/Models/2x rag/2x rag kullanıldı L40S 48 GB VRAM .ipynb,training_or_test_code,29657,6fe78e315e65783e68c0e0cd0ba3c35310bc2e6d79bfa2874e2118e4986b748a,2025-08-12T14:49:22.480170+00:00
+Primee/Models/2x rag/checkpoint_1320/adapter_config.json,configuration_or_metric,900,00c0c7cdb619cdce2ce112743223ebef488f5bb7440efd74375acee5f92a9af1,2025-08-12T14:23:39.853684+00:00
+Primee/Models/2x rag/checkpoint_1320/adapter_model.safetensors,model_artifact,73262464,c511de89369b2f7454c6cf6a7d30e061ec49aeffb865a445ec03ca667139786f,2025-08-12T14:25:48.930663+00:00
+Primee/Models/2x rag/checkpoint_1320/optimizer.pt,training_resume_state,147004867,409bffa274f8b6168ba9be248da33494689cebc7bdea4a78c76e33bd3694b36f,2025-08-12T14:27:50.963669+00:00
+Primee/Models/2x rag/checkpoint_1320/README.md,documentation_or_visual_evidence,5164,33fda34dd7363a345997b8f7e9d885beeb530f1d0a0ecb744d423b06531fa94b,2025-08-12T14:26:30.707591+00:00
+Primee/Models/2x rag/checkpoint_1320/rng_state.pth,training_resume_state,14645,66c9bf655e1e17aaafebf5a74a2be1734374c1b2d8fd4153f381831981e1f7af,2025-08-12T14:26:35.104403+00:00
+Primee/Models/2x rag/checkpoint_1320/scheduler.pt,training_resume_state,1465,4febda160536d12eaa46b6d8064479f76d84d90834ae7494151566e2cc21f8ec,2025-08-12T14:26:39.415494+00:00
+Primee/Models/2x rag/checkpoint_1320/special_tokens_map.json,dataset_or_tokenizer,2543,7a1985a994c41886db38c719d2a3d2f40606663cc19d7c5d6a85d349320e06d2,2025-08-12T14:26:45.346341+00:00
+Primee/Models/2x rag/checkpoint_1320/tokenizer.json,dataset_or_tokenizer,2422234,4d4b21a8cc7c0407dafd8ac6215269cd05c8e49a521c3580479b567879526160,2025-08-12T14:26:56.144517+00:00
+Primee/Models/2x rag/checkpoint_1320/tokenizer_config.json,dataset_or_tokenizer,20830,26c1243c486c113e7017520b95ef2e82a7fc64d2b79f857759b4d51de0fb8b70,2025-08-12T14:26:49.053952+00:00
+Primee/Models/2x rag/checkpoint_1320/trainer_state.json,configuration_or_metric,6125,ed6d4855d2bfa45144618f3fbf18d5b12ef7dc5217d4b60990ea8508ed8ec5c0,2025-08-12T14:27:00.348629+00:00
+Primee/Models/2x rag/checkpoint_1320/training_args.bin,training_resume_state,5905,1514b9b0f89748f01d285fcaf34255222662934ee5454c127cd24245033c80f8,2025-08-12T14:27:04.658690+00:00
+Primee/Models/2x rag/data52.jsonl,dataset_or_tokenizer,103155693,9867070f119386b9e6df7a6a735f62a4bb2e7c2db05913289b4b46603186603a,2025-08-11T18:18:31.565402+00:00
+Primee/Models/2x rag/lora adaptor/adapter_config.json,configuration_or_metric,900,00c0c7cdb619cdce2ce112743223ebef488f5bb7440efd74375acee5f92a9af1,2025-08-12T14:21:12.045574+00:00
+Primee/Models/2x rag/lora adaptor/adapter_model.safetensors,model_artifact,73262464,c511de89369b2f7454c6cf6a7d30e061ec49aeffb865a445ec03ca667139786f,2025-08-12T14:22:08.387511+00:00
+Primee/Models/2x rag/lora adaptor/README.md,documentation_or_visual_evidence,5164,33fda34dd7363a345997b8f7e9d885beeb530f1d0a0ecb744d423b06531fa94b,2025-08-12T14:21:54.416637+00:00
+Primee/Models/2x rag/merge lora/config.json,configuration_or_metric,773,c7d6d813110e10bb019975809c709f4eadd89046bbcd17062cebadca649e7be3,2025-08-12T14:22:17.328209+00:00
+Primee/Models/2x rag/merge lora/generation_config.json,dataset_or_tokenizer,142,2399de351a196b2b6df3dea3adb04ea9fa399de733c4b5b5e9aaeba7807e2279,2025-08-12T14:22:25.117207+00:00
+Primee/Models/2x rag/merge lora/model.safetensors,model_artifact,3132668808,2f7901010f11385c8d57b560968b6c494b9db367303987e5feb9857f5600d7f2,2025-08-12T14:38:45.112278+00:00
+Primee/Models/2x rag/metrics hesaplama.ipynb,training_or_test_code,19409,d112be77f8780655da9ddf0981b44ab21544e0a2ec7773dc409db43979215713,2025-08-13T18:43:25.763031+00:00
+Primee/Models/2x rag/README.txt,documentation_or_visual_evidence,626,3a4b14aa17ea89192f2e1422fc173469e4c0aaeab0798ebd71965e7aa0345b81,2025-08-13T01:31:06.959137+00:00
+Primee/Models/2x rag/validation.jsonl,dataset_or_tokenizer,5144914,af82a567404fb0d5725c9209f1de0fa5f60423f6b0e4d3c17aff8b52b936721e,2025-08-13T01:16:04.570116+00:00
+Primee/Models/kötü/adapter_model.safetensors,model_artifact,18915328,d5fab55b4c8751019039c756065338d842ff591f961112ee746bc31b72d8aec5,2025-08-10T18:59:29.602194+00:00
+Primee/Models/kötü/metric/metrics_full.json,configuration_or_metric,323,c2efbc07324a946f4cc4d1f051987abe984ab5188d7a6b157a08a2c74e0ccec7,2025-08-10T23:31:13.185732+00:00
+Primee/Models/kötü/metric/validation_metrics_full.jpg,documentation_or_visual_evidence,25240,492e46cb0967b03538e23ae45321407362379b0aba2b34e42728b005ea6bbd49,2025-08-10T23:31:16.428873+00:00
+Primee/Models/kötü/metric/validation_metrics_full.png,documentation_or_visual_evidence,22225,06d61116d1fdbf65fe21bc71e39103426697c8b65f4926e2819ce36d52471d24,2025-08-10T23:31:19.741735+00:00
+Primee/Models/kötü/optimizer.pt,training_resume_state,37990795,b9d0750a3b87c7545e6097a1fafc7ee125ccdcd8b81f9dd53bd1c3d13e9f368e,2025-08-10T19:00:03.314285+00:00
+Primee/Models/kötü/README.md,documentation_or_visual_evidence,5164,33fda34dd7363a345997b8f7e9d885beeb530f1d0a0ecb744d423b06531fa94b,2025-08-10T18:59:55.131373+00:00
+Primee/Models/kötü/rng_state.pth,training_resume_state,14645,7397062815e05027c6b589f18689beb54d8e0395895ab9bd9a8ef599a17f16d7,2025-08-10T18:59:59.564389+00:00
+Primee/Models/kötü/scheduler.pt,training_resume_state,1465,fed8861e6b7bc4a8743e32b4890e19224bd2076e214e1aff03a1ee96f5153efa,2025-08-10T19:00:03.929077+00:00
+Primee/Models/kötü/special_tokens_map.json,dataset_or_tokenizer,848,0380b604bee6e177f97971520f92015379fab90eb955f28a0ae491350c5a6823,2025-08-10T18:59:15.192633+00:00
+Primee/Models/kötü/trainer_state.json,configuration_or_metric,6173,53edcd7ba271e1f7dc12abf0b06435568a9e6828cb421ce9b9a5f0b7f515ec73,2025-08-10T19:00:08.021212+00:00
+Primee/Models/kötü/training_args.bin,training_resume_state,5905,7c6af23742047ac5576334a66e59d92344fd46700653c9a2cceb58235c1d9d59,2025-08-10T19:00:12.713984+00:00
+Primee/Models/My Class/First Try/adapter_config.json,configuration_or_metric,900,5290ef09d86c310bae6a95d2fa21a90def11197640c00b0dcdebba83f2d391d4,2025-08-13T22:48:39.318212+00:00
+Primee/Models/My Class/First Try/adapter_model.safetensors,model_artifact,73262464,bb5105fb3fc1269e41a1538f24550926d542b988bddcc034dd4760026890e5cf,2025-08-13T22:49:37.769099+00:00
+Primee/Models/My Class/First Try/merged/config.json,configuration_or_metric,773,6281af4dad7e7a50b4a0ea8ac073ce3e87b096daf31ecea8d57dfb3452591762,2025-08-13T22:49:41.704070+00:00
+Primee/Models/My Class/First Try/merged/generation_config.json,dataset_or_tokenizer,142,8ae61f3fc253fe7efead6ac2596d65f1d347b7e20d4d15cb2cddcdcc68885716,2025-08-13T22:49:45.755436+00:00
+Primee/Models/My Class/First Try/merged/model.safetensors,model_artifact,3132668808,2a1b45578c698229d576d10254de75cf14598fbf6022a8c382d86ac7ebe80b26,2025-08-13T23:08:44.651274+00:00
+Primee/Models/My Class/First Try/README.md,documentation_or_visual_evidence,5164,33fda34dd7363a345997b8f7e9d885beeb530f1d0a0ecb744d423b06531fa94b,2025-08-13T22:49:26.089165+00:00
+Primee/Models/My Class/My Class-GPU.ipynb,training_or_test_code,36267,8d906905974e2f8aed541c7a830134299332f63f84bdab5e4ef5bc2424b1d427,2025-09-07T16:54:21.349401+00:00
+Primee/Models/My Class/Second Try/flan_t5_onnx_chat_rag_pipeline.ipynb,training_or_test_code,20637,87cd93e67e98c9d9c6e1ec305cd805b87346e4de285281f8cd225d62769736a5,2025-09-15T11:00:06.473736+00:00
+Primee/Models/My Class/Second Try/Geliştirme Dosyaları/BEST_ever_Chat_Rag.jsonl,dataset_or_tokenizer,115839790,47c3e4105ba2aabb925b5c9c9dcc7977275599b55a8d7038e0ba998b72f971a0,2025-08-13T18:02:15.379401+00:00
+Primee/Models/My Class/Second Try/Geliştirme Dosyaları/metrics_llm_eval.ipynb,training_or_test_code,29718,5697a603dd2498cfdbf7c7d8b71cf7938f883d2d5c82c5529991ffaa9d1b0568,2025-09-08T15:12:01.572287+00:00
+Primee/Models/My Class/Second Try/Geliştirme Dosyaları/train_code.ipynb,training_or_test_code,82461,7cc6cab3fb1638f3ca89d6f0b90d21de04b7b7c5cf0b4dda755b2f85f660a0b5,2025-09-08T17:04:22.608407+00:00
+Primee/Models/My Class/Second Try/Geliştirme Dosyaları/val.jsonl,dataset_or_tokenizer,5797459,5d023c5001cef1cba4a090793f5a27f6805662deb91eeb45cb6937acd5d8d093,2025-09-08T15:11:46.969881+00:00
+Primee/Models/My Class/Second Try/kullanım örneği with Lora/chat_model.py,training_or_test_code,135,7676630a1694701dac0248cdec5bc218c60acb40ff953a085f2beaf30ad7cca5,2025-09-08T18:13:57.185917+00:00
+Primee/Models/My Class/Second Try/kullanım örneği with Lora/inference.py,training_or_test_code,7494,8a12b7917f893d87149025d4aaa411cc08939096521b8fc60b30721ad84bde88,2025-09-08T19:44:57.097386+00:00
+Primee/Models/My Class/Second Try/kullanım örneği with Lora/rag_model.py,training_or_test_code,194,da4f5d664496f7f7c00fc8eccb241e412156be6224d7993146936d736e1cca73,2025-09-08T18:13:55.342094+00:00
+Primee/Models/My Class/Second Try/LORA/adapter_config.json,configuration_or_metric,900,ac118983eae96c582a69713e2d9ed375fefea96ddfad7d35f01e57d9fbb980a0,2025-09-08T14:48:48.330021+00:00
+Primee/Models/My Class/Second Try/LORA/adapter_model.safetensors,model_artifact,73262464,710455b4e686d5669436b2b4d35e6432befc3aded5f4e52e7ee76321e7d9eed8,2025-09-08T14:49:38.650776+00:00
+Primee/Models/My Class/Second Try/LORA/README.md,documentation_or_visual_evidence,5164,33fda34dd7363a345997b8f7e9d885beeb530f1d0a0ecb744d423b06531fa94b,2025-09-08T14:49:20.001576+00:00
+Primee/Models/My Class/Second Try/onnx/config.json,configuration_or_metric,773,e1a8c41055cbacfb693b322043e2b1fbaa8c2ed9973c2efddaaa58a7a0e1eea1,2025-09-15T11:16:21.442293+00:00
+Primee/Models/My Class/Second Try/onnx/decoder_model_int8.onnx,model_artifact,476375908,7061ec9d9c1a3c8858ff6356b5242c9a87c9dccef2ad5fc3de78549470ca7f57,2025-09-15T11:07:05.247702+00:00
+Primee/Models/My Class/Second Try/onnx/decoder_with_past_model_int8.onnx,model_artifact,425900060,9bccd47d1c1ee316c84028d47fc9ef43691aa24e588e5efefb06100b64c2ea10,2025-09-15T11:08:03.891415+00:00
+Primee/Models/My Class/Second Try/onnx/encoder_model_int8.onnx,model_artifact,342096814,0e47fe52bae8746f9c1c0f6eeed31a1a6837823d7e205175a03607cd9e2d9f35,2025-09-15T11:09:17.039737+00:00
+Primee/Models/My Class/Second Try/onnx/generation_config.json,dataset_or_tokenizer,142,d5f22f28f1346c5bab3a565dbe0bcf7dc902873bd1fbca488d9d0a8521b518dc,2025-09-15T11:16:53.036429+00:00
+Primee/Models/My Class/Second Try/onnx/special_tokens_map.json,dataset_or_tokenizer,2543,7a1985a994c41886db38c719d2a3d2f40606663cc19d7c5d6a85d349320e06d2,2025-09-08T14:56:04.577796+00:00
+Primee/Models/My Class/Second Try/onnx/tokenizer.json,dataset_or_tokenizer,2422234,4d4b21a8cc7c0407dafd8ac6215269cd05c8e49a521c3580479b567879526160,2025-09-08T14:55:45.938979+00:00
+Primee/Models/My Class/Second Try/onnx/tokenizer_config.json,dataset_or_tokenizer,20830,26c1243c486c113e7017520b95ef2e82a7fc64d2b79f857759b4d51de0fb8b70,2025-09-08T14:55:53.842382+00:00
+Primee/Models/My Class/Second Try/Sonuçlar/metrics.txt,documentation_or_visual_evidence,1569,2b12499f49c71d4998d522752802dfb5c907fa8df75627845dbb444eb5cffec9,2025-09-09T06:48:23.460818+00:00
+Primee/Models/My Class/Second Try/special_tokens_map.json,dataset_or_tokenizer,2543,7a1985a994c41886db38c719d2a3d2f40606663cc19d7c5d6a85d349320e06d2,2025-09-08T14:56:04.577796+00:00
+Primee/Models/My Class/Second Try/tokenizer.json,dataset_or_tokenizer,2422234,4d4b21a8cc7c0407dafd8ac6215269cd05c8e49a521c3580479b567879526160,2025-09-08T14:55:45.938979+00:00
+Primee/Models/My Class/Second Try/tokenizer_config.json,dataset_or_tokenizer,20830,26c1243c486c113e7017520b95ef2e82a7fc64d2b79f857759b4d51de0fb8b70,2025-09-08T14:55:53.842382+00:00
+Primee/Models/My Class/TPU_xla.ipynb,training_or_test_code,149478,7979e08c5359554e99a15397a12a1762e2b3e8ea27c938821521f084353bfa86,2025-09-05T09:07:51.363705+00:00
+Primee/passenger bot dataset/accelerate_custom_loop.ipynb,training_or_test_code,119,9309e50d839e2ef0462015687d5d4b549e0d574d60fc36b5f7df1d7ebdaf36c1,2025-08-06T23:35:44.096063+00:00
+Primee/passenger bot dataset/data counter.txt,documentation_or_visual_evidence,1756,523320fd3370f35a72b95da0e6562a10f5528c074ee58c1d8af6b33216eb80ce,2025-07-23T15:13:43.122038+00:00
+Primee/passenger bot dataset/Flan_T5_large_instruction.ipynb,training_or_test_code,12652,24ea7440382e79c65946e44da77d152f6fb07af8b63c6c340ee67a30efcfc7d8,2025-08-05T19:04:53.352378+00:00
+Primee/passenger bot dataset/Flan_T5_son - Kopya.ipynb,training_or_test_code,40332,58714361934fa128426e73b1247bc2a695d05f11e776cb0965bf36b9d7aafc3a,2025-08-06T00:21:35.018786+00:00
+Primee/passenger bot dataset/Flan_T5_son.ipynb,training_or_test_code,11252,58f6be339f1f0f061a22a3a9953f8e91f4d92b8685887278e386cc6d8befd712,2025-08-07T10:03:23.917591+00:00
+Primee/passenger bot dataset/Hızlı Eğitim.ipynb,training_or_test_code,34214,38e536390255407938e8516373bf82859f833b84941e63462dcef66c916dd5e2,2025-08-10T19:04:20.621602+00:00
+Primee/passenger bot dataset/karıstır etiketleri/close_camera_commands.json,dataset_or_tokenizer,2096795,a4ef4362066a0c54186efcfebc3f835456a231c09c5ed43d120134dcce4b074b,2025-07-23T14:51:56.155553+00:00
+Primee/passenger bot dataset/karıstır etiketleri/detect_commands.json,dataset_or_tokenizer,2068132,976fe02b88ab65c8d89a6646e20dc9448938e3d8b47c20b63927ef7b33be2c2a,2025-07-23T14:52:50.382033+00:00
+Primee/passenger bot dataset/karıstır etiketleri/karisik_etiketler.json,dataset_or_tokenizer,8562558,48eb273f9443ed73d5fa0d94d0cd9d2a903f78c1538590d9decd6570651ad5a3,2025-07-23T21:23:04.330342+00:00
+Primee/passenger bot dataset/karıstır etiketleri/karısık2.json,dataset_or_tokenizer,316177,5c0a4fd6a9c842b46233329dd5ba89a5c25be2acbeeed06e8569043c93c81f70,2025-07-23T15:07:57.328281+00:00
+Primee/passenger bot dataset/karıstır etiketleri/karışık_command.json,dataset_or_tokenizer,42559,20023258b64c4976d5b3fa7952a25cc7d64e4fc982256f0e91be3c93c72f74a0,2025-07-22T17:25:01.966281+00:00
+Primee/passenger bot dataset/karıstır etiketleri/Open_camera_commands.json,dataset_or_tokenizer,2080268,75a55008261d0720f1c96e848f5c80bb3bc56a5432d86593b5a36d323032c75a,2025-07-22T17:09:54.511615+00:00
+Primee/passenger bot dataset/karıstır etiketleri/shuffle.py,training_or_test_code,994,ab79e82b9b73c656013a4b1dd173e14530d9c561a310d361650f8cf4e566c877,2025-07-23T21:22:41.053401+00:00
+Primee/passenger bot dataset/karıstır etiketleri/take_photo_commands.json,dataset_or_tokenizer,1958642,308960383ae0ee35ad485c0622db2e91249a2c194a4bc973133ed1cac2b73421,2025-07-23T14:55:03.297862+00:00
+Primee/passenger bot dataset/karıştır/chat_command_data.json,dataset_or_tokenizer,2830290,7475e6bcd7f721279ae3485f08de35639d7488f9c84c155d5f4107b7b581c8c1,2025-08-01T11:10:54.437413+00:00
+Primee/passenger bot dataset/karıştır/chat_dataset.json,dataset_or_tokenizer,16721949,38b5fd7c0fc636d82a847431c2953b9d0c4b4ec6397623113da3774b9303022b,2025-07-23T21:01:17.380518+00:00
+Primee/passenger bot dataset/karıştır/karisik_etiketler.json,dataset_or_tokenizer,8562558,48eb273f9443ed73d5fa0d94d0cd9d2a903f78c1538590d9decd6570651ad5a3,2025-07-23T21:23:04.330342+00:00
+Primee/passenger bot dataset/karıştır/PASSENGER_BOT_DATA - Kopya.json,dataset_or_tokenizer,111484847,ef04bfa2085a6ec882b2d54ee161bdf457d0ba25b5ce5d6d9013ff5fde008ddb,2025-08-01T14:06:38.024461+00:00
+Primee/passenger bot dataset/karıştır/rag degisken ekle.py,training_or_test_code,655,30f001f1eb9ac38299fd0d049b22bd434b77757c0768dca27af1c54f666f9c3a,2025-08-01T10:43:54.470397+00:00
+Primee/passenger bot dataset/karıştır/rag_formatıma_dönüs.py,training_or_test_code,1663,9367b6d991a4567addda31d152e1892490d8f070e2bcd0c73eb97c20109d1827,2025-08-01T14:05:17.269894+00:00
+Primee/passenger bot dataset/karıştır/rag_veri_.json,dataset_or_tokenizer,83370059,f51c5c2a3ffca4e8333f0bb7c24ee92a847d7a8762527dfc4f1f84b8e4a032d8,2025-08-01T14:05:22.730828+00:00
+Primee/passenger bot dataset/karıştır/shuffle.py,training_or_test_code,919,3897813e96f067a513abb2af8b9d330fa107d9488d0bbe6b1a710238e7add65b,2025-08-01T14:06:09.239818+00:00
+Primee/passenger bot dataset/karıştır/task ekle.py,training_or_test_code,627,010360aac067e05be8aa8e26dc950431742ed4fbf12e5e75b2725c920c7bf9c3,2025-08-01T11:02:08.609909+00:00
+Primee/passenger bot dataset/qa.py,training_or_test_code,4286,df95e890778b67a267fff6aea165676dbe9e4acadb4e18e9697971bb7d8e1b30,2025-07-21T21:20:45.010362+00:00
+Primee/passenger bot dataset/rag required/rag_ham_veri.json,dataset_or_tokenizer,81735056,499cece0c2afb88452444e955459993ab008401c57d503d6b01fe7b9f502389c,2025-07-23T10:58:14.067349+00:00
+Primee/passenger bot dataset/rag required/required.py,training_or_test_code,690,d21724b7b4ce30e7fca225b7cfc8bd4f0086d3d2bdccf1cf8cee7d12f1185bc6,2025-07-23T21:01:13.252943+00:00
+Primee/passenger bot dataset/rag required/turn.json,dataset_or_tokenizer,14896701,27621b12a81d13b7d5b37676ee60489a0ecffeb14f9db990d05133591b0b4496,2025-07-23T11:32:49.580530+00:00
+Primee/passenger bot dataset/rag required/updated_rag_dataset.json,dataset_or_tokenizer,83837432,aafdea8e2e1253c251bbf2db1b7e27379517e367fe834b315b0b8d60c94b3746,2025-07-23T20:59:22.019283+00:00
+Primee/passenger bot dataset/rag required/updated_turn_dataset.json,dataset_or_tokenizer,16721949,38b5fd7c0fc636d82a847431c2953b9d0c4b4ec6397623113da3774b9303022b,2025-07-23T21:01:17.380518+00:00
+Primee/passenger bot dataset/ready.ipynb,training_or_test_code,21929,048dba4b9aa0f0497ae7c22545ff17be5808f53ca7c3501531b9936b24afc53c,2025-08-08T13:44:39.337007+00:00
+Primee/passenger bot dataset/tam eğitim full metrics.ipynb,training_or_test_code,95278,98192e373978952dfa5e715bb29a14e88569a754d4e11de6d3722f58475edd38,2025-08-10T16:04:15.053787+00:00
+Primee/passenger bot dataset/Train/Flan_T5_early_Base.ipynb,training_or_test_code,33634,601ee5aa6c6ccc6e8c8a073fb3d3f03a2080aedf73f039a08ee43a438345f859,2025-08-02T22:53:07.348237+00:00
+Primee/passenger bot dataset/Train/Flan_T5_multitask_fully_updated.ipynb,training_or_test_code,18103,8e240ca7b42bb8cb063a579ca93779ffcacc739a993f8b5b2a5beea26bab596c,2025-08-03T11:35:18.241321+00:00
+Primee/passenger bot dataset/Train/son hali/mixed_chat.jsonl,dataset_or_tokenizer,39592585,212168aedbcf1f703581bbbc00420ab8f6b6021ba4d70eb6ebb1957641edcbd2,2025-08-05T18:09:41.129272+00:00
+Primee/passenger bot dataset/Train/son hali/shuffle.py,training_or_test_code,2120,3696a941f6f1b4f7b7a89b99f80f55d5536f8d790d4cdee01c18b723ea3758a4,2025-08-05T18:10:36.590056+00:00
+Primee/passenger bot dataset/Train/son hali/trainer_apı_hugging_face.ipynb,training_or_test_code,9842,b91f42ca03ea6463eb78df8aea16568f54804ba8de70efd4af35d5431cb28c6c,2025-08-08T13:30:56.946985+00:00
+Primee/passenger bot dataset/Train/t5_base.ipynb,training_or_test_code,16514,c6aa6244ecb430c4e6cf23391d0ab07809423582c2fe381ff1edeff2d6e3cbe7,2025-08-02T21:44:18.619053+00:00
+Primee/passenger bot dataset/Train/örnek kısım.json,dataset_or_tokenizer,40093,c9f7b9b58ac9d9d9dd1d864a43b6add4e4fa5a9ca14e519ebee5589637593807,2025-08-03T08:48:06.477348+00:00
+Primee/passenger bot dataset/trainer_apı_hugging_face (1).ipynb,training_or_test_code,11804,ad035186d48071b9930a98b481f4f2c4547ad7e57c2212f6d39be557eba60007,2025-08-07T15:41:50.727512+00:00
+Primee/PathFinder-Ship/ANLATIM/videolar.txt,documentation_or_visual_evidence,1072,c6dc79c97c724a0529e29600632d510779423791c84f37285f8c8d4381a4ba86,2025-08-01T21:17:44.635919+00:00
+Primee/PathFinder-Ship/hyperparametres.txt,documentation_or_visual_evidence,34,3d323fc7dc6bc9fe4bce184b225c573c051e8247eaa151b9bd8883cb0374ef82,2025-08-13T22:23:38.864681+00:00
+Primee/PathFinder-Ship/inference_instruction.txt,documentation_or_visual_evidence,4867,e409e12fa9733550cd4b7a3f652aae8db3fd0b07fc16416a425b68ceedafc13e,2025-08-08T18:26:48.259114+00:00
+Primee/PathFinder-Ship/Logo/ArkaPlan.jpg,documentation_or_visual_evidence,1091001,43a7151c029f7f962d0be558c43604e5018e1779c847dcad24baaf461c0b3268,2025-02-07T20:45:06.517251+00:00
+Primee/PathFinder-Ship/Logo/Pass-Wallpaper.jpg,documentation_or_visual_evidence,51998,0176712b86173d7bc2f51b07093183ccf417bfc02edaf59cb961035091ed8e17,2025-05-01T15:45:07.161501+00:00
+Primee/PathFinder-Ship/Logo/Passenger-Bot.png,documentation_or_visual_evidence,52323,5fc0c9228ccc2c6df4c8d67f8527853b8f89d7b651b8f0f68d3e7cfe1a2c7a0a,2025-02-07T20:13:54.115675+00:00
+Primee/PathFinder-Ship/Logo/Path-wallapper2.jpg,documentation_or_visual_evidence,212985,db554ff513cb76e0531d655bb8a87d9afdc0901bb140a7c1c24b6da3d574d65d,2025-02-07T20:23:29.632530+00:00
+Primee/PathFinder-Ship/Logo/Pathfinder-Ship.png,documentation_or_visual_evidence,146221,ddd8e772e2830e5790cd8f17170d245731da92addb0405576ca670defae219bc,2025-02-07T20:12:55.417090+00:00
+Primee/PathFinder-Ship/Logo/Proje kapak.jpg,documentation_or_visual_evidence,1070220,3f07a48e03bd24312349db22c2be65d2f91185363dc51ce3d4124a322ec933d5,2025-02-07T20:35:13.767688+00:00
+Primee/PathFinder-Ship/Logo/Word Kapak.jpg,documentation_or_visual_evidence,929046,3a0b62963b7cd9efb577cd5404bdd361a2fb37032e33a37bb5fb77ddd0e54425,2025-02-07T21:05:37.316500+00:00
+Primee/PathFinder-Ship/Logo/Yazısız ArkaPlan.jpg,documentation_or_visual_evidence,1269902,347a54f16b6c7d3ac789c201b0f93d7a3cac5565375d48cff53b22d808eaf07d,2025-02-07T20:47:03.218031+00:00
+Primee/PathFinder-Ship/Logo/Yedek.jpg,documentation_or_visual_evidence,290618,6f30d70da08955aa304d6a837bfbcb4b3df5fb2171d5edf444cbb73e3d4a637d,2025-02-07T20:21:02.707073+00:00
+Primee/PathFinder-Ship/Passenger-Bot/labelli/api.py,training_or_test_code,6192,2bdc5a8a334c7d48fb7299fc49c4a5a18556758aeb2f52a702cf87eb9a5bf11e,2025-05-31T15:51:50.160968+00:00
+Primee/PathFinder-Ship/Passenger-Bot/labelli/DEVAM ET.txt,documentation_or_visual_evidence,870,1b72aa38fa820d431747220c047d6de9ff5d9fd6d97322bdbc67f7799a829dbf,2025-05-31T17:04:03.507038+00:00
+Primee/PathFinder-Ship/Passenger-Bot/labelli/Flan_T5_early_Base.ipynb,training_or_test_code,24639,45e23a1a3cfe74fea2c534c1742c3cde94502c49894326263746d778f1747803,2025-07-24T07:48:36.320155+00:00
+Primee/PathFinder-Ship/Passenger-Bot/labelli/model_test.py,training_or_test_code,6111,cb96b307e8502d3f90f25d9601f770bbcdfc8b4c7dfe7cc70c98b1d73572554c,2025-05-30T13:45:28.418969+00:00
+Primee/PathFinder-Ship/Passenger-Bot/labelli/Passenger-Bot/config.json,configuration_or_metric,1515,1016ce796f281c28ad2199ea00e874ed377f2b7e95150373866ffc0bacd7a0f2,2025-05-30T13:13:32.338967+00:00
+Primee/PathFinder-Ship/Passenger-Bot/labelli/Passenger-Bot/generation_config.json,dataset_or_tokenizer,142,583dc31745e69566cac194201257704f53f9565d93fe3a62d3924c2cfc50432b,2025-05-30T13:13:35.793874+00:00
+Primee/PathFinder-Ship/Passenger-Bot/labelli/Passenger-Bot/model.safetensors,model_artifact,990345064,72b1de22562074b25bf5d0f0019da5f9962fb0f8ef9d5ee07fc69f78744a5d07,2025-05-30T13:15:06.101593+00:00
+Primee/PathFinder-Ship/Passenger-Bot/labelli/Passenger-Bot/special_tokens_map.json,dataset_or_tokenizer,2543,7a1985a994c41886db38c719d2a3d2f40606663cc19d7c5d6a85d349320e06d2,2025-05-30T13:13:40.306854+00:00
+Primee/PathFinder-Ship/Passenger-Bot/labelli/Passenger-Bot/tokenizer.json,dataset_or_tokenizer,2422497,aac5188c0b6d0d4374883794f5779519cca08d0b8253a8213ab98cc165ca1469,2025-05-30T13:14:18.243372+00:00
+Primee/PathFinder-Ship/Passenger-Bot/labelli/Passenger-Bot/tokenizer_config.json,dataset_or_tokenizer,20830,26c1243c486c113e7017520b95ef2e82a7fc64d2b79f857759b4d51de0fb8b70,2025-05-30T13:14:06.410017+00:00
+Primee/PathFinder-Ship/Passenger-Bot/labelli/PASSENGER_BOT_DATA.json,dataset_or_tokenizer,111721124,7a2487c79f5420b3485bb4d6940ce8ed1d7c322293c96526023b64934583eff4,2025-07-24T12:19:32.705516+00:00
+Primee/PathFinder-Ship/Passenger-Bot/labelli/requirements.txt,documentation_or_visual_evidence,51,00ab6714cb7a94723356be62bd471533c973a5d2a9686254471fc7320a74def8,2025-05-30T20:01:21.878167+00:00
+Primee/PathFinder-Ship/Passenger-Bot/labelli/test.json,dataset_or_tokenizer,394322,51d16461407f802948f2898d2e6ed76951bb1b22ead61cd702e12f4b06a89eaa,2025-05-25T18:19:16.464360+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/datasets.json,dataset_or_tokenizer,757035,3cbc89c1d239042ac631200d74e9b77cd219a46427746aa7f7b5f7b2c2e42a66,2025-05-12T10:17:27.380347+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/create datasets with AI/chat/belirli aralık.png,documentation_or_visual_evidence,66162,0f40f809c1babae26425aab748c1439e3cb01cdc11021887c375b17dc0d565c4,2025-05-10T20:07:30.701717+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/create datasets with AI/chat/dialogs.py,training_or_test_code,739,b994ead3fea9dbdd83548f246442415fc88418adcec488bcf1323d863bf65549,2025-05-11T08:14:28.901845+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/create datasets with AI/chat/dialogs.txt,documentation_or_visual_evidence,243904,9b97c25f0dc3dfd1c4a8b01166713b1c26b09735048a2bb5431cd9ee57c3d5e2,2025-05-10T19:53:50.397637+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/create datasets with AI/chat/Intent.json,dataset_or_tokenizer,69866,49ce408584b1ec82c4d67ae05d16186c5703a695eedf1bdd516f52de4f020bcc,2025-05-10T20:29:24.518273+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/create datasets with AI/chat/not.txt,documentation_or_visual_evidence,107,bc19a347c8b08d7c542fd691d3aadd80b8620e012a0674fb384c03fd49f2684d,2025-05-10T20:38:24.714361+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/create datasets with AI/chat/Tüm dosyayı doldurmak için.png,documentation_or_visual_evidence,60925,0477fca7936401277eb1087e6eb9590fcebae2ec94e186404e1bbd8a9b199428,2025-05-10T20:07:07.050133+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/create datasets with AI/entities/Cümleler/close camera.txt,documentation_or_visual_evidence,3619,f20710ff8716f48ee5747ac0ea7eaee4197308dd9d1cb49ef4f825251b6642d7,2025-05-10T17:52:27.094040+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/create datasets with AI/entities/Cümleler/detect object.txt,documentation_or_visual_evidence,3488,c801d05a22da0dfa4c029f1a96591f17a8dd6631b18afd5d73ca9353b3d76b54,2025-07-23T13:45:13.567501+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/create datasets with AI/entities/Cümleler/open camera and take photo and detect object.txt,documentation_or_visual_evidence,3930,68341654345907762116347ae00f06fa00bf2d235d9f4a24b60a60d04ca8ce1e,2025-05-10T18:21:21.789362+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/create datasets with AI/entities/Cümleler/open camera and take photo.txt,documentation_or_visual_evidence,3815,e4559b7e36fd575a9ddd633033e577aeb869a2b4bc7f657a9c80cadda0899f04,2025-05-10T18:01:18.027387+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/create datasets with AI/entities/Cümleler/open camera.txt,documentation_or_visual_evidence,5493,b4aa24c443247f7904c87aba6819144e9fc7c0b0daf2c602fffa1bce730b7370,2025-05-10T17:11:27.318991+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/create datasets with AI/entities/Cümleler/take photo and close camera.txt,documentation_or_visual_evidence,3625,793d5d5c42eb852be51672c389bc61fe340620366a55ee77786a2f7e622a50f6,2025-05-10T18:18:45.508667+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/create datasets with AI/entities/Cümleler/take photo and detect object.txt,documentation_or_visual_evidence,3860,72ad3cfc64501c7560182b7b1c1af1277fcde1aba5b2fcda39ffcfb60fe41b88,2025-05-10T18:07:18.339790+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/create datasets with AI/entities/Cümleler/take photo.txt,documentation_or_visual_evidence,4728,1472409df0c0d829641703f54a4990f3928006fc2a4505dc52867ecd6663724a,2025-05-10T17:48:51.632547+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/create datasets with AI/entities/etiket veri seti açıklaması.csv,dataset_or_tokenizer,372424,92aff97622b72c5a0453961789110cbf3b23f52788bcc05300f4e89eb2d89928,2025-05-11T17:20:43.170911+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/create datasets with AI/entities/EXPLANATİON.txt,documentation_or_visual_evidence,1662,fc2c20518370931a21fa3be3897a5a9b8dbff24313604689b65d72fdfa9963b5,2025-05-10T19:26:58.929478+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/create datasets with AI/entities/prompts.txt,documentation_or_visual_evidence,1471,aaec5abd3e91dba4a526dd2907db388f45efd0b2a4198f9dd1c8fc2f0817f530,2025-05-10T16:48:33.529028+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/not.txt,documentation_or_visual_evidence,111,8e6a0e8ce604c0968c4ccffc44ecd1cb3e580340a88d605c79265c987a39b90f,2025-05-10T22:11:20.768591+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/passenger_command.csv,dataset_or_tokenizer,1046,6e4723137670fd4875aee25e6de0a4964a7cceea3dd0b2076e8e87668c5cdf34,2025-05-11T18:55:07.268102+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/veriler/birlestir_veri.py,training_or_test_code,2263,eebcc4f6a336d7798fc26064e6e22632dee1f2410eb272caaa831ae44961858a,2025-05-25T11:33:47.168822+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/veriler/komutlar/command_1.json,dataset_or_tokenizer,112759,73d46cc0efa16c662dcf5a81bda333a60f5061fbf7eaad0180b051d4195a8206,2025-05-24T21:16:11.025123+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/veriler/komutlar/command_2.json,dataset_or_tokenizer,71260,1da119171e4c9c066371c5a5e7221bab5c4621b75eb44b7c939d6882fdc81523,2025-05-24T21:17:16.176461+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/veriler/komutlar/command_3.json,dataset_or_tokenizer,94016,eba103c1ea015ecc125311b3192f112dd26870866c835204825eca5cfe93b13a,2025-05-24T21:19:19.788146+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/veriler/komutlar/command_4.json,dataset_or_tokenizer,99961,f9863e8fd5113587f814f64d8e6f3c92828c1f110628f897fb806dc1fa408ce1,2025-05-24T21:20:09.685836+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/veriler/komutlar/command_5.json,dataset_or_tokenizer,47670,4c38f9790c172952672712373a822a040848853344254c8727600001c692aa6e,2025-05-11T18:12:10.618473+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/veriler/komutlar/command_6.json,dataset_or_tokenizer,42362,dc91ad523d85c784ff8881c794e2d7f4369acdf5ebb2e927d25fd676fcde23b2,2025-05-11T18:16:56.384031+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/veriler/komutlar/command_7.json,dataset_or_tokenizer,42978,27c272a7598fbc3ae74f1c54c773795bf1bc80137fbde6ca96785dcf3a820fb2,2025-05-11T18:12:43.373301+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/veriler/komutlar/command_8.json,dataset_or_tokenizer,44992,ba8a50bc78c0b3dce588d44827d5a3d61a127e89497c642fdf5d75ffe7da3b60,2025-05-11T18:50:09.898356+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/veriler/tırnak işareti kaldır.py,training_or_test_code,652,29b32c20bdb408ac95ec28bdfd5cf2c53c59c1c1325dcf3ed6555496f1fa7795,2025-05-25T12:43:49.361590+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/veriler/tırnaklı_Passenger_bot_dataset.json,dataset_or_tokenizer,2102067,457c826fed1ac5952f4304d896f215cab3a1213b6fd36f45555ba340fd976cba,2025-05-25T11:34:08.822813+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/veriler/yeni.json,dataset_or_tokenizer,1584862,8b40f7c37930a456cbb3d36178328e7896f89bddcc4b4421a93983d5643f9789,2025-05-25T11:14:37.599389+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Datasets/veriler/önemli.txt,documentation_or_visual_evidence,435,43f6f503f6d37feeb6ba866b3242aa142430f7bb4b9a3cb396d5547bf50d4243,2025-05-11T20:29:33.043401+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Label Model Learning Algorithm/only_label_data.csv,dataset_or_tokenizer,4687,8ce8cdb41ede02d781b60cc5ad29230406a9bcd15b2c3d8993d6fb3627fee469,2025-05-03T11:42:45.052829+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Label Model Learning Algorithm/only_label_training.py,training_or_test_code,9255,58f9731fc539f98c447cf863e71523f042048a532ecf507b157d06acfa1deefe,2025-05-03T16:21:56.037620+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Old Codes/eğitim sonrası kullanım.py,training_or_test_code,752,5d7afb2bf019d780788b5095643d21ee3d3924606096f3179a7435666dae3112,2025-05-16T12:20:31.520767+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Old Codes/Flan_T5_small.py,training_or_test_code,4488,c3eeaa23c21d71124877ce9e1bffdd48f846f36dcb54e282c441ce81115aa021,2025-05-16T12:20:20.004177+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/Training/Old Codes/T5_small.py,training_or_test_code,29649,bbd50df00f8e7363915ddcc1f323ffc82b9bdd1575909bd300da12192b2d3b5b,2025-05-16T16:25:52.353956+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/özet prompt.txt,documentation_or_visual_evidence,1879,ae8ae2469d09825f63180eff61baba14feb795eb61de39081d2f240c96d3ddc0,2025-05-28T18:02:55.171223+00:00
+Primee/PathFinder-Ship/Passenger-Bot/NLP çalışmaları/özet.txt,documentation_or_visual_evidence,2007,678b306c96fca2ea8b3a2688cbc027d210baa32590858d1379736033fca96b6d,2025-06-01T18:17:10.172847+00:00
+Primee/PathFinder-Ship/Passenger-Bot/passenger_bot_dataset_rag_yok.json,dataset_or_tokenizer,2599200,48baa144e66ba4d72fb203fba447b1df45fc077c4122b2d6a8bbfe7b12105f2a,2025-06-22T21:41:55.257804+00:00
+Primee/PathFinder-Ship/PathFinder-Ship in Future/ses.py,training_or_test_code,583,1a4c50ef8d1388fa7806ccd79648c90314cc06761dc30d64690f330a23eabe7c,2025-05-29T17:38:58.705154+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/.vs/pathfindership/v17/DocumentLayout.backup.json,dataset_or_tokenizer,2844,767b7bdb98cc5a69bd57e928be8968b7f632d6a631f8da0a5de001114a35c90a,2025-07-23T22:38:40.107389+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/.vs/pathfindership/v17/DocumentLayout.json,dataset_or_tokenizer,2844,767b7bdb98cc5a69bd57e928be8968b7f632d6a631f8da0a5de001114a35c90a,2025-07-23T22:40:50.696298+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/.vs/ProjectEvaluation/pathfindership.metadata.v9.bin,model_artifact,1426,532b49d916288d5cb5ba940e7df5aacd31d28b770b8df2a53c5e69d4f021895e,2025-07-08T06:00:32.497459+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/.vs/ProjectEvaluation/pathfindership.projects.v9.bin,model_artifact,182195,280d2e39390c4d45466b480120a6fe806b24b78029eb8791bf664c968d672a3f,2025-07-08T06:00:32.497459+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/.vs/ProjectEvaluation/pathfindership.strings.v9.bin,model_artifact,132066,c955d76c6d0b0400ca86de72045f0dc7cc4ae185ac00d4024496a538b4ac28f3,2025-07-08T06:00:32.497459+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/bin/Debug/net8.0-windows/Passenger-Bot/config.json,configuration_or_metric,1515,1016ce796f281c28ad2199ea00e874ed377f2b7e95150373866ffc0bacd7a0f2,2025-05-30T13:13:32.338967+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/bin/Debug/net8.0-windows/Passenger-Bot/generation_config.json,dataset_or_tokenizer,142,583dc31745e69566cac194201257704f53f9565d93fe3a62d3924c2cfc50432b,2025-05-30T13:13:35.793874+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/bin/Debug/net8.0-windows/Passenger-Bot/model.safetensors,model_artifact,990345064,72b1de22562074b25bf5d0f0019da5f9962fb0f8ef9d5ee07fc69f78744a5d07,2025-05-30T13:15:06.101593+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/bin/Debug/net8.0-windows/Passenger-Bot/special_tokens_map.json,dataset_or_tokenizer,2543,7a1985a994c41886db38c719d2a3d2f40606663cc19d7c5d6a85d349320e06d2,2025-05-30T13:13:40.306854+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/bin/Debug/net8.0-windows/Passenger-Bot/tokenizer.json,dataset_or_tokenizer,2422497,aac5188c0b6d0d4374883794f5779519cca08d0b8253a8213ab98cc165ca1469,2025-05-30T13:14:18.243372+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/bin/Debug/net8.0-windows/Passenger-Bot/tokenizer_config.json,dataset_or_tokenizer,20830,26c1243c486c113e7017520b95ef2e82a7fc64d2b79f857759b4d51de0fb8b70,2025-05-30T13:14:06.410017+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/bin/Debug/net8.0-windows/pathfindership.deps.json,dataset_or_tokenizer,1046,ae93da796c185d70804761030ddd8886a8804e1f38e961807df322a8b1178df2,2025-07-14T07:57:43.080747+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/bin/Debug/net8.0-windows/pathfindership.runtimeconfig.json,dataset_or_tokenizer,443,7e79af92820e50910b90f1cade2728f45987393f24b50e384dc225d9773b7194,2025-07-14T07:57:43.096395+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/obj/Debug/net8.0-windows/pathfindership.csproj.FileListAbsolute.txt,documentation_or_visual_evidence,6690,f66585e0e16712ceaeb58e942248e371873ebaacbde9a26cc00a68f12bf40967,2025-07-14T07:57:43.112059+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/obj/Debug/net8.0-windows/pathfindership.designer.deps.json,dataset_or_tokenizer,742,818011e7618e6ffcf179e6384247e0dc787200ed8bd570d969980e8e64a30272,2025-07-08T05:59:04.670093+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/obj/Debug/net8.0-windows/pathfindership.designer.runtimeconfig.json,dataset_or_tokenizer,731,785145fe765ad3a1979ee0b1c54c58db81b01da92384d5b31ef58b8cd84ef041,2025-07-08T05:59:04.696001+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/obj/pathfindership.csproj.nuget.dgspec.json,dataset_or_tokenizer,3003,9052803f129726f41e32e84069aa259d3a87d90b2e66207197187882bba7b363,2025-07-08T05:59:00.682921+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/obj/project.assets.json,dataset_or_tokenizer,4435,697b22205255530e414df9726c3cce2196f4e18c12b940ea434ffc59b9d6c5e1,2025-07-08T05:59:00.679920+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/Passenger-Bot/config.json,configuration_or_metric,1515,1016ce796f281c28ad2199ea00e874ed377f2b7e95150373866ffc0bacd7a0f2,2025-05-30T13:13:32.338967+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/Passenger-Bot/generation_config.json,dataset_or_tokenizer,142,583dc31745e69566cac194201257704f53f9565d93fe3a62d3924c2cfc50432b,2025-05-30T13:13:35.793874+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/Passenger-Bot/model.safetensors,model_artifact,990345064,72b1de22562074b25bf5d0f0019da5f9962fb0f8ef9d5ee07fc69f78744a5d07,2025-05-30T13:15:06.101593+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/Passenger-Bot/special_tokens_map.json,dataset_or_tokenizer,2543,7a1985a994c41886db38c719d2a3d2f40606663cc19d7c5d6a85d349320e06d2,2025-05-30T13:13:40.306854+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/Passenger-Bot/tokenizer.json,dataset_or_tokenizer,2422497,aac5188c0b6d0d4374883794f5779519cca08d0b8253a8213ab98cc165ca1469,2025-05-30T13:14:18.243372+00:00
+Primee/PathFinder-Ship/PathFinder-Ship/pathfindership/pathfindership/Passenger-Bot/tokenizer_config.json,dataset_or_tokenizer,20830,26c1243c486c113e7017520b95ef2e82a7fc64d2b79f857759b4d51de0fb8b70,2025-05-30T13:14:06.410017+00:00
+Primee/PathFinder-Ship/YOLO/dogrulama.py,training_or_test_code,505,3671b2bd3c35081196fdd266f9bfd6f80415976bed8395293402586cfbfc4d34,2025-06-03T20:44:29.130162+00:00
+Primee/PathFinder-Ship/YOLO/genel.jpg,documentation_or_visual_evidence,174748,bd635d86ff95324f7ddfd7feb407e7d2ee7a225305fa378fced8b752b9b8dc7c,2025-06-03T20:48:58.345987+00:00
+Primee/PathFinder-Ship/YOLO/onnx_turn.py,training_or_test_code,690,2d81e9b12f71552f062f273b1f1a0d162b80003b78025258a55e7467f76c6c9e,2025-06-03T19:17:10.786824+00:00
+Primee/PathFinder-Ship/YOLO/run_11.py,training_or_test_code,705,89231c6272300d7dbd3c16af5c5c19ddc421b07a05f29a5b6b8b9f6bf9ea318d,2025-06-03T20:50:17.894981+00:00
+Primee/PathFinder-Ship/YOLO/yolo11l.onnx,model_artifact,101522887,6db6977728a21e82c0a144a6b238d705933d263c9bceee49f280cb276010ee0a,2025-06-03T19:16:28.074020+00:00
+Primee/PathFinder-Ship/YOLO/yolo11l.pt,model_artifact,51387343,9ebd0e09d59811db4b1d61e2bc6730649608b1ac47f8dd01e2da6bca7c20023f,2025-06-02T13:23:10.833061+00:00
+Primee/PathFinder-Ship/YOLO/yolo11m.pt,model_artifact,40684120,d5ffc1a674953a08e11a8d21e022781b1b23a19b730afc309290bd9fb5305b95,2025-06-02T13:23:00.824070+00:00
+Primee/PathFinder-Ship/YOLO/yolo11n.pt,model_artifact,5613764,0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1,2025-06-02T13:22:39.684867+00:00
+Primee/PathFinder-Ship/YOLO/yolo11s.pt,model_artifact,19313732,85a76fe86dd8afe384648546b56a7a78580c7cb7b404fc595f97969322d502d5,2025-06-02T13:22:50.339278+00:00
+Primee/PathFinder-Ship/YOLO/yolo11x.pt,model_artifact,114636239,7bc158aa95c0ebfdd87f70f01653c1131b93e92522dbe15c228bcd742e773a24,2025-06-02T13:23:27.540037+00:00
+Primee/PathFinder-Ship/YOLO/ÖNEMLİ.txt,documentation_or_visual_evidence,119,d415447b38e7f9644adf1f108e6839584aad31bf491e2478615cec7515f8343a,2025-06-03T21:00:48.496727+00:00
+Primee/proje geliştirme notları.txt,documentation_or_visual_evidence,889,7db5a390d2027232c581d77e4f0ff013c76dcccd5d3eac3624a02ead8cdbf3ab,2025-08-05T13:28:11.479112+00:00
+Primee/RAG pipeline -1.png,documentation_or_visual_evidence,805621,0ed69c5ee80208287546d9f4f143a2b965cfe0b31bb69f948ff15873cf406b00,2025-09-20T16:36:23.834464+00:00
+Primee/Rag pipeline -2.png,documentation_or_visual_evidence,637312,1f3763294f102711bb445ec796e022e020329b8b23a5b382cbdc8cd5f30269db,2025-09-20T16:36:47.122369+00:00
+Primee/SwiftHelm Rag System/Prompts/Model ve RAG parametre promptu.txt,documentation_or_visual_evidence,2502,f49fd8642fe6f4b3dd562f1a902a445051efa715876b1072ba446a50c5e62f60,2025-06-14T19:04:42.215029+00:00
+Primee/SwiftHelm Rag System/Prompts/tüm aıler sonuçları analiz prompt.txt,documentation_or_visual_evidence,5123,90746ba10c1d100cb200ae384b547165be9a2242849770d32f0ec1a1bc6c62b3,2025-06-09T10:05:14.113760+00:00
+Primee/SwiftHelm Rag System/rag kodları/3.7 sonnet.py,training_or_test_code,14271,9cac6fe40d87e202c09e7dd131e4c88aae21c985c65e6a5f76f219c11b8d0fcc,2025-06-06T21:06:12.819811+00:00
+Primee/SwiftHelm Rag System/rag kodları/3.7.py,training_or_test_code,16758,0426808200e26a94e033012c10fd2889ce1760e0ff05abc93c60b3905c780ffa,2025-06-07T11:07:52.053278+00:00
+Primee/SwiftHelm Rag System/rag kodları/4.1.py,training_or_test_code,6882,b5e05bdfdb1e5298edac4bfdc937948978226f61dc39bf07d9c175486de1cbb6,2025-06-07T11:08:31.284322+00:00
+Primee/SwiftHelm Rag System/rag kodları/40_mini_high.py,training_or_test_code,5724,88c35ca92a25caf65a0aa7f60f309998ea496ba5cb31e5bd77cbf95409558b50,2025-06-07T10:56:55.150743+00:00
+Primee/SwiftHelm Rag System/rag kodları/4o.py,training_or_test_code,2889,f8658f9210f50d6b8c165fdfe4af08ec769916fe88eecc14fbbb086863d7ffd4,2025-06-07T10:56:27.519522+00:00
+Primee/SwiftHelm Rag System/rag kodları/4o_mini_high_2.py,training_or_test_code,6681,29052ff5b9fda2570fd360da13df3558e1e18a4e4ff274a48f1058305634c759,2025-06-07T10:57:29.259834+00:00
+Primee/SwiftHelm Rag System/rag kodları/deep.py,training_or_test_code,4909,00040ab3f02a384eb80a1b0eb127ef5f5ef85fbb5b04d11f3e9d72ca96716fee,2025-06-07T10:54:21.004529+00:00
+Primee/SwiftHelm Rag System/rag kodları/deep2.py,training_or_test_code,6486,01eef130cc9139b91f1a80f000fc139fc0f8a616cb40d98ad10688189d599cd6,2025-06-07T11:08:08.781887+00:00
+Primee/SwiftHelm Rag System/rag kodları/deepseek.ipynb,training_or_test_code,19368,4e7d7f4b6bf7c1888c309f671f75fbedc6c8038514e17cf13c91fc6c46dda982,2025-06-07T08:30:20.820765+00:00
+Primee/SwiftHelm Rag System/rag kodları/deepseek_python_20250606_e81bab.py,training_or_test_code,13009,75220d476fc1f26b718fcf1e1cbb4235353d600e546d29c7a033fd4a05a11430,2025-06-06T21:02:21.156064+00:00
+Primee/SwiftHelm Rag System/rag kodları/gpt.ipynb,training_or_test_code,10004,2eead8ab485fefce7674579b58229574583bd0184ea643d182a46e2203992568,2025-06-06T21:10:21.704985+00:00
+Primee/SwiftHelm Rag System/rag kodları/ipynb kodu_sonnet 4 upgrade.py,training_or_test_code,60015,c4ba497051d9d14d411cb5800933ce68ef2f7f60bfd981e60678e08a878cc33c,2025-06-08T13:24:53.794806+00:00
+Primee/SwiftHelm Rag System/rag kodları/İlk SwiftHelm_Rag_System.ipynb,training_or_test_code,89974,89fdb7f00b26afc6909751a823e80315a46069b3d7a2916a095d11fa2a71b47f,2025-07-27T11:01:02.242448+00:00
+Primee/SwiftHelm Rag System/rag kodları/poe_asistan.py,training_or_test_code,6719,cea36da10118b4627dc06f098bbc223107742549b9c91d78fb3c049c0231987a,2025-06-07T10:53:27.000191+00:00
+Primee/SwiftHelm Rag System/rag kodları/rag_kodu.py,training_or_test_code,9336,a652e7cf6550d135c0bce4dc10a5daff7c5066eae3494ad3ea1540f6239b4860,2025-06-06T19:00:52.562459+00:00
+Primee/SwiftHelm Rag System/rag kodları/sonnet.ipynb,training_or_test_code,19370,3c5c93e38ae8e55ef6d9712859fb3885af349230d3159b20afa55d4008547920,2025-06-07T10:27:55.916174+00:00
+Primee/SwiftHelm Rag System/rag kodları/sonnet4.py,training_or_test_code,27598,344468b7cf7356386d65af493736acc2942b5c3091e3c222254a9cf63f014e63,2025-06-07T11:17:15.915231+00:00
+Primee/SwiftHelm Rag System/SwiftHelm_RAG_System_Web_Search.ipynb,training_or_test_code,33580,0eae41b73f9fd9b730152ba7846e6454517475f3a876d5e969dc85081cfc8bd0,2025-08-02T12:13:33.126781+00:00
+Primee/önemli araştır.txt,documentation_or_visual_evidence,435,b31172599df47a39939413fdd4f9c48385f4ad2c21648385884af040383e36aa,2025-08-13T22:28:48.228826+00:00
