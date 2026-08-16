@@ -18,6 +18,7 @@ Sistemde “hazır cevap” mantığı yoktur; üretilen tüm yanıtlar, modelin
 
 - [Öne Çıkan Özellikler](#öne-çıkan-özellikler)
 - [Model Fine-Tuning Kanıtları](#model-fine-tuning-kanıtları)
+- [Yayınlanan Model Dosyaları](#yayınlanan-model-dosyaları)
 - [Mimari Genel Bakış](#mimari-genel-bakış)
 - [Proje Yapısı](#proje-yapısı)
 - [Kurulum](#kurulum)
@@ -112,6 +113,24 @@ Mevcut **MiniLM INT8 ONNX** sonucu da kanıt paketinde korundu. Model, dondurulm
 İncelenebilirlik için repoda [ayrıntılı sonuç kartı](docs/model-evidence/retraining-v2/RESULT_CARD.md), [makine tarafından okunabilir metrikler](docs/model-evidence/retraining-v2/metrics/flan_retraining_results.json), [düzenlenebilir CSV](docs/model-evidence/retraining-v2/metrics/flan_retraining_results.csv), [kanıt kaynağı açıklaması](docs/model-evidence/retraining-v2/PROVENANCE.md), görseller ve [SHA-256 artifact manifesti](docs/model-evidence/retraining-v2/artifact_manifest.json) bulunur.
 
 > **Kapsam notu:** YOLO-NAS bu projede pretrained görüntü modeli entegrasyonu ve ONNX deployment bileşeni olarak kullanılır; repo özel YOLO-NAS eğitimi yapıldığı iddiasında bulunmaz.
+
+## Yayınlanan Model Dosyaları
+
+Seçilen model dosyaları; geliştiricilerin, teknik inceleme yapanların ve işe alım sürecindeki mühendislerin model kartlarını, yapılandırmaları, değerlendirme bağlamını ve dosya hash'lerini inceleyebilmesi veya artifact'ları indirerek kendi ortamında değerlendirebilmesi için Hugging Face üzerinde yayınlanmıştır. Bu çalışma, barındırılan ticari bir model servisi değil; öğrenci portföyü ve mühendislik çalışmasıdır.
+
+| Artifact | Format ve amaç | Hugging Face |
+|---|---|---|
+| PathFinder Flan-T5 Large — Second Try | Seçilen final Chat + RAG LoRA adapter'ı; `google/flan-t5-large` gerektirir | [İncele veya indir](https://huggingface.co/Fatihaybasn/pathfinder-flan-t5-large-second-try-lora) |
+| PathFinder Flan-T5 Large — Second Try INT8 | Lokal CPU inference için quantized ONNX encoder/decoder dosyaları | [İncele veya indir](https://huggingface.co/Fatihaybasn/pathfinder-flan-t5-large-second-try-onnx-int8) |
+| PathFinder MiniLM Intent INT8 | Yönlendirme katmanında kullanılan beş sınıflı ONNX intent sınıflandırıcısı | [İncele veya indir](https://huggingface.co/Fatihaybasn/pathfinder-minilm-intent-onnx-int8) |
+
+Örneğin bir model reposu Hugging Face CLI ile indirilebilir:
+
+```bash
+hf download Fatihaybasn/pathfinder-flan-t5-large-second-try-lora --local-dir ./pathfinder-lora
+```
+
+Benchmark değerleri ve deney geçmişi bu proje kapsamında üretilip belgelenmiştir. Hugging Face yayını, model dosyalarını erişilebilir hale getirir; Hugging Face tarafından yapılmış bağımsız bir doğrulama anlamına gelmez.
 
 
 ## Mimari Genel Bakış
